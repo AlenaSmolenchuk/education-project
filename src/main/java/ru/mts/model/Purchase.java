@@ -78,12 +78,27 @@ public class Purchase {
         this.discount = discount;
     }
 
-    @Override
-    public String toString() {
-        return "Purchase{" +
-                "quantity=" + quantity +
-                ", amount=" + amount +
-                ", discount=" + discount +
-                '}';
+    /**
+     * Метод для расчета общей суммы покупки без скидки.
+     */
+    public void calculateTotalWithoutDiscount() {
+
+        // Общая сумма без скидки
+        double totalWithoutDiscount = quantity * amount;
+
+        // Вывод результатов на экран
+        System.out.println("Общая сумма покупки без скидки: " + totalWithoutDiscount);
+    }
+
+    /**
+     * Метод для расчета общей суммы покупки с учетом скидки.
+     */
+    public void calculateTotalWithDiscount() {
+
+        // Сумма со скидкой
+        double totalWithDiscount = quantity * amount * (1 - discount/ 100);
+
+        // Вывод результатов на экран
+        System.out.println("Общая сумма покупки со скидкой: " + String.format("%.2f", totalWithDiscount));
     }
 }
