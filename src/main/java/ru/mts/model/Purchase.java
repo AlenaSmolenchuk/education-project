@@ -81,24 +81,22 @@ public class Purchase {
     /**
      * Метод для расчета общей суммы покупки без скидки.
      */
-    public void calculateTotalWithoutDiscount() {
+    public double calculateTotalWithoutDiscount() {
 
         // Общая сумма без скидки
         double totalWithoutDiscount = quantity * amount;
 
-        // Вывод результатов на экран
-        System.out.println("Общая сумма покупки без скидки: " + totalWithoutDiscount);
+        return totalWithoutDiscount;
     }
 
     /**
      * Метод для расчета общей суммы покупки с учетом скидки.
      */
-    public void calculateTotalWithDiscount() {
+    public double calculateTotalWithDiscount() {
 
         // Сумма со скидкой
         double totalWithDiscount = quantity * amount * (1 - discount/ 100);
 
-        // Вывод результатов на экран
-        System.out.println("Общая сумма покупки со скидкой: " + String.format("%.2f", totalWithDiscount));
+        return totalWithDiscount;
     }
 }
