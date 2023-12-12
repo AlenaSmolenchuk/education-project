@@ -9,15 +9,12 @@ public class Main {
      *
      * @param purchase Объект Purchase
      */
-    public static void performCalculations(Purchase purchase) {
+    public static String performCalculations(Purchase purchase) {
 
-        // Вывод результатов на экран
-        System.out.println("Общая сумма покупки без скидки: "
-                + purchase.calculateTotalWithoutDiscount());
-        System.out.println("Общая сумма покупки со скидкой: "
-                + String.format("%.2f", purchase.calculateTotalWithDiscount()));
-
-        System.out.println();
+        return purchase.calculateTotalWithoutDiscount()
+                + " (1)    "
+                + String.format("%.2f", purchase.calculateTotalWithDiscount())
+                + " (2)  ";
     }
 
     public static void main(String[] args) {
@@ -27,9 +24,12 @@ public class Main {
         Purchase purchaseSecond = new Purchase(5, 30, 42.575);
         Purchase purchaseThird = new Purchase(8, 15, 59.1);
 
-        // Выполнение подсчетов для каждого объекта
-        performCalculations(purchaseFirst);
-        performCalculations(purchaseSecond);
-        performCalculations(purchaseThird);
+        // Вывод результатов на экран
+        System.out.println("Общая сумма покупки первого товара без скидки(1) и со скидкой(2): "
+                + performCalculations(purchaseFirst));
+        System.out.println("Общая сумма покупки второго товара без скидки(1) и со скидкой(2): "
+                + performCalculations(purchaseSecond));
+        System.out.println("Общая сумма покупки третьего товара без скидки(1) и со скидкой(2): "
+                + performCalculations(purchaseThird));
     }
 }
