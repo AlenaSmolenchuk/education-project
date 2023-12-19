@@ -7,9 +7,7 @@ import ru.mts.model.animals.Shark;
 import ru.mts.model.animals.Wolf;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -24,48 +22,38 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
      * @return список созданных животных
      */
     @Override
-    public List<Animal> createAnimalsWithWhile(int n) {
+    public Set<Animal> createAnimalsWithWhile(int n) {
         Set<Animal> uniqueAnimals = new HashSet<>();
-        List<Animal> createdAnimals = new ArrayList<>();
 
         do {
-            Animal animal = createRandomAnimal();
-            if (uniqueAnimals.add(animal)) {
-                createdAnimals.add(animal);
-            }
+            uniqueAnimals.add(createRandomAnimal());
+
         } while (uniqueAnimals.size() < n);
 
-        return createdAnimals;
+        return uniqueAnimals;
     }
 
     // Реализация метода createNAnimals с использованием цикла for
     @Override
-    public List<Animal> createAnimalsWithFor() {
+    public Set<Animal> createAnimalsWithFor() {
         Set<Animal> uniqueAnimals = new HashSet<>();
-        List<Animal> createdAnimals = new ArrayList<>();
 
         for (int i = 0; i < 10; i++) {
-            Animal animal = createRandomAnimal();
-            if (uniqueAnimals.add(animal)) {
-                createdAnimals.add(animal);
-            }
+            uniqueAnimals.add(createRandomAnimal());
         }
-        return createdAnimals;
+        return uniqueAnimals;
     }
 
     // Перегруженный метод для создания n животных с использованием цикла for
-    public List<Animal> createAnimalsWithFor(int n) {
+    public Set<Animal> createAnimalsWithFor(int n) {
         Set<Animal> uniqueAnimals = new HashSet<>();
-        List<Animal> createdAnimals = new ArrayList<>();
 
         for (int i = 0; i < n; i++) {
             Animal animal = createRandomAnimal();
-            if (uniqueAnimals.add(animal)) {
-                createdAnimals.add(animal);
-            }
+            uniqueAnimals.add(createRandomAnimal());
         }
 
-        return createdAnimals;
+        return uniqueAnimals;
     }
 
     // Реализация метода createRandomAnimal, создающего случайное животное

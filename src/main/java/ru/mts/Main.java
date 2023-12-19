@@ -1,10 +1,9 @@
 package ru.mts;
 
 import ru.mts.model.animalint.Animal;
-import ru.mts.service.CreateAnimalService;
 import ru.mts.service.CreateAnimalServiceImpl;
 
-import java.util.List;
+import java.util.Set;
 
 public class Main {
     public static void main(String[] args) {
@@ -12,13 +11,13 @@ public class Main {
 
         // Вызов метода createAnimalsWithWhile
         System.out.println("Creating animals using while loop:");
-        List<Animal> animalsWhile = createAnimalServiceImpl.createAnimalsWithWhile(10);
+        Set<Animal> animalsWhile = createAnimalServiceImpl.createAnimalsWithWhile(10);
         printAnimals(animalsWhile);
         System.out.println();
 
         // Вызов метода createAnimalsWithFor
         System.out.println("Creating animals using for loop:");
-        List<Animal> animalsFor = createAnimalServiceImpl.createAnimalsWithFor(5);
+        Set<Animal> animalsFor = createAnimalServiceImpl.createAnimalsWithFor(5);
         printAnimals(animalsFor);
         System.out.println();
 
@@ -29,7 +28,7 @@ public class Main {
 
     }
 
-    private static void printAnimals(List<Animal> animals) {
+    private static void printAnimals(Set<Animal> animals) {
         for (Animal animal : animals) {
             System.out.println("Created: " + animal);
         }

@@ -2,9 +2,7 @@ package ru.mts.service;
 
 import ru.mts.model.animalint.Animal;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -18,17 +16,13 @@ public interface CreateAnimalService {
      *
      * @return список созданных животных
      */
-    default List<Animal> createAnimalsWithWhile(int n) {
+    default Set<Animal> createAnimalsWithWhile(int n) {
         Set<Animal> uniqueAnimals = new HashSet<>();
-        List<Animal> createdAnimals = new ArrayList<>();
 
         while (uniqueAnimals.size() < n) {
-            Animal animal = createRandomAnimal();
-            if (uniqueAnimals.add(animal)) {
-                createdAnimals.add(animal);
-            }
+            uniqueAnimals.add(createRandomAnimal());
         }
-        return createdAnimals;
+        return uniqueAnimals;
     }
 
     /**
@@ -36,7 +30,7 @@ public interface CreateAnimalService {
      *
      * @return список созданных животных
      */
-    List<Animal> createAnimalsWithFor();
+    Set<Animal> createAnimalsWithFor();
 
 
     /**
