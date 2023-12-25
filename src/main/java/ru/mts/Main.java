@@ -11,9 +11,17 @@ public class Main {
         CreateAnimalServiceImpl createAnimalServiceImpl = new CreateAnimalServiceImpl();
         SearchService searchService = new SearchServiceImpl();
 
-        Animal[] animalsWhile = createAnimalServiceImpl.createAnimalsWithWhile(10);
-        Animal[] animalsFor = createAnimalServiceImpl.createAnimalsWithFor(5);
+        // Вызов метода createAnimalsWithWhile
+        System.out.println("Creating animals using while loop:");
+        Animal[] animalsWhile = createAnimalServiceImpl.createAnimals(10);
+        printAnimals(animalsWhile);
+        System.out.println();
 
+        // Вызов метода createAnimalsWithFor
+        System.out.println("Creating 10 animals using for loop:");
+        Animal[] animalsFor = createAnimalServiceImpl.createAnimals();
+        printAnimals(animalsFor);
+        System.out.println();
 
         // Вызов метода findLeapYearNames для массива animalsWhile
         System.out.println("Finding leap year names in the WhileArray:");

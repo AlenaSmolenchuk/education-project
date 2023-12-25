@@ -66,7 +66,6 @@ public abstract class AbstractAnimal implements Animal {
     }
 
     // Переопределение метода equals()
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

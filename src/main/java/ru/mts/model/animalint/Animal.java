@@ -46,6 +46,4 @@ public interface Animal {
      */
     LocalDate getDateOfBirth();
 
-    @Override
-    boolean equals(Object obj);
 }

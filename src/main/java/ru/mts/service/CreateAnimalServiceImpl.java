@@ -24,7 +24,7 @@ public class CreateAnimalServiceImpl implements CreateAnimalService, AnimalFacto
      * @param n количество животных для создания
      * @return список созданных животных
      */
-    public Animal[] createAnimalsWithWhile(int n) {
+    public Animal[] createAnimals(int n) {
         Animal[] uniqueAnimals = new Animal[n];
         Set<Animal> uniqueAnimalsSet = new HashSet<>();
 
@@ -40,9 +40,8 @@ public class CreateAnimalServiceImpl implements CreateAnimalService, AnimalFacto
         return uniqueAnimals;
     }
 
-    // Реализация метода createNAnimals с использованием цикла for
-    @Override
-    public Animal[] createAnimalsWithFor() {
+    // Перегруженный метод createAnimals с использованием цикла for
+    public Animal[] createAnimals() {
         Animal[] uniqueAnimals = new Animal[10];
         Set<Animal> uniqueAnimalsSet = new HashSet<>();
 
@@ -54,22 +53,6 @@ public class CreateAnimalServiceImpl implements CreateAnimalService, AnimalFacto
             }
         }
 
-        return uniqueAnimals;
-    }
-
-
-    // Перегруженный метод для создания n животных с использованием цикла for
-    public Animal[] createAnimalsWithFor(int n) {
-        Animal[] uniqueAnimals = new Animal[n];
-        Set<Animal> uniqueAnimalsSet = new HashSet<>();
-
-        for (int i = 0, index = 0; i < n; i++) {
-            Animal randomAnimal = createRandomAnimal();
-            if (containsAnimalOrNot(uniqueAnimalsSet, randomAnimal)) {
-                uniqueAnimalsSet.add(randomAnimal);
-                uniqueAnimals[index++] = randomAnimal;
-            }
-        }
         return uniqueAnimals;
     }
 

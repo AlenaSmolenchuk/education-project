@@ -25,6 +25,7 @@ public class SearchServiceImpl implements SearchService {
         for (Animal animal : animals) {
             if (isLeapYear(animal.getDateOfBirth().getYear())) {
                 leapYearNames.add(animal.getName());
+                System.out.println("Leap Year: " + animal.getDateOfBirth());
             }
         }
         return leapYearNames.toArray(new String[0]);
@@ -70,7 +71,7 @@ public class SearchServiceImpl implements SearchService {
         if (!duplicateAnimals.isEmpty()) {
             System.out.println("Duplicate animals found:");
             for (Animal duplicateAnimal : duplicateAnimals) {
-                System.out.println(duplicateAnimal.getName());
+                System.out.println(duplicateAnimal);
             }
         } else {
             System.out.println("No duplicate animals found.");
