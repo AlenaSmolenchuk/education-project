@@ -66,11 +66,16 @@ public abstract class AbstractAnimal implements Animal {
     }
 
     // Переопределение метода equals()
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AbstractAnimal that = (AbstractAnimal) o;
-        return Objects.equals(dateOfBirth, that.dateOfBirth);
+        return Objects.equals(breed, that.breed)
+                && Objects.equals(name, that.name)
+                && Objects.equals(cost, that.cost)
+                && character == that.character
+                && Objects.equals(dateOfBirth, that.dateOfBirth);
     }
 }
