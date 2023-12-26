@@ -23,14 +23,10 @@ public class CreateAnimalServiceImpl implements CreateAnimalService, AnimalFacto
     @Override
     public Animal[] createAnimals(int n) {
         Animal[] uniqueAnimals = new Animal[n];
-        Set<Animal> uniqueAnimalsSet = new HashSet<>();
 
         int index = 0;
         do {
-            Animal randomAnimal = createRandomAnimal();
-            if (containsAnimal(uniqueAnimalsSet, randomAnimal)) {
-                uniqueAnimalsSet.add(randomAnimal);
-                uniqueAnimals[index++] = randomAnimal;
+                uniqueAnimals[index++] = createRandomAnimal();
             }
         } while (index < n);
 
@@ -40,16 +36,10 @@ public class CreateAnimalServiceImpl implements CreateAnimalService, AnimalFacto
     // Перегруженный метод createAnimals с использованием цикла for
     public Animal[] createAnimals() {
         Animal[] uniqueAnimals = new Animal[10];
-        Set<Animal> uniqueAnimalsSet = new HashSet<>();
 
         for (int i = 0, index = 0; i < 10; i++) {
-            Animal randomAnimal = createRandomAnimal();
-            if (containsAnimal(uniqueAnimalsSet, randomAnimal)) {
-                uniqueAnimalsSet.add(randomAnimal);
-                uniqueAnimals[index++] = randomAnimal;
+                uniqueAnimals[index++] = createRandomAnimal();
             }
-        }
-
         return uniqueAnimals;
     }
 
@@ -60,12 +50,6 @@ public class CreateAnimalServiceImpl implements CreateAnimalService, AnimalFacto
 
         String breed = breeds[(int) (Math.random() * breeds.length)];
         return getAnimalFactory(breed).createRandomAnimal();
-    }
-
-    // Перегруженный метод containsAnimal
-    private boolean containsAnimal(Set<Animal> animals, Animal animal) {
-        return !animals.contains(animal);
-
     }
 
     private AnimalFactory getAnimalFactory(String breed) {
