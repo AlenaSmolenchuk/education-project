@@ -27,7 +27,7 @@ public class CreateAnimalServiceImpl implements CreateAnimalService, AnimalFacto
         int index = 0;
         do {
             Animal randomAnimal = createRandomAnimal();
-            if (containsAnimalOrNot(uniqueAnimalsSet, randomAnimal)) {
+            if (containsAnimal(uniqueAnimalsSet, randomAnimal)) {
                 uniqueAnimalsSet.add(randomAnimal);
                 uniqueAnimals[index++] = randomAnimal;
             }
@@ -43,7 +43,7 @@ public class CreateAnimalServiceImpl implements CreateAnimalService, AnimalFacto
 
         for (int i = 0, index = 0; i < 10; i++) {
             Animal randomAnimal = createRandomAnimal();
-            if (containsAnimalOrNot(uniqueAnimalsSet, randomAnimal)) {
+            if (containsAnimal(uniqueAnimalsSet, randomAnimal)) {
                 uniqueAnimalsSet.add(randomAnimal);
                 uniqueAnimals[index++] = randomAnimal;
             }
