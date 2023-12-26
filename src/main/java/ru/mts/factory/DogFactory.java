@@ -14,10 +14,11 @@ public class DogFactory implements AnimalFactory {
     @Override
     public Animal createRandomAnimal() {
 
-        String name = "Dog";
-        BigDecimal cost = BigDecimal.valueOf(1000);
-        AnimalCharacter randomCharacter = AnimalCharacter.CALM;
-        LocalDate dateOfBirth = LocalDate.of(2022,2,2);
+        String name = "Dog" + System.currentTimeMillis();
+        BigDecimal cost = BigDecimal.valueOf(Math.random() * 1000);
+        AnimalCharacter randomCharacter = AnimalCharacter.values()
+                [(int) (Math.random() * AnimalCharacter.values().length)];
+        LocalDate dateOfBirth = generateRandomDateOfBirth();
 
         return new Dog(name, cost, randomCharacter, dateOfBirth);
     }

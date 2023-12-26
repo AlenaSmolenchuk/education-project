@@ -14,16 +14,13 @@ import java.util.Set;
  */
 public class CreateAnimalServiceImpl implements CreateAnimalService, AnimalFactory {
 
-    private final AnimalFactory wolfFactory = new WolfFactory();
-    private final AnimalFactory sharkFactory = new SharkFactory();
-    private final AnimalFactory dogFactory = new DogFactory();
-
     /**
      * Создает n уникальных животных при помощи цикла do-while.
      *
      * @param n количество животных для создания
      * @return список созданных животных
      */
+    @Override
     public Animal[] createAnimals(int n) {
         Animal[] uniqueAnimals = new Animal[n];
         Set<Animal> uniqueAnimalsSet = new HashSet<>();
@@ -31,7 +28,7 @@ public class CreateAnimalServiceImpl implements CreateAnimalService, AnimalFacto
         int index = 0;
         do {
             Animal randomAnimal = createRandomAnimal();
-            if (containsAnimalOrNot(uniqueAnimalsSet, randomAnimal)) {
+            if (containsAnimal(uniqueAnimalsSet, randomAnimal)) {
                 uniqueAnimalsSet.add(randomAnimal);
                 uniqueAnimals[index++] = randomAnimal;
             }
@@ -47,7 +44,7 @@ public class CreateAnimalServiceImpl implements CreateAnimalService, AnimalFacto
 
         for (int i = 0, index = 0; i < 10; i++) {
             Animal randomAnimal = createRandomAnimal();
-            if (containsAnimalOrNot(uniqueAnimalsSet, randomAnimal)) {
+            if (containsAnimal(uniqueAnimalsSet, randomAnimal)) {
                 uniqueAnimalsSet.add(randomAnimal);
                 uniqueAnimals[index++] = randomAnimal;
             }
@@ -65,21 +62,18 @@ public class CreateAnimalServiceImpl implements CreateAnimalService, AnimalFacto
         return getAnimalFactory(breed).createRandomAnimal();
     }
 
-    private boolean containsAnimalOrNot(Set<Animal> animals, Animal animal) {
+    // Перегруженный метод containsAnimal
+    private boolean containsAnimal(Set<Animal> animals, Animal animal) {
         return !animals.contains(animal);
 
     }
 
     private AnimalFactory getAnimalFactory(String breed) {
-        switch (breed) {
-            case "Wolf":
-                return wolfFactory;
-            case "Shark":
-                return sharkFactory;
-            case "Dog":
-                return dogFactory;
-            default:
-                throw new IllegalArgumentException("Unknown breed: " + breed);
-        }
+        return switch (breed) {
+            case "Wolf" -> new WolfFactory();
+            case "Shark" -> new SharkFactory();
+            case "Dog" -> new DogFactory();
+            default -> throw new IllegalArgumentException("Unknown breed: " + breed);
+        };
     }
 }
