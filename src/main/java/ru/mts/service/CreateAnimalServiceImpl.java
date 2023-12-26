@@ -75,4 +75,5 @@ public class CreateAnimalServiceImpl implements CreateAnimalService, AnimalFacto
             case "Dog" -> new DogFactory();
             default -> throw new IllegalArgumentException("Unknown breed: " + breed);
         };
+    }
 }
