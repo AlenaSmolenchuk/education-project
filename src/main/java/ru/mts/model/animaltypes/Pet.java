@@ -22,14 +22,4 @@ public abstract class Pet extends AbstractAnimal {
     public Pet(String breed, String name, BigDecimal cost, AnimalCharacter character, LocalDate dateOfBirth) {
         super(breed, name, cost, character, dateOfBirth);
     }
-
-    @Override
-    public boolean equals(Object o) {
-        return super.equals(o);
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
 }
