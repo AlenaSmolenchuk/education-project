@@ -14,10 +14,6 @@ import java.util.Set;
  */
 public class CreateAnimalServiceImpl implements CreateAnimalService, AnimalFactory {
 
-    private final AnimalFactory wolfFactory = new WolfFactory();
-    private final AnimalFactory sharkFactory = new SharkFactory();
-    private final AnimalFactory dogFactory = new DogFactory();
-
     /**
      * Создает n уникальных животных при помощи цикла do-while.
      *
