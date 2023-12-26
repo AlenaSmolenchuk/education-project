@@ -1,6 +1,5 @@
 package ru.mts.model.animalint;
 
-
 import ru.mts.model.animalcharacter.AnimalCharacter;
 
 import java.math.BigDecimal;

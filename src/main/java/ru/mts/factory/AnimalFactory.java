@@ -5,9 +5,10 @@ import ru.mts.model.animalint.Animal;
 import java.time.LocalDate;
 
 /**
- * Реализация интерфейса фабрики для создания животных.
+ * Объявление интерфейса фабрики для создания животных.
  */
 public interface AnimalFactory {
+
     /**
      * Создает случайное животное.
      *
