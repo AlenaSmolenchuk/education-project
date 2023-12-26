@@ -20,7 +20,7 @@ public class WolfFactory implements AnimalFactory {
     @Override
     public Animal createRandomAnimal() {
 
-        double duplicateProbability = 0.8;
+        double duplicateProbability = 0.4;
 
         if (Math.random() < duplicateProbability) {
             return createDuplicate();
@@ -39,7 +39,7 @@ public class WolfFactory implements AnimalFactory {
     // Создает дубликат объекта волка с предопределенными значениями.
     private Wolf createDuplicate() {
         String name = "Wolf";
-        BigDecimal cost = BigDecimal.valueOf(500);
+        BigDecimal cost = BigDecimal.valueOf(500.9786);
         AnimalCharacter character = AnimalCharacter.AGGRESSIVE;
         LocalDate dateOfBirth = LocalDate.now().minusYears(2);
 

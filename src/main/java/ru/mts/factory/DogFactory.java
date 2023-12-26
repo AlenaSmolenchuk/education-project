@@ -37,10 +37,10 @@ public class DogFactory implements AnimalFactory {
 
     // Создает дубликат объекта собаки с предопределенными значениями.
     private Dog createDuplicate() {
-        String name = "Wolf";
-        BigDecimal cost = BigDecimal.valueOf(500);
-        AnimalCharacter character = AnimalCharacter.AGGRESSIVE;
-        LocalDate dateOfBirth = LocalDate.now().minusYears(2);
+        String name = "Dog";
+        BigDecimal cost = BigDecimal.valueOf(23.87);
+        AnimalCharacter character = AnimalCharacter.FRIENDLY;
+        LocalDate dateOfBirth = LocalDate.now().minusYears(8);
 
         return new Dog(name, cost, character, dateOfBirth);
     }
