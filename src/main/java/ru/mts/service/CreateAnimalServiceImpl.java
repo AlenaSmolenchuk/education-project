@@ -65,7 +65,7 @@ public class CreateAnimalServiceImpl implements CreateAnimalService, AnimalFacto
         return getAnimalFactory(breed).createRandomAnimal();
     }
 
-    private boolean containsAnimalOrNot(Set<Animal> animals, Animal animal) {
+    private boolean containsAnimal(Set<Animal> animals, Animal animal) {
         return !animals.contains(animal);
 
     }
