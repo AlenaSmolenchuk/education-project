@@ -9,6 +9,7 @@ import java.time.LocalDate;
  * Абстрактный класс Pet представляет домашних животных.
  */
 public abstract class Pet extends AbstractAnimal {
+
     /**
      * Конструктор для создания экземпляра домашнего животного.
      *

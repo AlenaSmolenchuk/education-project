@@ -2,6 +2,9 @@ package ru.mts.service;
 
 import ru.mts.model.animalint.Animal;
 
+/**
+ * Объявление интерфейса CreateAnimalService предоставляет методы для поиска животных по различным критериям.
+ */
 public interface SearchService {
 
     /**

@@ -9,6 +9,7 @@ import java.time.LocalDate;
  * Абстрактный класс Predator представляет хищных животных.
  */
 public abstract class Predator extends AbstractAnimal {
+
     /**
      * Конструктор для создания экземпляра хищного животного.
      *

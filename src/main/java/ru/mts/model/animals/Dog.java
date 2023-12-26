@@ -10,6 +10,7 @@ import java.time.LocalDate;
  * Класс Dog представляет собаку в качестве домашнего животного.
  */
 public class Dog extends Pet {
+
     /**
      * Конструктор для создания экземпляра собаки.
      *
@@ -21,6 +22,7 @@ public class Dog extends Pet {
     public Dog(String name, BigDecimal cost, AnimalCharacter character, LocalDate dateOfBirth) {
         super("Dog", name, cost, character, dateOfBirth);
     }
+
 
     @Override
     public String toString() {

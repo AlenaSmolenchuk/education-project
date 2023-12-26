@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Реализация интерфейса SearchService для поиска животных.
+ * Реализация интерфейса SearchService для поиска животных по различным критериям.
  */
 public class SearchServiceImpl implements SearchService {
 
@@ -78,6 +78,7 @@ public class SearchServiceImpl implements SearchService {
         }
     }
 
+    // Проверяет, является ли указанный год високосным.
     private boolean isLeapYear(int year) {
         return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
     }

@@ -11,51 +11,30 @@ public class Main {
         CreateAnimalServiceImpl createAnimalServiceImpl = new CreateAnimalServiceImpl();
         SearchService searchService = new SearchServiceImpl();
 
-        // Вызов метода createAnimalsWithWhile
-        System.out.println("Creating animals using while loop:");
-        Animal[] animalsWhile = createAnimalServiceImpl.createAnimals(10);
-        printAnimals(animalsWhile);
+
+        System.out.println("Creating animals: ");
+        Animal[] animals = createAnimalServiceImpl.createAnimals(15);
+        printAnimals(animals);
         System.out.println();
 
-        // Вызов метода createAnimalsWithFor
-        System.out.println("Creating animals using for loop:");
-        Animal[] animalsFor = createAnimalServiceImpl.createAnimals();
-        printAnimals(animalsFor);
+
+        // Вызов метода findLeapYearNames
+        System.out.println("Finding leap year names: ");
+        String[] leapYearNames = searchService.findLeapYearNames(animals);
+        printNames(leapYearNames);
         System.out.println();
 
-        // Вызов метода findLeapYearNames для массива animalsWhile
-        System.out.println("Finding leap year names in the WhileArray:");
-        String[] leapYearNamesWhile = searchService.findLeapYearNames(animalsWhile);
-        printNames(leapYearNamesWhile);
+        // Вызов метода findOlderAnimal
+        System.out.println("Finding older animals than 7 years: ");
+        Animal[] olderAnimals = searchService.findOlderAnimal(animals, 7);
+        printAnimals(olderAnimals);
         System.out.println();
 
-        // Вызов метода findOlderAnimal для массива animalsWhile
-        System.out.println("Finding older animals than 14 years in the WhileArray:");
-        Animal[] olderAnimalsWhile = searchService.findOlderAnimal(animalsWhile, 14);
-        printAnimals(olderAnimalsWhile);
+        // Вызов метода findDuplicate
+        System.out.println("Finding duplicate animals: ");
+        searchService.findDuplicate(animals);
         System.out.println();
 
-        // Вызов метода findDuplicate для массива animalsWhile
-        System.out.println("Finding duplicate animals in the WhileArray:");
-        searchService.findDuplicate(animalsWhile);
-        System.out.println();
-
-        // Вызов метода findLeapYearNames для массива animalsFor
-        System.out.println("Finding leap year names in the ForArray:");
-        String[] leapYearNamesFor = searchService.findLeapYearNames(animalsFor);
-        printNames(leapYearNamesFor);
-        System.out.println();
-
-        // Вызов метода findOlderAnimal для массива animalsFor
-        System.out.println("Finding older animals than 14 years in the ForArray:");
-        Animal[] olderAnimalsFor = searchService.findOlderAnimal(animalsFor, 14);
-        printAnimals(olderAnimalsFor);
-        System.out.println();
-
-        // Вызов метода findDuplicate для массива animalsFor
-        System.out.println("Finding duplicate animals in the ForArray:");
-        searchService.findDuplicate(animalsFor);
-        System.out.println();
     }
 
     private static void printAnimals(Animal[] animals) {

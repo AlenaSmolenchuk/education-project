@@ -10,6 +10,7 @@ import java.time.LocalDate;
  * Класс Shark представляет акулу.
  */
 public class Shark extends Predator {
+
     /**
      * Конструктор для создания экземпляра акулы.
      *
