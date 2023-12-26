@@ -71,15 +71,10 @@ public class CreateAnimalServiceImpl implements CreateAnimalService, AnimalFacto
     }
 
     private AnimalFactory getAnimalFactory(String breed) {
-        switch (breed) {
-            case "Wolf":
-                return wolfFactory;
-            case "Shark":
-                return sharkFactory;
-            case "Dog":
-                return dogFactory;
-            default:
-                throw new IllegalArgumentException("Unknown breed: " + breed);
-        }
-    }
+        return switch (breed) {
+            case "Wolf" -> new WolfFactory();
+            case "Shark" -> new SharkFactory();
+            case "Dog" -> new DogFactory();
+            default -> throw new IllegalArgumentException("Unknown breed: " + breed);
+        };
 }
