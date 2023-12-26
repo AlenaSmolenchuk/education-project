@@ -77,4 +77,9 @@ public abstract class AbstractAnimal implements Animal {
                 && character == that.character
                 && Objects.equals(dateOfBirth, that.dateOfBirth);
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(breed, name, cost, character, dateOfBirth);
+    }
 }

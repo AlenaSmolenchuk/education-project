@@ -32,4 +32,14 @@ public class Wolf extends Predator {
                 ", dateOfBirth=" + dateOfBirth +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

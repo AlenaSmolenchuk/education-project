@@ -18,7 +18,7 @@ public class Main {
         System.out.println();
 
         // Вызов метода createAnimalsWithFor
-        System.out.println("Creating 10 animals using for loop:");
+        System.out.println("Creating animals using for loop:");
         Animal[] animalsFor = createAnimalServiceImpl.createAnimals();
         printAnimals(animalsFor);
         System.out.println();

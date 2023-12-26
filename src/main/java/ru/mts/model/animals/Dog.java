@@ -13,9 +13,9 @@ public class Dog extends Pet {
     /**
      * Конструктор для создания экземпляра собаки.
      *
-     * @param name      имя собаки
-     * @param cost      стоимость собаки
-     * @param character характер собаки
+     * @param name        имя собаки
+     * @param cost        стоимость собаки
+     * @param character   характер собаки
      * @param dateOfBirth дата рождения собаки
      */
     public Dog(String name, BigDecimal cost, AnimalCharacter character, LocalDate dateOfBirth) {
@@ -31,5 +31,15 @@ public class Dog extends Pet {
                 ", character=" + character +
                 ", dateOfBirth=" + dateOfBirth +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 }
