@@ -20,6 +20,7 @@ public class CreateAnimalServiceImpl implements CreateAnimalService, AnimalFacto
      * @param n количество животных для создания
      * @return список созданных животных
      */
+    @Override
     public Animal[] createAnimals(int n) {
         Animal[] uniqueAnimals = new Animal[n];
         Set<Animal> uniqueAnimalsSet = new HashSet<>();
@@ -61,6 +62,7 @@ public class CreateAnimalServiceImpl implements CreateAnimalService, AnimalFacto
         return getAnimalFactory(breed).createRandomAnimal();
     }
 
+    // Перегруженный метод containsAnimal
     private boolean containsAnimal(Set<Animal> animals, Animal animal) {
         return !animals.contains(animal);
 
