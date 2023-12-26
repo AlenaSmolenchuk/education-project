@@ -6,17 +6,10 @@ import ru.mts.factory.SharkFactory;
 import ru.mts.factory.WolfFactory;
 import ru.mts.model.animalint.Animal;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
- * Реализация интерфейса CreateAnimalService для создания животных.
+ * Реализация интерфейса CreateAnimalService и AnimalFactory для создания животных.
  */
 public class CreateAnimalServiceImpl implements CreateAnimalService, AnimalFactory {
-
-    private final AnimalFactory wolfFactory = new WolfFactory();
-    private final AnimalFactory sharkFactory = new SharkFactory();
-    private final AnimalFactory dogFactory = new DogFactory();
 
     /**
      * Создает n уникальных животных при помощи цикла do-while.
@@ -26,32 +19,14 @@ public class CreateAnimalServiceImpl implements CreateAnimalService, AnimalFacto
      */
     public Animal[] createAnimals(int n) {
         Animal[] uniqueAnimals = new Animal[n];
-        Set<Animal> uniqueAnimalsSet = new HashSet<>();
 
         int index = 0;
+
         do {
-            Animal randomAnimal = createRandomAnimal();
-            if (containsAnimalOrNot(uniqueAnimalsSet, randomAnimal)) {
-                uniqueAnimalsSet.add(randomAnimal);
-                uniqueAnimals[index++] = randomAnimal;
-            }
+
+            uniqueAnimals[index++] = createRandomAnimal();
+
         } while (index < n);
-
-        return uniqueAnimals;
-    }
-
-    // Перегруженный метод createAnimals с использованием цикла for
-    public Animal[] createAnimals() {
-        Animal[] uniqueAnimals = new Animal[10];
-        Set<Animal> uniqueAnimalsSet = new HashSet<>();
-
-        for (int i = 0, index = 0; i < 10; i++) {
-            Animal randomAnimal = createRandomAnimal();
-            if (containsAnimalOrNot(uniqueAnimalsSet, randomAnimal)) {
-                uniqueAnimalsSet.add(randomAnimal);
-                uniqueAnimals[index++] = randomAnimal;
-            }
-        }
 
         return uniqueAnimals;
     }
@@ -65,19 +40,15 @@ public class CreateAnimalServiceImpl implements CreateAnimalService, AnimalFacto
         return getAnimalFactory(breed).createRandomAnimal();
     }
 
-    private boolean containsAnimalOrNot(Set<Animal> animals, Animal animal) {
-        return !animals.contains(animal);
-
-    }
-
+    // Возвращает соответствующую фабрику для создания объектов указанного вида животных.
     private AnimalFactory getAnimalFactory(String breed) {
         switch (breed) {
             case "Wolf":
-                return wolfFactory;
+                return new WolfFactory();
             case "Shark":
-                return sharkFactory;
+                return new SharkFactory();
             case "Dog":
-                return dogFactory;
+                return new DogFactory();
             default:
                 throw new IllegalArgumentException("Unknown breed: " + breed);
         }

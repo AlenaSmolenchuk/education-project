@@ -13,7 +13,7 @@ public class Main {
 
 
         System.out.println("Creating animals: ");
-        Animal[] animals = createAnimalServiceImpl.createAnimals(15);
+        Animal[] animals = createAnimalServiceImpl.createAnimals(10);
         printAnimals(animals);
         System.out.println();
 
