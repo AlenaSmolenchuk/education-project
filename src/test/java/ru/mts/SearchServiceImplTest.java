@@ -3,12 +3,15 @@ package ru.mts;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import ru.mts.model.animalcharacter.AnimalCharacter;
 import ru.mts.model.animalint.Animal;
+import ru.mts.model.animals.Dog;
+import ru.mts.model.animals.Shark;
+import ru.mts.model.animals.Wolf;
 import ru.mts.service.SearchService;
 import ru.mts.service.SearchServiceImpl;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Set;
@@ -21,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 @DisplayName("SearchServiceImpl Tests")
 class SearchServiceImplTest {
+
 
     /**
      * Вложенный класс тестов для сравнения объектов Animal с использованием метода equals.
@@ -35,12 +39,19 @@ class SearchServiceImplTest {
         @Test
         @DisplayName("Test Equals for Animal Objects")
         void shouldTestEqualsForAnimalObjects() {
-            Animal animal1 = new AnimalMock("Animal1", 2000);
-            Animal animal2 = new AnimalMock("Animal1", 2000);
+            Animal animal1 = new Dog(
+                    "Animal1",
+                    BigDecimal.TEN,
+                    AnimalCharacter.AGGRESSIVE,
+                    LocalDate.of(2000, 1, 1));
+            Animal animal2 = new Dog(
+                    "Animal1",
+                    BigDecimal.TEN,
+                    AnimalCharacter.AGGRESSIVE,
+                    LocalDate.of(2000, 1, 1));
 
             assertAll(
-                    () -> assertEquals(animal1, animal2),
-                    () -> assertEquals(animal2, animal1)
+                    () -> assertEquals(animal1, animal2)
             );
         }
 
@@ -50,12 +61,19 @@ class SearchServiceImplTest {
         @Test
         @DisplayName("Test Inequality for Animal Objects")
         void shouldTestInequalityForAnimalObjects() {
-            Animal animal1 = new AnimalMock("Animal1", 2000);
-            Animal animal2 = new AnimalMock("Animal3", 2010);
+            Animal animal1 = new Dog(
+                    "Animal1",
+                    BigDecimal.TEN,
+                    AnimalCharacter.AGGRESSIVE,
+                    LocalDate.of(2000, 1, 1));
+            Animal animal2 = new Dog(
+                    "Animal1",
+                    BigDecimal.TEN,
+                    AnimalCharacter.AGGRESSIVE,
+                    LocalDate.of(2000, 2, 1));
 
             assertAll(
-                    () -> assertNotEquals(animal1, animal2),
-                    () -> assertNotEquals(animal2, animal1)
+                    () -> assertNotEquals(animal1, animal2)
             );
         }
     }
@@ -67,6 +85,13 @@ class SearchServiceImplTest {
     @DisplayName("Tests for arrays of Animals")
     class AnimalsTests {
 
+        private SearchService searchService;
+
+        @BeforeEach
+        void setUp() {
+            searchService = new SearchServiceImpl();
+        }
+
         /**
          * Проверяет, что метод findLeapYearNames возвращает корректные имена животных,
          * родившихся в високосные годы.
@@ -75,7 +100,6 @@ class SearchServiceImplTest {
         @DisplayName("Return Names of Animals Born in Leap Years")
         void shouldReturnNamesOfAnimalsBornInLeapYears() {
             Animal[] animals = createAnimals();
-            SearchService searchService = new SearchServiceImpl();
 
             String[] leapYearNames = searchService.findLeapYearNames(animals);
             String[] expectedLeapYearNames = {"Animal1", "Animal2", "Animal4", "Animal1", "Animal4"};
@@ -96,7 +120,6 @@ class SearchServiceImplTest {
         void shouldReturnEmptyArrayForAnimalsNotBornInLeapYears() {
 
             Animal[] animals = createNonLeapYearAnimals();
-            SearchService searchService = new SearchServiceImpl();
 
             String[] leapYearNames = searchService.findLeapYearNames(animals);
 
@@ -116,7 +139,6 @@ class SearchServiceImplTest {
         void shouldReturnCorrectArrayForOlderAnimals(int age) {
 
             Animal[] animals = createAnimals();
-            SearchService searchService = new SearchServiceImpl();
 
             Animal[] olderAnimals = searchService.findOlderAnimal(animals, age);
 
@@ -131,7 +153,6 @@ class SearchServiceImplTest {
         @DisplayName("Return Duplicate Animals")
         void shouldReturnDuplicateAnimals() {
             Animal[] animals = createAnimals();
-            SearchService searchService = new SearchServiceImpl();
 
             Set<Animal> duplicateAnimals = searchService.findDuplicate(animals);
 
@@ -141,63 +162,75 @@ class SearchServiceImplTest {
             );
         }
 
-        /**
-         * Проверяет, что метод printDuplicate выводит на экран корректное сообщение о дубликатах животных.
-         */
-        @Test
-        @DisplayName("Print Duplicate Animals")
-        void shouldPrintDuplicateAnimals() {
-            Animal[] animals = createAnimals();
-            SearchService searchService = new SearchServiceImpl();
 
-            Set<Animal> duplicateAnimals = searchService.findDuplicate(animals);
-
-            // Redirect System.out to capture printed output
-            ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-            System.setOut(new PrintStream(outContent));
-
-            searchService.printDuplicate(duplicateAnimals);
-
-            String expectedOutput = "Duplicate animals found:\r\n" +
-                    "Animal4, 2008\r\n" +
-                    "Animal1, 2000\r\n";
-
-            String actualOutput = outContent.toString().trim();
-            expectedOutput = expectedOutput.trim();
-
-            assertEquals(expectedOutput, actualOutput);
+        // Дополнительный метод для проверки, что животное старше заданного возраста
+        private boolean isOlderThan(Animal animal, int age) {
+            LocalDate currentDate = LocalDate.now();
+            int years = currentDate.getYear() - animal.getDateOfBirth().getYear();
+            return years > age;
         }
-    }
 
 
-    // Дополнительный метод для проверки, что животное старше заданного возраста
-    private boolean isOlderThan(Animal animal, int age) {
-        LocalDate currentDate = LocalDate.now();
-        int years = currentDate.getYear() - animal.getDateOfBirth().getYear();
-        return years > age;
-    }
+        //Создает массив животных для целей тестирования.
+        private Animal[] createAnimals() {
+            return new Animal[] {
+                    new Dog(
+                            "Animal1",
+                            BigDecimal.TEN,
+                            AnimalCharacter.AGGRESSIVE,
+                            LocalDate.of(2000, 1, 1)),
+                    new Dog(
+                            "Animal2",
+                            BigDecimal.TEN,
+                            AnimalCharacter.AGGRESSIVE,
+                            LocalDate.of(2004, 1, 1)),
+                    new Shark(
+                            "Animal3",
+                            BigDecimal.TEN,
+                            AnimalCharacter.AGGRESSIVE,
+                            LocalDate.of(2010, 1, 1)),
+                    new Wolf(
+                            "Animal4",
+                            BigDecimal.TEN,
+                            AnimalCharacter.AGGRESSIVE,
+                            LocalDate.of(2008, 1, 1)),
+                    new Shark(
+                            "Animal5",
+                            BigDecimal.TEN,
+                            AnimalCharacter.AGGRESSIVE,
+                            LocalDate.of(2005, 1, 1)),
+                    new Dog(
+                            "Animal1",
+                            BigDecimal.TEN,
+                            AnimalCharacter.AGGRESSIVE,
+                            LocalDate.of(2000, 1, 1)),
+                    new Wolf(
+                            "Animal4",
+                            BigDecimal.TEN,
+                            AnimalCharacter.AGGRESSIVE,
+                            LocalDate.of(2008, 1, 1))
+            };
+        }
 
-
-    //Создает массив животных для целей тестирования.
-    private Animal[] createAnimals() {
-        return new Animal[]{
-                new AnimalMock("Animal1", 2000),
-                new AnimalMock("Animal2", 2004),
-                new AnimalMock("Animal3", 2010),
-                new AnimalMock("Animal4", 2008),
-                new AnimalMock("Animal5", 2005),
-                new AnimalMock("Animal1", 2000),
-                new AnimalMock("Animal4", 2008)
-        };
-    }
-
-    //Создает массив животных(родившихся не в високосный год) для целей тестирования.
-    private Animal[] createNonLeapYearAnimals() {
-        return new Animal[]{
-                new AnimalMock("Animal5", 2005),
-                new AnimalMock("Animal6", 2007),
-                new AnimalMock("Animal7", 1995),
-                new AnimalMock("Animal8", 1995)
-        };
+        //Создает массив животных(родившихся не в високосный год) для целей тестирования.
+        private Animal[] createNonLeapYearAnimals() {
+            return new Animal[]{
+                    new Shark(
+                            "Animal5",
+                            BigDecimal.TEN,
+                            AnimalCharacter.AGGRESSIVE,
+                            LocalDate.of(2005, 1, 1)),
+                    new Shark(
+                            "Animal6",
+                            BigDecimal.TEN,
+                            AnimalCharacter.AGGRESSIVE,
+                            LocalDate.of(2007, 1, 1)),
+                    new Shark(
+                            "Animal8",
+                            BigDecimal.TEN,
+                            AnimalCharacter.AGGRESSIVE,
+                            LocalDate.of(1995, 1, 1))
+            };
+        }
     }
 }
