@@ -158,7 +158,19 @@ class SearchServiceImplTest {
 
             assertAll(
                     () -> assertNotNull(duplicateAnimals),
-                    () -> assertEquals(2, duplicateAnimals.size())
+                    () -> assertEquals(2, duplicateAnimals.size()),
+                    () -> assertTrue(duplicateAnimals.contains(new Dog(
+                            "Animal1",
+                            BigDecimal.TEN,
+                            AnimalCharacter.AGGRESSIVE,
+                            LocalDate.of(2000, 1, 1)
+                    ))),
+                    () -> assertTrue(duplicateAnimals.contains(new Wolf(
+                            "Animal4",
+                            BigDecimal.TEN,
+                            AnimalCharacter.AGGRESSIVE,
+                            LocalDate.of(2008, 1, 1)
+                    )))
             );
         }
 
