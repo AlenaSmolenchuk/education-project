@@ -1,19 +1,15 @@
 package ru.mts.service;
 
-import ru.mts.model.animalcharacter.AnimalCharacter;
+import ru.mts.factory.AnimalFactory;
+import ru.mts.factory.DogFactory;
+import ru.mts.factory.SharkFactory;
+import ru.mts.factory.WolfFactory;
 import ru.mts.model.animalint.Animal;
-import ru.mts.model.animals.Dog;
-import ru.mts.model.animals.Shark;
-import ru.mts.model.animals.Wolf;
-
-import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
- * Реализация интерфейса CreateAnimalService для создания животных.
+ * Реализация интерфейса CreateAnimalService и AnimalFactory для создания животных.
  */
-public class CreateAnimalServiceImpl implements CreateAnimalService {
+public class CreateAnimalServiceImpl implements CreateAnimalService, AnimalFactory {
 
     /**
      * Создает n уникальных животных при помощи цикла do-while.
@@ -21,37 +17,16 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
      * @param n количество животных для создания
      * @return список созданных животных
      */
-    @Override
-    public Set<Animal> createAnimalsWithWhile(int n) {
-        Set<Animal> uniqueAnimals = new HashSet<>();
+    public Animal[] createAnimals(int n) {
+        Animal[] uniqueAnimals = new Animal[n];
+
+        int index = 0;
 
         do {
-            uniqueAnimals.add(createRandomAnimal());
 
-        } while (uniqueAnimals.size() < n);
+            uniqueAnimals[index++] = createRandomAnimal();
 
-        return uniqueAnimals;
-    }
-
-    // Реализация метода createNAnimals с использованием цикла for
-    @Override
-    public Set<Animal> createAnimalsWithFor() {
-        Set<Animal> uniqueAnimals = new HashSet<>();
-
-        for (int i = 0; i < 10; i++) {
-            uniqueAnimals.add(createRandomAnimal());
-        }
-        return uniqueAnimals;
-    }
-
-    // Перегруженный метод для создания n животных с использованием цикла for
-    public Set<Animal> createAnimalsWithFor(int n) {
-        Set<Animal> uniqueAnimals = new HashSet<>();
-
-        for (int i = 0; i < n; i++) {
-            Animal animal = createRandomAnimal();
-            uniqueAnimals.add(createRandomAnimal());
-        }
+        } while (index < n);
 
         return uniqueAnimals;
     }
@@ -62,23 +37,20 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
         String[] breeds = {"Wolf", "Shark", "Dog"};
 
         String breed = breeds[(int) (Math.random() * breeds.length)];
-        String name = "Random" + System.currentTimeMillis();
-        BigDecimal cost = BigDecimal.valueOf(Math.random() * 1000);
-        AnimalCharacter randomCharacter = AnimalCharacter.values()
-                [(int) (Math.random() * AnimalCharacter.values().length)];
+        return getAnimalFactory(breed).createRandomAnimal();
+    }
 
-        if (breed.equals("Shark")) {
-
-            return new Shark(name, cost, randomCharacter);
-
-        } else if (breed.equals("Dog")) {
-
-            return new Dog(name, cost, randomCharacter);
-
-        } else {
-
-            return new Wolf(name, cost, randomCharacter);
-
+    // Возвращает соответствующую фабрику для создания объектов указанного вида животных.
+    private AnimalFactory getAnimalFactory(String breed) {
+        switch (breed) {
+            case "Wolf":
+                return new WolfFactory();
+            case "Shark":
+                return new SharkFactory();
+            case "Dog":
+                return new DogFactory();
+            default:
+                throw new IllegalArgumentException("Unknown breed: " + breed);
         }
     }
 }

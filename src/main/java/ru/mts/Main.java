@@ -2,35 +2,52 @@ package ru.mts;
 
 import ru.mts.model.animalint.Animal;
 import ru.mts.service.CreateAnimalServiceImpl;
-
-import java.util.Set;
+import ru.mts.service.SearchService;
+import ru.mts.service.SearchServiceImpl;
 
 public class Main {
+
     public static void main(String[] args) {
+      
         CreateAnimalServiceImpl createAnimalServiceImpl = new CreateAnimalServiceImpl();
+        SearchService searchService = new SearchServiceImpl();
 
-        // Вызов метода createAnimalsWithWhile
-        System.out.println("Creating animals using while loop:");
-        Set<Animal> animalsWhile = createAnimalServiceImpl.createAnimalsWithWhile(10);
-        printAnimals(animalsWhile);
+
+        System.out.println("Creating animals: ");
+        Animal[] animals = createAnimalServiceImpl.createAnimals(10);
+        printAnimals(animals);
         System.out.println();
 
-        // Вызов метода createAnimalsWithFor
-        System.out.println("Creating animals using for loop:");
-        Set<Animal> animalsFor = createAnimalServiceImpl.createAnimalsWithFor(5);
-        printAnimals(animalsFor);
+
+        // Вызов метода findLeapYearNames
+        System.out.println("Finding leap year names: ");
+        String[] leapYearNames = searchService.findLeapYearNames(animals);
+        printNames(leapYearNames);
         System.out.println();
 
-        // Вызов метода createRandomAnimal
-        System.out.println("Creating random animal:");
-        Animal randomAnimal = createAnimalServiceImpl.createRandomAnimal();
-        System.out.println(randomAnimal + "\n");
+        // Вызов метода findOlderAnimal
+        System.out.println("Finding older animals than 7 years: ");
+        Animal[] olderAnimals = searchService.findOlderAnimal(animals, 7);
+        printAnimals(olderAnimals);
+        System.out.println();
 
+        // Вызов метода findDuplicate
+        System.out.println("Finding duplicate animals: ");
+        searchService.printDuplicate(searchService.findDuplicate(animals));
+        System.out.println();
+      
     }
 
-    private static void printAnimals(Set<Animal> animals) {
+    private static void printAnimals(Animal[] animals) {
         for (Animal animal : animals) {
             System.out.println("Created: " + animal);
+        }
+    }
+
+
+    private static void printNames(String[] names) {
+        for (String name : names) {
+            System.out.println("Leap Year Name: " + name);
         }
     }
 }

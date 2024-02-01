@@ -1,9 +1,9 @@
 package ru.mts.model.animalint;
 
-
 import ru.mts.model.animalcharacter.AnimalCharacter;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 /**
  * Реализация интерфейса Animal представляет общие методы для всех животных.
@@ -37,4 +37,13 @@ public interface Animal {
      * @return характер животного
      */
     AnimalCharacter getCharacter();
+
+    /**
+     * Возвращает дату рождения животного.
+     *
+     * @return дата рождения
+     */
+    LocalDate getDateOfBirth();
+
 }
+

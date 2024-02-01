@@ -10,6 +10,15 @@ repositories {
 }
 
 dependencies {
+
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.10.1'
+
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: '5.10.1'
+
+    testImplementation group: 'org.mockito', name: 'mockito-core', version: '5.10.0'
+
+    testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: '5.10.0'
+
     testImplementation platform('org.junit:junit-bom:5.9.1')
     testImplementation 'org.junit.jupiter:junit-jupiter'
 }
@@ -17,3 +26,6 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+sourceCompatibility = JavaVersion.VERSION_14
+targetCompatibility = JavaVersion.VERSION_14
+
