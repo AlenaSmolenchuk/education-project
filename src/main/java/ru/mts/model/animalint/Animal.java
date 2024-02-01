@@ -46,3 +46,4 @@ public interface Animal {
     LocalDate getDateOfBirth();
 
 }
+

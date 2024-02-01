@@ -8,6 +8,7 @@ import ru.mts.service.SearchServiceImpl;
 public class Main {
 
     public static void main(String[] args) {
+      
         CreateAnimalServiceImpl createAnimalServiceImpl = new CreateAnimalServiceImpl();
         SearchService searchService = new SearchServiceImpl();
 
@@ -34,7 +35,7 @@ public class Main {
         System.out.println("Finding duplicate animals: ");
         searchService.printDuplicate(searchService.findDuplicate(animals));
         System.out.println();
-
+      
     }
 
     private static void printAnimals(Animal[] animals) {
@@ -42,6 +43,7 @@ public class Main {
             System.out.println("Created: " + animal);
         }
     }
+
 
     private static void printNames(String[] names) {
         for (String name : names) {

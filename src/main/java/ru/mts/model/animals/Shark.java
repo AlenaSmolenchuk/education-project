@@ -44,3 +44,4 @@ public class Shark extends Predator {
         return super.hashCode();
     }
 }
+

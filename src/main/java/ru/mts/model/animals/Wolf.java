@@ -10,7 +10,7 @@ import java.time.LocalDate;
  * Класс Wolf представляет волка.
  */
 public class Wolf extends Predator {
-
+  
     /**
      * Конструктор для создания экземпляра волка.
      *
@@ -44,3 +44,4 @@ public class Wolf extends Predator {
         return super.hashCode();
     }
 }
+

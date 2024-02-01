@@ -23,3 +23,4 @@ public abstract class Pet extends AbstractAnimal {
         super(breed, name, cost, character, dateOfBirth);
     }
 }
+
