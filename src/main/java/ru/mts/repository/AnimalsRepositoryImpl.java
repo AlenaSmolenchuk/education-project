@@ -1,7 +1,5 @@
 package ru.mts.repository;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import ru.mts.Main;
 import ru.mts.model.animalint.Animal;
 import ru.mts.service.CreateAnimalService;
@@ -14,13 +12,11 @@ import java.util.List;
 import java.util.Set;
 
 
-@Component
 public class AnimalsRepositoryImpl implements AnimalsRepository {
 
     private final CreateAnimalService createAnimalService;
     private Animal[] animals;
 
-    @Autowired
     public AnimalsRepositoryImpl(CreateAnimalService createAnimalService) {
         this.createAnimalService = createAnimalService;
     }

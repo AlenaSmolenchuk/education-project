@@ -1,28 +1,22 @@
 package ru.mts.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 import ru.mts.factory.AnimalFactory;
 import ru.mts.factory.DogFactory;
 import ru.mts.factory.SharkFactory;
 import ru.mts.factory.WolfFactory;
 import ru.mts.model.animalint.Animal;
 
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Реализация интерфейса CreateAnimalService и AnimalFactory для создания животных.
  */
-@Component
 @Scope("prototype")
 public class CreateAnimalServiceImpl implements CreateAnimalService, AnimalFactory {
 
     private String animalType;
-    private AnimalFactory animalFactory;
+    private final AnimalFactory animalFactory;
 
-    @Autowired
     public CreateAnimalServiceImpl(AnimalFactory animalFactory) {
         this.animalFactory = animalFactory;
     }

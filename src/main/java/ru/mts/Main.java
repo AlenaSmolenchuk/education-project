@@ -6,7 +6,6 @@ import org.springframework.context.annotation.ComponentScan;
 import ru.mts.config.AppConfig;
 import ru.mts.model.animalint.Animal;
 import ru.mts.repository.AnimalsRepository;
-import ru.mts.service.CreateAnimalService;
 
 @ComponentScan("ru.mts")
 public class Main {
@@ -15,7 +14,6 @@ public class Main {
 
         ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
 
-        CreateAnimalService createAnimalService = context.getBean(CreateAnimalService.class);
         AnimalsRepository animalsRepository = context.getBean(AnimalsRepository.class);
 
         System.out.println("\nFinding leap year names: ");

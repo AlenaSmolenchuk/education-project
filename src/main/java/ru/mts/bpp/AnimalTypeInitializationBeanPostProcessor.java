@@ -1,17 +1,12 @@
 package ru.mts.bpp;
 
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.stereotype.Component;
-import ru.mts.factory.AnimalFactory;
 import ru.mts.service.CreateAnimalService;
 
 @Component
 public class AnimalTypeInitializationBeanPostProcessor implements BeanPostProcessor {
-
-    @Autowired
-    private AnimalFactory animalFactory;
 
 
     @Override
