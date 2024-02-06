@@ -20,7 +20,7 @@ public class WolfFactory implements AnimalFactory {
     @Override
     public Animal createRandomAnimal() {
 
-        double duplicateProbability = 0.4;
+        double duplicateProbability = 0.9;
 
         if (Math.random() < duplicateProbability) {
             return createDuplicate();

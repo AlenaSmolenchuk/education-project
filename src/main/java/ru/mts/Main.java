@@ -1,49 +1,44 @@
 package ru.mts;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+import ru.mts.config.AppConfig;
 import ru.mts.model.animalint.Animal;
-import ru.mts.service.CreateAnimalServiceImpl;
-import ru.mts.service.SearchService;
-import ru.mts.service.SearchServiceImpl;
+import ru.mts.repository.AnimalsRepository;
+import ru.mts.service.CreateAnimalService;
 
+@ComponentScan("ru.mts")
 public class Main {
 
     public static void main(String[] args) {
-      
-        CreateAnimalServiceImpl createAnimalServiceImpl = new CreateAnimalServiceImpl();
-        SearchService searchService = new SearchServiceImpl();
 
+        ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
 
-        System.out.println("Creating animals: ");
-        Animal[] animals = createAnimalServiceImpl.createAnimals(10);
-        printAnimals(animals);
-        System.out.println();
+        CreateAnimalService createAnimalService = context.getBean(CreateAnimalService.class);
+        AnimalsRepository animalsRepository = context.getBean(AnimalsRepository.class);
 
-
-        // Вызов метода findLeapYearNames
-        System.out.println("Finding leap year names: ");
-        String[] leapYearNames = searchService.findLeapYearNames(animals);
+        System.out.println("\nFinding leap year names: ");
+        String[] leapYearNames = animalsRepository.findLeapYearNames();
         printNames(leapYearNames);
         System.out.println();
 
-        // Вызов метода findOlderAnimal
         System.out.println("Finding older animals than 7 years: ");
-        Animal[] olderAnimals = searchService.findOlderAnimal(animals, 7);
+        Animal[] olderAnimals = animalsRepository.findOlderAnimal(7);
         printAnimals(olderAnimals);
         System.out.println();
 
-        // Вызов метода findDuplicate
         System.out.println("Finding duplicate animals: ");
-        searchService.printDuplicate(searchService.findDuplicate(animals));
+        animalsRepository.printDuplicate();
+
         System.out.println();
-      
     }
 
-    private static void printAnimals(Animal[] animals) {
+    public static void printAnimals(Animal[] animals) {
         for (Animal animal : animals) {
-            System.out.println("Created: " + animal);
+            System.out.println("Animal: " + animal);
         }
     }
-
 
     private static void printNames(String[] names) {
         for (String name : names) {

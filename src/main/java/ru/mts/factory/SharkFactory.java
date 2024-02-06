@@ -19,7 +19,7 @@ public class SharkFactory implements AnimalFactory {
     @Override
     public Animal createRandomAnimal() {
 
-        double duplicateProbability = 0.6;
+        double duplicateProbability = 0.7;
 
         if (Math.random() < duplicateProbability) {
             return createDuplicate();

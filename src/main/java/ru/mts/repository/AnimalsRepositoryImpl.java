@@ -1,26 +1,45 @@
-package ru.mts.service;
+package ru.mts.repository;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import ru.mts.Main;
 import ru.mts.model.animalint.Animal;
+import ru.mts.service.CreateAnimalService;
 
+import javax.annotation.PostConstruct;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Реализация интерфейса SearchService для поиска животных по различным критериям.
- */
-public class SearchServiceImpl implements SearchService {
 
-    /**
-     * Находит имена животных, родившихся в високосный год.
-     *
-     * @param animals массив животных
-     * @return массив имен животных, родившихся в високосный год
-     */
+@Component
+public class AnimalsRepositoryImpl implements AnimalsRepository {
+
+    private final CreateAnimalService createAnimalService;
+    private Animal[] animals;
+
+    @Autowired
+    public AnimalsRepositoryImpl(CreateAnimalService createAnimalService) {
+        this.createAnimalService = createAnimalService;
+    }
+
+    @PostConstruct
+    public void initAnimals() {
+        System.out.println("Creating animals:");
+
+        animals = createAnimalService.createAnimals(10);
+
+        for (Animal animal : animals) {
+            addAnimal(animal);
+        }
+
+        Main.printAnimals(animals);
+    }
+
     @Override
-    public String[] findLeapYearNames(Animal[] animals) {
+    public String[] findLeapYearNames() {
         List<String> leapYearNames = new ArrayList<>();
         for (Animal animal : animals) {
             if (isLeapYear(animal.getDateOfBirth().getYear())) {
@@ -31,15 +50,8 @@ public class SearchServiceImpl implements SearchService {
         return leapYearNames.toArray(new String[0]);
     }
 
-    /**
-     * Находит животных, чей возраст старше указанного числа лет.
-     *
-     * @param animals массив животных
-     * @param age     возраст, сравниваемый с возрастом животных
-     * @return массив животных, чей возраст старше указанного числа лет
-     */
     @Override
-    public Animal[] findOlderAnimal(Animal[] animals, int age) {
+    public Animal[] findOlderAnimal(int age) {
         List<Animal> olderAnimals = new ArrayList<>();
         LocalDate currentDate = LocalDate.now();
 
@@ -52,14 +64,8 @@ public class SearchServiceImpl implements SearchService {
         return olderAnimals.toArray(new Animal[0]);
     }
 
-    /**
-     * Возвращает дубликаты животных в массиве.
-     *
-     * @param animals массив животных
-     * @return
-     */
     @Override
-    public Set<Animal> findDuplicate(Animal[] animals) {
+    public Set<Animal> findDuplicate() {
         Set<Animal> uniqueAnimals = new HashSet<>();
         Set<Animal> duplicateAnimals = new HashSet<>();
 
@@ -74,11 +80,10 @@ public class SearchServiceImpl implements SearchService {
 
     /**
      * Выводит на экран дубликаты животных из множества.
-     *
-     * @param duplicateAnimals множество дубликатов животных
      */
     @Override
-    public void printDuplicate(Set<Animal> duplicateAnimals) {
+    public void printDuplicate() {
+        Set<Animal> duplicateAnimals = findDuplicate();
         if (!duplicateAnimals.isEmpty()) {
             System.out.println("Duplicate animals found:");
             for (Animal duplicateAnimal : duplicateAnimals) {
@@ -89,8 +94,17 @@ public class SearchServiceImpl implements SearchService {
         }
     }
 
-    // Проверяет, является ли указанный год високосным.
     private boolean isLeapYear(int year) {
         return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+    }
+
+    private void addAnimal(Animal animal) {
+        int index = 0;
+
+        if (index < animals.length) {
+            animals[index++] = animal;
+        } else {
+            System.out.println("Animal repository is full. Cannot add more animals.");
+        }
     }
 }
