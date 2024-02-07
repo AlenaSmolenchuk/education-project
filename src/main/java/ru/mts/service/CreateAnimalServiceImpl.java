@@ -8,19 +8,12 @@ import ru.mts.model.animalint.Animal;
  */
 public class CreateAnimalServiceImpl implements CreateAnimalService {
 
+    private String animalType;
+
     /**
      * Конструктор без параметров.
      */
     public CreateAnimalServiceImpl() {
-    }
-
-    /**
-     * Устанавливает тип животного.
-     *
-     * @param animalType тип животного
-     */
-    @Override
-    public void setAnimalType(String animalType) {
     }
 
     /**
@@ -40,5 +33,13 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
         } while (index < n);
 
         return uniqueAnimals;
+    }
+
+    public String getAnimalType() {
+        return animalType;
+    }
+
+    public void setAnimalType(String animalType) {
+        this.animalType = animalType;
     }
 }
