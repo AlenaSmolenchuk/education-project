@@ -11,13 +11,13 @@ import java.time.LocalDate;
  * Реализация фабрики для создания акул.
  */
 public class SharkFactory implements AnimalFactory {
+
     /**
      * Создает случайный объект акулы с указанной вероятностью генерации дубликата.
      *
      * @return Случайно сгенерированный объект акулы или дубликат объекта акулы в зависимости от вероятности.
      */
-    @Override
-    public Animal createRandomAnimal() {
+    public Animal createRandomShark() {
 
         double duplicateProbability = 0.7;
 

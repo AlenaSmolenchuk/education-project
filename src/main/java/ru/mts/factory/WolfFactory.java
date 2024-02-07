@@ -17,8 +17,7 @@ public class WolfFactory implements AnimalFactory {
      *
      * @return Случайно сгенерированный объект волка или дубликат объекта волка в зависимости от вероятности.
      */
-    @Override
-    public Animal createRandomAnimal() {
+    public Animal createRandomWolf() {
 
         double duplicateProbability = 0.9;
 
