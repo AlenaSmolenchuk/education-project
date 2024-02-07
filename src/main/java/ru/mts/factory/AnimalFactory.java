@@ -25,9 +25,9 @@ public interface AnimalFactory {
         };
     }
 
+    // Генерация случайной даты в пределах последних 20 лет
     default LocalDate generateRandomDateOfBirth() {
 
-        // Генерация случайной даты в пределах последних 20 лет
         long minDay = LocalDate.now().minusYears(20).toEpochDay();
         long maxDay = LocalDate.now().toEpochDay();
         long randomDay = minDay + (long) (Math.random() * (maxDay - minDay));

@@ -15,6 +15,11 @@ public interface CreateAnimalService {
      */
     Animal[] createAnimals(int n);
 
+    /**
+     * Устанавливает тип животного для последующего создания.
+     *
+     * @param animalType тип животного, который будет использоваться при создании
+     */
     void setAnimalType(String animalType);
 
 }

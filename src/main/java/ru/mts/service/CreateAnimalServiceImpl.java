@@ -1,23 +1,26 @@
 package ru.mts.service;
 
-import org.springframework.context.annotation.Scope;
 import ru.mts.factory.AnimalFactory;
 import ru.mts.model.animalint.Animal;
 
 /**
- * Реализация интерфейса CreateAnimalService и AnimalFactory для создания животных.
+ * Реализация интерфейса CreateAnimalService для создания животных.
  */
-@Scope("prototype")
 public class CreateAnimalServiceImpl implements CreateAnimalService {
 
-    private String animalType;
-
+    /**
+     * Конструктор без параметров.
+     */
     public CreateAnimalServiceImpl() {
     }
 
+    /**
+     * Устанавливает тип животного.
+     *
+     * @param animalType тип животного
+     */
     @Override
     public void setAnimalType(String animalType) {
-        this.animalType = animalType;
     }
 
     /**
@@ -26,6 +29,7 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
      * @param n количество животных для создания
      * @return список созданных животных
      */
+    @Override
     public Animal[] createAnimals(int n) {
 
         Animal[] uniqueAnimals = new Animal[n];

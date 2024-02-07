@@ -11,15 +11,28 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Реализация интерфейса AnimalsRepository для хранения и обработки информации о животных.
+ */
 public class AnimalsRepositoryImpl implements AnimalsRepository {
 
     private final CreateAnimalService createAnimalService;
     private Animal[] animals;
 
+    /**
+     * Конструктор класса, принимающий на вход сервис для создания животных.
+     *
+     * @param createAnimalService сервис для создания животных
+     */
     public AnimalsRepositoryImpl(CreateAnimalService createAnimalService) {
         this.createAnimalService = createAnimalService;
     }
 
+    /**
+     * Метод инициализации животных при старте приложения.
+     * Создает 10 животных при помощи сервиса для создания животных.
+     * Выводит информацию о созданных животных в консоль.
+     */
     @PostConstruct
     public void initAnimals() {
         System.out.println("Creating animals:");
@@ -33,6 +46,11 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
         Main.printAnimals(animals);
     }
 
+    /**
+     * Метод поиска имен животных, родившихся в високосные годы.
+     *
+     * @return массив имен животных, родившихся в високосные годы
+     */
     @Override
     public String[] findLeapYearNames() {
         List<String> leapYearNames = new ArrayList<>();
@@ -45,6 +63,12 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
         return leapYearNames.toArray(new String[0]);
     }
 
+    /**
+     * Метод поиска животных, старше заданного возраста.
+     *
+     * @param age заданный возраст для поиска
+     * @return массив животных, старше заданного возраста
+     */
     @Override
     public Animal[] findOlderAnimal(int age) {
         List<Animal> olderAnimals = new ArrayList<>();
@@ -59,6 +83,11 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
         return olderAnimals.toArray(new Animal[0]);
     }
 
+    /**
+     * Метод поиска дубликатов животных в хранилище.
+     *
+     * @return множество дубликатов животных
+     */
     @Override
     public Set<Animal> findDuplicate() {
         Set<Animal> uniqueAnimals = new HashSet<>();
@@ -74,7 +103,8 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
     }
 
     /**
-     * Выводит на экран дубликаты животных из множества.
+     * Метод вывода дубликатов животных в консоль.
+     * Если дубликаты отсутствуют, выводит соответствующее сообщение.
      */
     @Override
     public void printDuplicate() {
@@ -89,10 +119,12 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
         }
     }
 
+    // Вспомогательный метод для определения високосного года
     private boolean isLeapYear(int year) {
         return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
     }
 
+    // Вспомогательный метод для добавления животного в хранилище
     private void addAnimal(Animal animal) {
         int index = 0;
 
