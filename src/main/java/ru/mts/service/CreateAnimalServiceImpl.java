@@ -12,7 +12,7 @@ import ru.mts.model.animalint.Animal;
  * Реализация интерфейса CreateAnimalService и AnimalFactory для создания животных.
  */
 @Scope("prototype")
-public class CreateAnimalServiceImpl implements CreateAnimalService, AnimalFactory {
+public class CreateAnimalServiceImpl implements CreateAnimalService {
 
     private String animalType;
     private final AnimalFactory animalFactory;
@@ -38,15 +38,10 @@ public class CreateAnimalServiceImpl implements CreateAnimalService, AnimalFacto
         int index = 0;
 
         do {
-            uniqueAnimals[index++] = createRandomAnimal();
+            uniqueAnimals[index++] = animalFactory.createRandomAnimal();
         } while (index < n);
 
         return uniqueAnimals;
-    }
-
-    @Override
-    public Animal createRandomAnimal() {
-        return animalFactory.createRandomAnimal();
     }
 
     public static class AnimalFactoryImpl implements AnimalFactory {
