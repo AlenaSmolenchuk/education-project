@@ -5,6 +5,7 @@ import ru.mts.model.animalint.Animal;
 /**
  * Реализация интерфейса CreateAnimalService предоставляет методы для создания уникальных животных.
  */
+
 public interface CreateAnimalService {
 
     /**
@@ -13,5 +14,12 @@ public interface CreateAnimalService {
      * @return массив созданных животных
      */
     Animal[] createAnimals(int n);
+
+    /**
+     * Устанавливает тип животного для последующего создания.
+     *
+     * @param animalType тип животного, который будет использоваться при создании
+     */
+    void setAnimalType(String animalType);
 
 }

@@ -11,13 +11,13 @@ import java.time.LocalDate;
  * Реализация фабрики для создания собак.
  */
 public class DogFactory implements AnimalFactory {
+
     /**
      * Создает случайный объект собаки с указанной вероятностью генерации дубликата.
      *
      * @return Случайно сгенерированный объект собаки или дубликат объекта собаки в зависимости от вероятности.
      */
-    @Override
-    public Animal createRandomAnimal() {
+    public Animal createRandomDog() {
 
         double duplicateProbability = 0.8;
 
