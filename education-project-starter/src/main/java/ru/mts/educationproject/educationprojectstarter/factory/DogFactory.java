@@ -1,7 +1,6 @@
 package ru.mts.educationproject.educationprojectstarter.factory;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import ru.mts.educationproject.educationprojectstarter.model.animalcharacter.AnimalCharacter;
 import ru.mts.educationproject.educationprojectstarter.model.animalint.Animal;
 import ru.mts.educationproject.educationprojectstarter.model.animals.Dog;
@@ -13,18 +12,24 @@ import java.time.LocalDate;
 /**
  * Реализация фабрики для создания собак.
  */
-@Component
 public class DogFactory implements AnimalFactory {
 
     @Value("${animal.dog.names}")
     private  String dogNames;
+
+    public DogFactory() {
+    }
 
     /**
      * Создает случайный объект собаки с указанной вероятностью генерации дубликата.
      *
      * @return Случайно сгенерированный объект собаки или дубликат объекта собаки в зависимости от вероятности.
      */
+
     @PostConstruct
+    public void init(){
+        System.out.println(dogNames);
+    }
     public Animal createRandomDog() {
 
         double duplicateProbability = 0.8;
