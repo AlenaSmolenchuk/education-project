@@ -12,6 +12,7 @@ import java.time.LocalDate;
 /**
  * Реализация фабрики для создания волков.
  */
+@Component
 public class WolfFactory implements AnimalFactory {
 
     @Value("${animal.wolf.names}")

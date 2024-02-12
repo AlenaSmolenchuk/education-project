@@ -30,37 +30,6 @@ public class AnimalStarterConfiguration {
                                                    AnimalFactory dogFactory,
                                                    AnimalFactory sharkFactory) {
         return new CreateAnimalServiceImpl((WolfFactory) wolfFactory,
-                (DogFactory) dogFactory,
-                (SharkFactory) sharkFactory);
-    }
-
-    /**
-     * Создает и возвращает экземпляр фабрики для создания волков.
-     *
-     * @return экземпляр AnimalFactory
-     */
-    @Bean
-    public WolfFactory wolfFactory() {
-        return new WolfFactory();
-    }
-
-    /**
-     * Создает и возвращает экземпляр фабрики для создания собак.
-     *
-     * @return экземпляр DogFactory
-     */
-    @Bean
-    public DogFactory dogFactory() {
-        return new DogFactory();
-    }
-
-    /**
-     * Создает и возвращает экземпляр фабрики для создания акул.
-     *
-     * @return экземпляр SharkFactory
-     */
-    @Bean
-    public SharkFactory sharkFactory() {
-        return new SharkFactory();
+                (DogFactory) dogFactory, (SharkFactory) sharkFactory);
     }
 }

@@ -1,6 +1,5 @@
 package ru.mts.educationproject.educationprojectstarter.factory;
 
-import org.springframework.stereotype.Component;
 import ru.mts.educationproject.educationprojectstarter.model.animalint.Animal;
 
 import java.time.LocalDate;
