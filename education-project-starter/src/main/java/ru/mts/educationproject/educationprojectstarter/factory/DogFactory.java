@@ -12,6 +12,7 @@ import java.time.LocalDate;
 /**
  * Реализация фабрики для создания собак.
  */
+@Component
 public class DogFactory implements AnimalFactory {
 
     @Value("${animal.dog.names}")
@@ -22,16 +23,15 @@ public class DogFactory implements AnimalFactory {
      *
      * @return Случайно сгенерированный объект собаки или дубликат объекта собаки в зависимости от вероятности.
      */
+    @Override
+    public Animal createRandomAnimal() {
 
-    public Animal createRandomDog() {
-
-        double duplicateProbability = 0.8;
+        double duplicateProbability = 0.6;
 
         if (Math.random() < duplicateProbability) {
             return createDuplicate();
         } else {
             String name = getRandomName(dogNames);
-            System.out.println(name);
             BigDecimal cost = BigDecimal.valueOf(Math.random() * 1000);
             AnimalCharacter randomCharacter = AnimalCharacter.values()
                     [(int) (Math.random() * AnimalCharacter.values().length)];
@@ -40,7 +40,6 @@ public class DogFactory implements AnimalFactory {
             return new Dog(name, cost, randomCharacter, dateOfBirth);
         }
     }
-
 
     // Создает дубликат объекта собаки с предопределенными значениями.
     private Dog createDuplicate() {

@@ -24,9 +24,10 @@ public class SharkFactory implements AnimalFactory {
      *
      * @return Случайно сгенерированный объект акулы или дубликат объекта акулы в зависимости от вероятности.
      */
-    public Animal createRandomShark() {
+    @Override
+    public Animal createRandomAnimal() {
 
-        double duplicateProbability = 0.7;
+        double duplicateProbability = 0.4;
 
         if (Math.random() < duplicateProbability) {
             return createDuplicate();
@@ -40,7 +41,6 @@ public class SharkFactory implements AnimalFactory {
             return new Shark(name, cost, randomCharacter, dateOfBirth);
         }
     }
-
 
     // Создает дубликат объекта акулы с предопределенными значениями.
     private Shark createDuplicate() {

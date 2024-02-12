@@ -23,9 +23,10 @@ public class WolfFactory implements AnimalFactory {
      *
      * @return Случайно сгенерированный объект волка или дубликат объекта волка в зависимости от вероятности.
      */
-    public Animal createRandomWolf() {
+    @Override
+    public Animal createRandomAnimal() {
 
-        double duplicateProbability = 0.9;
+        double duplicateProbability = 0.5;
 
         if (Math.random() < duplicateProbability) {
             return createDuplicate();
@@ -39,7 +40,6 @@ public class WolfFactory implements AnimalFactory {
             return new Wolf(name, cost, randomCharacter, dateOfBirth);
         }
     }
-
 
     // Создает дубликат объекта волка с предопределенными значениями.
     private Wolf createDuplicate() {

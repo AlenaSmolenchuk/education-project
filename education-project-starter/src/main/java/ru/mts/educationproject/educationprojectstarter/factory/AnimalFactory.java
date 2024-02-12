@@ -1,6 +1,5 @@
 package ru.mts.educationproject.educationprojectstarter.factory;
 
-import org.springframework.stereotype.Component;
 import ru.mts.educationproject.educationprojectstarter.model.animalint.Animal;
 
 import java.time.LocalDate;
@@ -8,28 +7,14 @@ import java.time.LocalDate;
 /**
  * Объявление интерфейса фабрики для создания животных.
  */
-@Component
 public interface AnimalFactory {
-
-    default String getRandomName(String[] names) {
-        return names[(int) (Math.random() * names.length)];
-    }
 
     /**
      * Создает случайное животное.
      *
      * @return случайное животное
      */
-    static Animal createRandomAnimal() {
-        String[] breeds = {"Wolf", "Shark", "Dog"};
-        String breed = breeds[(int) (Math.random() * breeds.length)];
-        return switch (breed) {
-            case "Wolf" -> new WolfFactory().createRandomWolf();
-            case "Shark" -> new SharkFactory().createRandomShark();
-            case "Dog" -> new DogFactory().createRandomDog();
-            default -> throw new IllegalArgumentException("Unknown breed: " + breed);
-        };
-    }
+    Animal createRandomAnimal();
 
     // Генерация случайной даты в пределах последних 20 лет
     default LocalDate generateRandomDateOfBirth() {
@@ -39,5 +24,10 @@ public interface AnimalFactory {
         long randomDay = minDay + (long) (Math.random() * (maxDay - minDay));
 
         return LocalDate.ofEpochDay(randomDay);
+    }
+
+    // Выбор случайного имени из массива
+    default String getRandomName(String[] names) {
+        return names[(int) (Math.random() * names.length)];
     }
 }

@@ -1,6 +1,5 @@
 package ru.mts.educationproject.educationprojectstarter.service;
 
-import org.springframework.stereotype.Component;
 import ru.mts.educationproject.educationprojectstarter.model.animalint.Animal;
 
 /**

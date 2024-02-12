@@ -1,26 +1,29 @@
 package ru.mts.educationproject.educationprojectstarter.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import ru.mts.educationproject.educationprojectstarter.factory.AnimalFactory;
 import ru.mts.educationproject.educationprojectstarter.model.animalint.Animal;
+
+import java.util.List;
 
 /**
  * Реализация интерфейса CreateAnimalService для создания животных.
  */
 public class CreateAnimalServiceImpl implements CreateAnimalService {
 
-    private final AnimalFactory wolfFactory;
-    private final AnimalFactory dogFactory;
-    private final AnimalFactory sharkFactory;
-
+    private final List<AnimalFactory> factories;
     private String animalType;
 
+    /**
+     * Конструктор сервиса для создания животных.
+     *
+     * @param wolfFactory Фабрика для создания волков.
+     * @param dogFactory Фабрика для создания собак.
+     * @param sharkFactory Фабрика для создания акул.
+     */
     public CreateAnimalServiceImpl(AnimalFactory wolfFactory,
                                    AnimalFactory dogFactory,
                                    AnimalFactory sharkFactory) {
-        this.wolfFactory = wolfFactory;
-        this.dogFactory = dogFactory;
-        this.sharkFactory = sharkFactory;
+        this.factories = List.of(wolfFactory,dogFactory,sharkFactory);
     }
 
     /**
@@ -36,7 +39,7 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
         int index = 0;
 
         do {
-            uniqueAnimals[index++] = AnimalFactory.createRandomAnimal();
+            uniqueAnimals[index++] = factories.get(index % factories.size()).createRandomAnimal();
         } while (index < n);
 
         return uniqueAnimals;
@@ -46,8 +49,8 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
         return animalType;
     }
 
+    //Устанавливает тип животного
     public void setAnimalType(String animalType) {
         this.animalType = animalType;
     }
-
 }
