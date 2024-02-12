@@ -1,4 +1,4 @@
-package ru.mts.model.animalcharacter;
+package ru.mts.educationproject.educationprojectstarter.model.animalcharacter;
 
 /**
  * Перечисление, представляющее характер животных.

@@ -1,8 +1,10 @@
-package ru.mts.factory;
+package ru.mts.educationproject.educationprojectstarter.factory;
 
-import ru.mts.model.animalcharacter.AnimalCharacter;
-import ru.mts.model.animalint.Animal;
-import ru.mts.model.animals.Shark;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+import ru.mts.educationproject.educationprojectstarter.model.animalcharacter.AnimalCharacter;
+import ru.mts.educationproject.educationprojectstarter.model.animalint.Animal;
+import ru.mts.educationproject.educationprojectstarter.model.animals.Shark;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -10,21 +12,25 @@ import java.time.LocalDate;
 /**
  * Реализация фабрики для создания акул.
  */
+@Component
 public class SharkFactory implements AnimalFactory {
+
+    @Value("${animal.shark.names}")
+    private String sharkNames;
+
     /**
      * Создает случайный объект акулы с указанной вероятностью генерации дубликата.
      *
      * @return Случайно сгенерированный объект акулы или дубликат объекта акулы в зависимости от вероятности.
      */
-    @Override
-    public Animal createRandomAnimal() {
+    public Animal createRandomShark() {
 
-        double duplicateProbability = 0.6;
+        double duplicateProbability = 0.7;
 
         if (Math.random() < duplicateProbability) {
             return createDuplicate();
         } else {
-            String name = "Shark" + System.currentTimeMillis();
+            String name = getRandomName(sharkNames);
             BigDecimal cost = BigDecimal.valueOf(Math.random() * 1000);
             AnimalCharacter randomCharacter = AnimalCharacter.values()
                     [(int) (Math.random() * AnimalCharacter.values().length)];

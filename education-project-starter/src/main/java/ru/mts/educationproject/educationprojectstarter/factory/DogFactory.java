@@ -1,30 +1,39 @@
-package ru.mts.factory;
+package ru.mts.educationproject.educationprojectstarter.factory;
 
-import ru.mts.model.animalcharacter.AnimalCharacter;
-import ru.mts.model.animalint.Animal;
-import ru.mts.model.animals.Dog;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+import ru.mts.educationproject.educationprojectstarter.model.animalcharacter.AnimalCharacter;
+import ru.mts.educationproject.educationprojectstarter.model.animalint.Animal;
+import ru.mts.educationproject.educationprojectstarter.model.animals.Dog;
 
+import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 /**
  * Реализация фабрики для создания собак.
  */
+@Component
 public class DogFactory implements AnimalFactory {
+
+    @Value("${animal.dog.names}")
+    private  String dogNames;
+
     /**
      * Создает случайный объект собаки с указанной вероятностью генерации дубликата.
      *
      * @return Случайно сгенерированный объект собаки или дубликат объекта собаки в зависимости от вероятности.
      */
-    @Override
-    public Animal createRandomAnimal() {
+    @PostConstruct
+    public Animal createRandomDog() {
 
         double duplicateProbability = 0.8;
 
         if (Math.random() < duplicateProbability) {
             return createDuplicate();
         } else {
-            String name = "Dog" + System.currentTimeMillis();
+            String name = getRandomName(dogNames);
+            System.out.println(name);
             BigDecimal cost = BigDecimal.valueOf(Math.random() * 1000);
             AnimalCharacter randomCharacter = AnimalCharacter.values()
                     [(int) (Math.random() * AnimalCharacter.values().length)];

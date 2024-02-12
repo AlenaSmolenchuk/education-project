@@ -1,12 +1,12 @@
-package ru.mts.model.animalint;
+package ru.mts.educationproject.educationprojectstarter.model.animalint;
 
-import ru.mts.model.animalcharacter.AnimalCharacter;
+import ru.mts.educationproject.educationprojectstarter.model.animalcharacter.AnimalCharacter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 /**
- * Реализация интерфейса Animal представляет общие методы для всех животных.
+ * Объявление интерфейса Animal представляет общие методы для всех животных.
  */
 public interface Animal {
 

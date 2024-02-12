@@ -1,6 +1,6 @@
-package ru.mts.model.animaltypes;
+package ru.mts.educationproject.educationprojectstarter.model.animaltypes;
 
-import ru.mts.model.animalcharacter.AnimalCharacter;
+import ru.mts.educationproject.educationprojectstarter.model.animalcharacter.AnimalCharacter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
