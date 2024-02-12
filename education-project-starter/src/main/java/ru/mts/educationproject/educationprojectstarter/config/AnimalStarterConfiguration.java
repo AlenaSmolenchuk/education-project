@@ -5,9 +5,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.Scope;
 import ru.mts.educationproject.educationprojectstarter.factory.AnimalFactory;
-import ru.mts.educationproject.educationprojectstarter.factory.DogFactory;
-import ru.mts.educationproject.educationprojectstarter.factory.SharkFactory;
-import ru.mts.educationproject.educationprojectstarter.factory.WolfFactory;
 import ru.mts.educationproject.educationprojectstarter.service.CreateAnimalService;
 import ru.mts.educationproject.educationprojectstarter.service.CreateAnimalServiceImpl;
 
@@ -29,7 +26,6 @@ public class AnimalStarterConfiguration {
     public CreateAnimalService createAnimalService(AnimalFactory wolfFactory,
                                                    AnimalFactory dogFactory,
                                                    AnimalFactory sharkFactory) {
-        return new CreateAnimalServiceImpl((WolfFactory) wolfFactory,
-                (DogFactory) dogFactory, (SharkFactory) sharkFactory);
+        return new CreateAnimalServiceImpl(wolfFactory, dogFactory, sharkFactory);
     }
 }

@@ -16,7 +16,7 @@ import java.time.LocalDate;
 public class SharkFactory implements AnimalFactory {
 
     @Value("${animal.shark.names}")
-    private String sharkNames;
+    private String[] sharkNames;
 
 
     /**

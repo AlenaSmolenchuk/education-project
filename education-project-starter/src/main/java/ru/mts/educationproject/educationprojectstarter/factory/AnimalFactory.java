@@ -1,5 +1,6 @@
 package ru.mts.educationproject.educationprojectstarter.factory;
 
+import org.springframework.stereotype.Component;
 import ru.mts.educationproject.educationprojectstarter.model.animalint.Animal;
 
 import java.time.LocalDate;
@@ -7,10 +8,10 @@ import java.time.LocalDate;
 /**
  * Объявление интерфейса фабрики для создания животных.
  */
+@Component
 public interface AnimalFactory {
 
-    default String getRandomName(String namesString) {
-        String[] names = namesString.split(",");
+    default String getRandomName(String[] names) {
         return names[(int) (Math.random() * names.length)];
     }
 

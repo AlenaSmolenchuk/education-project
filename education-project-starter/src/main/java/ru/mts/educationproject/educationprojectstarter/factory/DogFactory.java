@@ -12,11 +12,10 @@ import java.time.LocalDate;
 /**
  * Реализация фабрики для создания собак.
  */
-@Component
 public class DogFactory implements AnimalFactory {
 
     @Value("${animal.dog.names}")
-    private  String dogNames;
+    private  String[] dogNames;
 
     /**
      * Создает случайный объект собаки с указанной вероятностью генерации дубликата.

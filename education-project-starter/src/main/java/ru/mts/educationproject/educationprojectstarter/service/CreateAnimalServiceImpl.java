@@ -1,28 +1,23 @@
 package ru.mts.educationproject.educationprojectstarter.service;
 
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
 import ru.mts.educationproject.educationprojectstarter.factory.AnimalFactory;
-import ru.mts.educationproject.educationprojectstarter.factory.DogFactory;
-import ru.mts.educationproject.educationprojectstarter.factory.SharkFactory;
-import ru.mts.educationproject.educationprojectstarter.factory.WolfFactory;
 import ru.mts.educationproject.educationprojectstarter.model.animalint.Animal;
 
 /**
  * Реализация интерфейса CreateAnimalService для создания животных.
  */
-@Component
 public class CreateAnimalServiceImpl implements CreateAnimalService {
 
-    private final WolfFactory wolfFactory;
-    private final DogFactory dogFactory;
-    private final SharkFactory sharkFactory;
+    private final AnimalFactory wolfFactory;
+    private final AnimalFactory dogFactory;
+    private final AnimalFactory sharkFactory;
 
     private String animalType;
 
-
-    public CreateAnimalServiceImpl(WolfFactory wolfFactory,
-                                   DogFactory dogFactory,
-                                   SharkFactory sharkFactory) {
+    public CreateAnimalServiceImpl(AnimalFactory wolfFactory,
+                                   AnimalFactory dogFactory,
+                                   AnimalFactory sharkFactory) {
         this.wolfFactory = wolfFactory;
         this.dogFactory = dogFactory;
         this.sharkFactory = sharkFactory;

@@ -16,7 +16,7 @@ import java.time.LocalDate;
 public class WolfFactory implements AnimalFactory {
 
     @Value("${animal.wolf.names}")
-    private String wolfNames;
+    private String[] wolfNames;
 
     /**
      * Создает случайный объект волка с указанной вероятностью генерации дубликата.
