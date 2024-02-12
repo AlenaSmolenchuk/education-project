@@ -5,7 +5,6 @@ import ru.mts.educationproject.educationprojectstarter.model.animalcharacter.Ani
 import ru.mts.educationproject.educationprojectstarter.model.animalint.Animal;
 import ru.mts.educationproject.educationprojectstarter.model.animals.Dog;
 
-import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -26,10 +25,6 @@ public class DogFactory implements AnimalFactory {
      * @return Случайно сгенерированный объект собаки или дубликат объекта собаки в зависимости от вероятности.
      */
 
-    @PostConstruct
-    public void init(){
-        System.out.println(dogNames);
-    }
     public Animal createRandomDog() {
 
         double duplicateProbability = 0.8;
