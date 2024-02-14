@@ -2,7 +2,6 @@ package ru.mts.educationproject.educationprojectstarter.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.Scope;
 import ru.mts.educationproject.educationprojectstarter.factory.AnimalFactory;
 import ru.mts.educationproject.educationprojectstarter.service.CreateAnimalService;
@@ -13,7 +12,6 @@ import ru.mts.educationproject.educationprojectstarter.service.CreateAnimalServi
  * Конфигурационный класс Spring приложения для определения бинов.
  */
 @Configuration
-@PropertySource(value = "classpath:application.properties")
 public class AnimalStarterConfiguration {
 
     /**
