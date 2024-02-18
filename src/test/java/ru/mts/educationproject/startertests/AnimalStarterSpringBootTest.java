@@ -1,0 +1,80 @@
+package ru.mts.educationproject.startertests;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import ru.mts.educationproject.config.TestConfig;
+import ru.mts.educationproject.educationprojectstarter.factory.AnimalFactory;
+import ru.mts.educationproject.educationprojectstarter.model.animalint.Animal;
+import ru.mts.educationproject.educationprojectstarter.service.CreateAnimalService;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
+
+@SpringBootTest(classes = TestConfig.class)
+@ActiveProfiles("test")
+public class AnimalStarterSpringBootTest {
+
+    @Autowired
+    private CreateAnimalService createAnimalService;
+
+    @Autowired
+    private AnimalFactory wolfFactory;
+
+    @Autowired
+    private AnimalFactory dogFactory;
+
+    @Autowired
+    private AnimalFactory sharkFactory;
+
+    @Test
+    public void testCreateAnimalsWithDifferentTypes() {
+        Animal[] animals = createAnimalService.createAnimals(5);
+
+                assertThat(animals).isNotNull().hasSize(5);
+        for (Animal animal : animals) {
+            assertThat(animal).isInstanceOfAny(
+                    wolfFactory.createRandomAnimal().getClass(),
+                    dogFactory.createRandomAnimal().getClass(),
+                    sharkFactory.createRandomAnimal().getClass()
+            );
+        }
+    }
+
+    @Test
+    public void testCustomizeWolfNames() {
+        String animalType = "Wolf";
+        Animal animal = createAnimalService.createRandomAnimalByType(animalType);
+        assertAll(
+                () -> assertThat(animal).isNotNull(),
+                () -> assertThat(animal.getName()).isIn("wulf","walf","wolf")
+        );
+
+    }
+
+    @Test
+    public void testInitializeAnimalType() {
+        String animalType = createAnimalService.initializeAnimalType();
+
+        assertThat(animalType).isNotNull().isIn("Wolf", "Shark", "Dog");
+    }
+
+    @Test
+    public void testCreateAnimalWithUnknownType() {
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> createAnimalService.createRandomAnimalByType("cat"));
+
+        assertThat(exception.getMessage()).isEqualTo("Unknown animal type: cat");
+    }
+
+    @Test
+    public void testCreateAnimalWithEmptyType() {
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> createAnimalService.createRandomAnimalByType(" "));
+
+        assertThat(exception.getMessage()).isEqualTo("Unknown animal type:  ");
+    }
+}
