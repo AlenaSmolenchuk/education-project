@@ -30,9 +30,10 @@ public class AnimalStarterSpringBootTest {
     public void testCreateAnimalsWithDifferentTypes() {
         Animal[] animals = createAnimalService.createAnimals(5);
 
-                assertThat(animals)
-                        .isNotNull()
-                        .hasSize(5);
+        assertAll(
+                () -> assertThat(animals).isNotNull(),
+                () -> assertThat(animals).hasSize(5)
+        );
 
         for (Animal animal : animals) {
             assertThat(animal).isInstanceOfAny(
@@ -47,6 +48,7 @@ public class AnimalStarterSpringBootTest {
     public void testCustomizeWolfNames() {
         String animalType = "Wolf";
         Animal animal = createAnimalService.createRandomAnimalByType(animalType);
+
         assertAll(
                 () -> assertThat(animal).isNotNull(),
                 () -> assertThat(animal.getName().toLowerCase()).isIn("wulf","walf","wolf")
@@ -58,9 +60,10 @@ public class AnimalStarterSpringBootTest {
     public void testInitializeAnimalType() {
         String animalType = createAnimalService.initializeAnimalType();
 
-        assertThat(animalType)
-                .isNotNull()
-                .isIn("Wolf", "Shark", "Dog");
+        assertAll(
+                () -> assertThat(animalType).isNotNull(),
+                () -> assertThat(animalType).isIn("Wolf", "Shark", "Dog")
+        );
     }
 
     @Test
