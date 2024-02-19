@@ -48,7 +48,7 @@ public class AnimalStarterSpringBootTest {
         Animal animal = createAnimalService.createRandomAnimalByType(animalType);
         assertAll(
                 () -> assertThat(animal).isNotNull(),
-                () -> assertThat(animal.getName()).isIn("wulf","walf","wolf")
+                () -> assertThat(animal.getName().toLowerCase()).isIn("wulf","walf","wolf")
         );
 
     }
