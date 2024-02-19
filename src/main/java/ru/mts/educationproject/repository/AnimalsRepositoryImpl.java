@@ -27,6 +27,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
         this.createAnimalService = createAnimalService;
     }
 
+
     /**
      * Метод инициализации животных при старте приложения.
      * Создает 5 животных при помощи сервиса для создания животных.
