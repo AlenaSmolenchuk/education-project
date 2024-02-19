@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class CreateAnimalServiceImpl implements CreateAnimalService {
 
-    private List<AnimalFactory> factories;
+    private final List<AnimalFactory> factories;
     private String animalType;
 
     /**
@@ -24,9 +24,6 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
                                    AnimalFactory dogFactory,
                                    AnimalFactory sharkFactory) {
         this.factories = List.of(wolfFactory, dogFactory, sharkFactory);
-    }
-    public CreateAnimalServiceImpl() {
-
     }
 
     /**
