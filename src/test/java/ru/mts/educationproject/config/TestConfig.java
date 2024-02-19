@@ -1,5 +1,6 @@
 package ru.mts.educationproject.config;
 
+import org.mockito.Mockito;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
@@ -10,6 +11,11 @@ import ru.mts.educationproject.repository.AnimalsRepositoryImpl;
 @TestConfiguration
 @Profile("test")
 public class TestConfig {
+
+    @Bean
+    public CreateAnimalService createAnimalService() {
+        return Mockito.mock(CreateAnimalService.class);
+    }
 
     @Bean
     public AnimalsRepository animalsRepository(CreateAnimalService createAnimalService) {

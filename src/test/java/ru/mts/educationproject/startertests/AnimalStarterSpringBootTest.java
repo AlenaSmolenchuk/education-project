@@ -3,7 +3,6 @@ package ru.mts.educationproject.startertests;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 import ru.mts.educationproject.config.TestConfig;
 import ru.mts.educationproject.educationprojectstarter.factory.AnimalFactory;
 import ru.mts.educationproject.educationprojectstarter.model.animalint.Animal;
@@ -13,7 +12,6 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(classes = TestConfig.class)
-@ActiveProfiles("test")
 public class AnimalStarterSpringBootTest {
 
     @Autowired
@@ -32,7 +30,10 @@ public class AnimalStarterSpringBootTest {
     public void testCreateAnimalsWithDifferentTypes() {
         Animal[] animals = createAnimalService.createAnimals(5);
 
-                assertThat(animals).isNotNull().hasSize(5);
+                assertThat(animals)
+                        .isNotNull()
+                        .hasSize(5);
+
         for (Animal animal : animals) {
             assertThat(animal).isInstanceOfAny(
                     wolfFactory.createRandomAnimal().getClass(),
@@ -57,7 +58,9 @@ public class AnimalStarterSpringBootTest {
     public void testInitializeAnimalType() {
         String animalType = createAnimalService.initializeAnimalType();
 
-        assertThat(animalType).isNotNull().isIn("Wolf", "Shark", "Dog");
+        assertThat(animalType)
+                .isNotNull()
+                .isIn("Wolf", "Shark", "Dog");
     }
 
     @Test

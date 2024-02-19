@@ -41,8 +41,6 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
         Animal[] uniqueAnimals = new Animal[n];
         int index = 0;
         do {
-//            uniqueAnimals[index++] = factories.get(index % factories.size()).createRandomAnimal();
-
             uniqueAnimals[index++] = createRandomAnimalByType(initializeAnimalType());
         } while (index < n);
 
