@@ -1,38 +1,22 @@
 package ru.mts.educationproject.config;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
-import ru.mts.educationproject.educationprojectstarter.factory.DogFactory;
-import ru.mts.educationproject.educationprojectstarter.factory.SharkFactory;
-import ru.mts.educationproject.educationprojectstarter.factory.WolfFactory;
+import ru.mts.educationproject.educationprojectstarter.service.CreateAnimalService;
+import ru.mts.educationproject.repository.AnimalsRepository;
+import ru.mts.educationproject.testrepo.TestAnimalsRepositoryImpl;
 
 @TestConfiguration
 @Profile("test")
+@EnableConfigurationProperties(TestAnimalProperties.class)
 public class TestConfig {
 
-    @Value("${animal.wolf.names}")
-    private String[] wolfNames;
-
-    @Value("${animal.dog.names}")
-    private String[] dogNames;
-
-    @Value("${animal.shark.names}")
-    private String[] sharkNames;
-
     @Bean
-    public WolfFactory testWolfFactory() {
-        return new WolfFactory(wolfNames);
-    }
+    public AnimalsRepository animalsRepository(CreateAnimalService createAnimalService,
+                                               TestAnimalProperties testAnimalProperties) {
 
-    @Bean
-    public DogFactory testDogFactory() {
-        return new DogFactory(dogNames);
-    }
-
-    @Bean
-    public SharkFactory testSharkFactory() {
-        return new SharkFactory(sharkNames);
+        return new TestAnimalsRepositoryImpl(createAnimalService, testAnimalProperties);
     }
 }
