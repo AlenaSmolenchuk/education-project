@@ -20,13 +20,13 @@ public class AnimalStarterSpringBootTest {
     private CreateAnimalService createAnimalService;
 
     @Autowired
-    private AnimalFactory wolfFactory;
+    private WolfFactory testWolfFactory;
 
     @Autowired
-    private AnimalFactory dogFactory;
+    private DogFactory testDogFactory;
 
     @Autowired
-    private AnimalFactory sharkFactory;
+    private SharkFactory testSharkFactory;
 
     @Test
     public void testCreateAnimalsWithDifferentTypes() {
@@ -37,11 +37,11 @@ public class AnimalStarterSpringBootTest {
                 () -> assertThat(animals).hasSize(5)
         );
 
-        for (Animal animal : animals) {
+         for (Animal animal : animals) {
             assertThat(animal).isInstanceOfAny(
-                    wolfFactory.createRandomAnimal().getClass(),
-                    dogFactory.createRandomAnimal().getClass(),
-                    sharkFactory.createRandomAnimal().getClass()
+                    testWolfFactory.createRandomAnimal().getClass(),
+                    testDogFactory.createRandomAnimal().getClass(),
+                    testSharkFactory.createRandomAnimal().getClass()
             );
         }
     }
