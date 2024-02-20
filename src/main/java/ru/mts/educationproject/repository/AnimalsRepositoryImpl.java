@@ -15,7 +15,7 @@ import java.util.*;
 @Component
 public class AnimalsRepositoryImpl implements AnimalsRepository {
 
-    private final CreateAnimalService createAnimalService;
+    private  CreateAnimalService createAnimalService;
     private Animal[] animals;
 
     /**
@@ -26,7 +26,6 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
     public AnimalsRepositoryImpl(CreateAnimalService createAnimalService) {
         this.createAnimalService = createAnimalService;
     }
-
 
     /**
      * Метод инициализации животных при старте приложения.

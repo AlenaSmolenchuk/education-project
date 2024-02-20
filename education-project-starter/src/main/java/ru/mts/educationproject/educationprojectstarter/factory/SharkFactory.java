@@ -19,6 +19,12 @@ public class SharkFactory implements AnimalFactory {
     @Value("${animal.shark.names}")
     private String[] sharkNames;
 
+    public SharkFactory(String[] sharkNames) {
+        this.sharkNames = sharkNames;
+    }
+
+    public SharkFactory() {
+    }
 
     /**
      * Создает случайный объект акулы с указанной вероятностью генерации дубликата.

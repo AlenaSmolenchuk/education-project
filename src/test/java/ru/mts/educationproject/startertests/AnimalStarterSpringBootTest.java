@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import ru.mts.educationproject.config.TestConfig;
-import ru.mts.educationproject.educationprojectstarter.factory.AnimalFactory;
+import ru.mts.educationproject.educationprojectstarter.factory.DogFactory;
+import ru.mts.educationproject.educationprojectstarter.factory.SharkFactory;
+import ru.mts.educationproject.educationprojectstarter.factory.WolfFactory;
 import ru.mts.educationproject.educationprojectstarter.model.animalint.Animal;
 import ru.mts.educationproject.educationprojectstarter.service.CreateAnimalService;
 
@@ -20,13 +22,13 @@ public class AnimalStarterSpringBootTest {
     private CreateAnimalService createAnimalService;
 
     @Autowired
-    private AnimalFactory wolfFactory;
+    private WolfFactory testWolfFactory;
 
     @Autowired
-    private AnimalFactory dogFactory;
+    private DogFactory testDogFactory;
 
     @Autowired
-    private AnimalFactory sharkFactory;
+    private SharkFactory testSharkFactory;
 
     @Test
     public void testCreateAnimalsWithDifferentTypes() {
@@ -39,9 +41,9 @@ public class AnimalStarterSpringBootTest {
 
         for (Animal animal : animals) {
             assertThat(animal).isInstanceOfAny(
-                    wolfFactory.createRandomAnimal().getClass(),
-                    dogFactory.createRandomAnimal().getClass(),
-                    sharkFactory.createRandomAnimal().getClass()
+                    testWolfFactory.createRandomAnimal().getClass(),
+                    testDogFactory.createRandomAnimal().getClass(),
+                    testSharkFactory.createRandomAnimal().getClass()
             );
         }
     }
