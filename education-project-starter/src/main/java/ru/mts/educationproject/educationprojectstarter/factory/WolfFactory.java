@@ -19,6 +19,13 @@ public class WolfFactory implements AnimalFactory {
     @Value("${animal.wolf.names}")
     private String[] wolfNames;
 
+    public WolfFactory(String[] wolfNames) {
+        this.wolfNames = wolfNames;
+    }
+
+    public WolfFactory() {
+    }
+
     /**
      * Создает случайный объект волка с указанной вероятностью генерации дубликата.
      *
