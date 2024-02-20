@@ -37,7 +37,7 @@ public class AnimalStarterSpringBootTest {
         assertThat(animals).isNotNull();
         assertThat(animals).hasSize(5);
 
-        for (Animal animal : animals) {
+         for (Animal animal : animals) {
             assertThat(animal).isInstanceOfAny(
                     testWolfFactory.createRandomAnimal().getClass(),
                     testDogFactory.createRandomAnimal().getClass(),
