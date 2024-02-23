@@ -51,6 +51,7 @@ public class DogFactory implements AnimalFactory {
         }
     }
 
+
     // Создает дубликат объекта собаки с предопределенными значениями.
     private Dog createDuplicate() {
         AnimalBreed breed = AnimalBreed.BROWN;
