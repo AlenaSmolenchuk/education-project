@@ -1,0 +1,7 @@
+animal:
+  wolf:
+    names: wulf,walf,wolf
+  dog:
+    names: dug,dag,dog
+  shark:
+    names: shurk,shark,shork
