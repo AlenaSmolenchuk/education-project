@@ -59,8 +59,9 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
      */
     @Override
     public String initializeAnimalType() {
-        String[] availableTypes = {"Wolf", "Shark", "Dog"};
-        animalType = availableTypes[(int) (Math.random() * availableTypes.length)];
+        List<String> availableTypes = new ArrayList<>(List.of("Wolf", "Shark", "Dog"));
+
+        animalType = availableTypes.get((int) (Math.random() * availableTypes.size()));
 
         return animalType;
     }
