@@ -2,7 +2,8 @@ package ru.mts.educationproject.repository;
 
 import ru.mts.educationproject.educationprojectstarter.model.animalint.Animal;
 
-import java.util.Set;
+import java.util.*;
+import java.time.LocalDate;
 
 /**
  * Объявление интерфейса, представляющий репозиторий для работы с животными.
@@ -10,26 +11,26 @@ import java.util.Set;
 public interface AnimalsRepository {
 
     /**
-     * Возвращает массив имен животных, рожденных в високосные годы.
+     * Возвращает Map, где ключ - тип животного + имя, а значение - дата рождения животного.
      *
-     * @return массив строк с именами животных, рожденных в високосные годы.
+     * @return Map с ключами в виде типа животного + имя и значениями в виде даты рождения.
      */
-    String[] findLeapYearNames();
+    Map<String, LocalDate> findLeapYearNames();
 
     /**
-     * Возвращает массив животных, старше заданного возраста.
+     * Возвращает Map, где ключ - животное, а значение - возраст животного.
      *
      * @param age возраст, по отношению к которому производится поиск.
-     * @return массив животных, старше заданного возраста.
+     * @return Map с ключами в виде животных и значениями в возраста.
      */
-    Animal[] findOlderAnimal(int age);
+    Map<Animal, Integer> findOlderAnimals(int age);
 
     /**
      * Находит и возвращает множество дубликатов животных в репозитории.
      *
      * @return множество дубликатов животных.
      */
-    Set<Animal> findDuplicate();
+    Map<String, Integer> findDuplicate();
 
     /**
      * Выводит в консоль информацию о дубликатах животных в репозитории.

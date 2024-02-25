@@ -23,7 +23,7 @@ public class Dog extends Pet {
      * @param dateOfBirth дата рождения собаки
      */
     public Dog(AnimalBreed breed, String name, BigDecimal cost, AnimalCharacter character, LocalDate dateOfBirth) {
-        super(breed, name, cost, character, dateOfBirth);
+        super(breed, name, cost, character, dateOfBirth, "Dog");
     }
 
     @Override

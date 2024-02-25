@@ -11,6 +11,8 @@ import ru.mts.educationproject.educationprojectstarter.factory.WolfFactory;
 import ru.mts.educationproject.educationprojectstarter.model.animalint.Animal;
 import ru.mts.educationproject.educationprojectstarter.service.CreateAnimalService;
 
+import java.util.*;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -32,17 +34,19 @@ public class AnimalStarterSpringBootTest {
 
     @Test
     public void testCreateAnimalsWithDifferentTypes() {
-        Animal[] animals = createAnimalService.createAnimals(5);
+        Map<String, List<Animal>> animals = createAnimalService.createAnimals(5);
 
         assertThat(animals).isNotNull();
-        assertThat(animals).hasSize(5);
+        assertThat(animals.values().stream().mapToInt(List::size).sum()).isEqualTo(5);
 
-        for (Animal animal : animals) {
-            assertThat(animal).isInstanceOfAny(
-                    testWolfFactory.createRandomAnimal().getClass(),
-                    testDogFactory.createRandomAnimal().getClass(),
-                    testSharkFactory.createRandomAnimal().getClass()
-            );
+        for (List<Animal> animalList : animals.values()) {
+            for (Animal animal : animalList) {
+                assertThat(animal).isInstanceOfAny(
+                        testWolfFactory.createRandomAnimal().getClass(),
+                        testDogFactory.createRandomAnimal().getClass(),
+                        testSharkFactory.createRandomAnimal().getClass()
+                );
+            }
         }
     }
 

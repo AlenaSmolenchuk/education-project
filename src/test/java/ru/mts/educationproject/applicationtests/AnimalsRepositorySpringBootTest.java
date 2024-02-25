@@ -8,6 +8,9 @@ import ru.mts.educationproject.config.TestConfig;
 import ru.mts.educationproject.educationprojectstarter.model.animalint.Animal;
 import ru.mts.educationproject.repository.AnimalsRepository;
 
+import java.time.LocalDate;
+import java.util.Map;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -20,17 +23,17 @@ public class AnimalsRepositorySpringBootTest {
 
     @Test
     public void testFindLeapYearNames() {
-        String[] leapYearNames = animalsRepository.findLeapYearNames();
+        Map<String, LocalDate> leapYearNames = animalsRepository.findLeapYearNames();
         assertNotNull(leapYearNames);
-        assertTrue(leapYearNames.length > 0);
+        assertFalse(leapYearNames.isEmpty());
     }
 
     @Test
     public void testFindOlderAnimal() {
         int age = 1;
-        Animal[] olderAnimals = animalsRepository.findOlderAnimal(age);
+        Map<Animal, Integer> olderAnimals = animalsRepository.findOlderAnimals(age);
         assertNotNull(olderAnimals);
-        assertTrue(olderAnimals.length > 0);
+        assertFalse(olderAnimals.isEmpty());
     }
 
     @Test
@@ -43,7 +46,7 @@ public class AnimalsRepositorySpringBootTest {
         int age = 200;
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> animalsRepository.findOlderAnimal(age));
+                () -> animalsRepository.findOlderAnimals(age));
         assertThat(exception.getMessage()).isEqualTo("Unknown age format: 200");
     }
 
@@ -52,7 +55,7 @@ public class AnimalsRepositorySpringBootTest {
         int age = -5;
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> animalsRepository.findOlderAnimal(age));
+                () -> animalsRepository.findOlderAnimals(age));
         assertThat(exception.getMessage()).isEqualTo("Unknown age format: -5");
     }
 }

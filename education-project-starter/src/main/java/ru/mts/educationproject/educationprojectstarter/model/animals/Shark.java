@@ -22,7 +22,7 @@ public class Shark extends Predator {
      * @param dateOfBirth день рождения акулы
      */
     public Shark(AnimalBreed breed, String name, BigDecimal cost, AnimalCharacter character, LocalDate dateOfBirth) {
-        super(breed, name, cost, character, dateOfBirth);
+        super(breed, name, cost, character, dateOfBirth, "Shark");
     }
 
     @Override
