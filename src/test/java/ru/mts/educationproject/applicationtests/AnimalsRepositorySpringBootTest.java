@@ -164,7 +164,6 @@ public class AnimalsRepositorySpringBootTest {
                                 AnimalCharacter.AGGRESSIVE,
                                 LocalDate.of(2000, 1, 2)))
         );
-        testAnimals.put("Wolf", wolfList);
 
         List<Animal> dogList = new ArrayList<>(
                 List.of(new Dog(AnimalBreed.WHITE,
@@ -179,8 +178,6 @@ public class AnimalsRepositorySpringBootTest {
                                 LocalDate.of(1999, 5, 14)))
         );
 
-        testAnimals.put("Dog", dogList);
-
         List<Animal> sharkList = new ArrayList<>(
                 List.of(new Shark(AnimalBreed.BLACK,
                                 "shark",
@@ -194,6 +191,8 @@ public class AnimalsRepositorySpringBootTest {
                                 LocalDate.of(2009, 3, 27)))
         );
 
+        testAnimals.put("Wolf", wolfList);
+        testAnimals.put("Dog", dogList);
         testAnimals.put("Shark", sharkList);
 
         return testAnimals;
