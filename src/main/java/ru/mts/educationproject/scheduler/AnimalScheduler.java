@@ -48,6 +48,9 @@ public class AnimalScheduler {
                 System.out.println("Animal: " + key + ", Date of Birth: " + value);
             } else if (value instanceof Integer) {
                 System.out.println("Animal: " + key + ", Age: " + value);
+            } else {
+                throw new IllegalArgumentException("Unexpected value type for value : " + value
+                        + " or key: " + key);
             }
         }
     }

@@ -69,31 +69,34 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
      */
     @Override
     public Map<Animal, Integer> findOlderAnimals(int age) {
+        Map<Animal, Integer> olderAnimals = new HashMap<>();
+
         if (age < 0 || age > 100) {
             throw new IllegalArgumentException("Unknown age format: " + age);
-        }
-
-        Map<Animal, Integer> olderAnimals = new HashMap<>();
-        int maxAge = -1;
-
-        for (List<Animal> animalList : animals.values()) {
-            for (Animal animal : animalList) {
-                int years = LocalDate.now().getYear() - animal.getDateOfBirth().getYear();
-                if (years > age) {
-                    olderAnimals.put(animal, years);
-                    maxAge = Math.max(maxAge, years);
+        } else {
+            for (List<Animal> animalList : animals.values()) {
+                for (Animal animal : animalList) {
+                    int years = LocalDate.now().getYear() - animal.getDateOfBirth().getYear();
+                    if (years > age) {
+                        olderAnimals.put(animal, years);
+                    }
                 }
             }
-        }
 
-        if (olderAnimals.isEmpty() && maxAge != -1) {
-            Animal oldestAnimal = findOldest();
-            olderAnimals.put(oldestAnimal, maxAge);
-        }
+            if (olderAnimals.isEmpty()) {
+                System.out.println("No older animals found. The oldest Animal is: ");
+                List<Animal> allAnimals = new ArrayList<>();
+                for (List<Animal> animalList : animals.values()) {
+                    allAnimals.addAll(animalList);
+                }
+                Animal oldestAnimal = findOldest(allAnimals);
+                int oldestAnimalAge = LocalDate.now().getYear() - oldestAnimal.getDateOfBirth().getYear();
+                olderAnimals.put(oldestAnimal, oldestAnimalAge);
+            }
 
-        return olderAnimals;
+            return olderAnimals;
+        }
     }
-
     /**
      * Метод поиска дубликатов животных в хранилище.
      *
@@ -110,7 +113,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
                 Set<Animal> animalSet = uniqueAnimals.computeIfAbsent(animalType, k -> new HashSet<>());
                 if (!animalSet.add(animal)) {
                     duplicateAnimals.put(animalType,
-                            duplicateAnimals.getOrDefault(animalType, 1  ) + 1);
+                            duplicateAnimals.getOrDefault(animalType, 1) + 1);
                 }
             }
         }
@@ -135,26 +138,28 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
         }
     }
 
+    public void setAnimals(Map<String, List<Animal>> animals) {
+        this.animals = animals;
+    }
+
     // Вспомогательный метод для определения високосного года
     private boolean isLeapYear(int year) {
         return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
     }
 
-    // Вспомогательный метод для нахождения самого взрослого животного
-    private Animal findOldest() {
-        Animal oldestAnimal = null;
-        int maxAge = -1;
 
-        for (List<Animal> animalList : animals.values()) {
-            for (Animal animal : animalList) {
-                int years = LocalDate.now().getYear() - animal.getDateOfBirth().getYear();
-                if (years > maxAge) {
-                    oldestAnimal = animal;
-                    maxAge = years;
-                }
+    // Вспомогательный метод для нахождения самого взрослого животного
+    private Animal findOldest(List<Animal> animalList) {
+        Animal oldestAnimal = animalList.get(0);
+        int maxAge = 0;
+
+        for (Animal animal : animalList) {
+            int currentAnimalAge = LocalDate.now().getYear() - animal.getDateOfBirth().getYear();
+            if (currentAnimalAge > maxAge) {
+                oldestAnimal = animal;
+                maxAge = currentAnimalAge;
             }
         }
-
         return oldestAnimal;
     }
 }

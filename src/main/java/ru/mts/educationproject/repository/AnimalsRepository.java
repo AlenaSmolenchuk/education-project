@@ -37,4 +37,5 @@ public interface AnimalsRepository {
      */
     void printDuplicate();
 
+    void setAnimals(Map<String, List<Animal>> animals);
 }
