@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import ru.mts.educationproject.config.TestConfig;
 import ru.mts.educationproject.educationprojectstarter.model.animalcharacteristic.AnimalBreed;
@@ -32,7 +33,8 @@ public class AnimalsRepositorySpringBootTest {
 
     @Autowired
     private AnimalsRepository animalsRepository;
-    @Autowired
+
+    @MockBean
     private CreateAnimalService testCreateAnimalServiceMock;
 
     @BeforeEach
@@ -40,7 +42,7 @@ public class AnimalsRepositorySpringBootTest {
         when(testCreateAnimalServiceMock.createAnimals(anyInt()))
                 .thenReturn(createTestAnimals());
 
-        animalsRepository.setAnimals(createTestAnimals());
+        animalsRepository.initAnimals();
     }
 
     @Test
@@ -85,6 +87,7 @@ public class AnimalsRepositorySpringBootTest {
         int age = 70;
         Map<Animal, Integer> olderAnimals = animalsRepository.findOlderAnimals(age);
 
+        assertThat(olderAnimals).hasSize(1);
         assertThat(olderAnimals)
                 .containsEntry(new Dog(
                         AnimalBreed.WHITE,
@@ -100,6 +103,7 @@ public class AnimalsRepositorySpringBootTest {
         Map<String, Integer> duplicateAnimals = animalsRepository.findDuplicate();
 
         assertThat(duplicateAnimals).isNotNull();
+        assertThat(duplicateAnimals).hasSize(1);
         assertThat(duplicateAnimals)
                 .containsEntry("Shark", 2);
     }

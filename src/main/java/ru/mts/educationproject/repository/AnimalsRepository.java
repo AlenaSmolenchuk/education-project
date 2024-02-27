@@ -44,4 +44,8 @@ public interface AnimalsRepository {
      */
     void setAnimals(Map<String, List<Animal>> animals);
 
+    /**
+     * Метод инициализации животных при старте приложения.
+     */
+    void initAnimals();
 }
