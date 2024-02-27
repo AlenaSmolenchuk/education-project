@@ -2,6 +2,9 @@ package ru.mts.educationproject.applicationtests;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -12,7 +15,9 @@ import ru.mts.educationproject.educationprojectstarter.model.animalint.Animal;
 import ru.mts.educationproject.educationprojectstarter.model.animals.Dog;
 import ru.mts.educationproject.educationprojectstarter.model.animals.Shark;
 import ru.mts.educationproject.educationprojectstarter.model.animals.Wolf;
+import ru.mts.educationproject.educationprojectstarter.service.CreateAnimalService;
 import ru.mts.educationproject.repository.AnimalsRepository;
+import ru.mts.educationproject.repository.AnimalsRepositoryImpl;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -22,6 +27,8 @@ import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest(classes = TestConfig.class)
 @ActiveProfiles("test")
@@ -29,10 +36,14 @@ public class AnimalsRepositorySpringBootTest {
 
     @Autowired
     private AnimalsRepository animalsRepository;
-
+    @Autowired
+    private CreateAnimalService testCreateAnimalServiceMock;
 
     @BeforeEach
     public void setUp() {
+        when(testCreateAnimalServiceMock.createAnimals(anyInt()))
+                .thenReturn(createTestAnimals());
+
         animalsRepository.setAnimals(createTestAnimals());
     }
 

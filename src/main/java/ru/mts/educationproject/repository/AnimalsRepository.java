@@ -37,5 +37,11 @@ public interface AnimalsRepository {
      */
     void printDuplicate();
 
+    /**
+     * Устанавливает коллекцию животных в репозитории.
+     *
+     * @param animals Коллекция, где ключ - тип животного, а значение - список животных этого типа.
+     */
     void setAnimals(Map<String, List<Animal>> animals);
+
 }
