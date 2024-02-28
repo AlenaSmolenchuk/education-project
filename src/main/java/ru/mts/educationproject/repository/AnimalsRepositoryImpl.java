@@ -3,11 +3,12 @@ package ru.mts.educationproject.repository;
 import org.springframework.stereotype.Component;
 import ru.mts.educationproject.educationprojectstarter.model.animalint.Animal;
 import ru.mts.educationproject.educationprojectstarter.service.CreateAnimalService;
-import ru.mts.educationproject.scheduler.AnimalScheduler;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDate;
 import java.util.*;
+
+import static ru.mts.educationproject.util.Helper.print;
 
 /**
  * Реализация интерфейса AnimalsRepository для хранения и обработки информации о животных.
@@ -39,7 +40,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
 
         animals = createAnimalService.createAnimals(10);
 
-        AnimalScheduler.print(animals);
+        print(animals);
     }
 
     /**

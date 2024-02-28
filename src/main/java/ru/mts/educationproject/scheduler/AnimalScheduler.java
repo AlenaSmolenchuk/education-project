@@ -8,6 +8,8 @@ import ru.mts.educationproject.repository.AnimalsRepository;
 import java.time.LocalDate;
 import java.util.*;
 
+import static ru.mts.educationproject.util.Helper.print;
+
 @Component
 public class AnimalScheduler {
     private final AnimalsRepository animalsRepository;
@@ -34,30 +36,5 @@ public class AnimalScheduler {
 
         System.out.println("Finding duplicate animals: ");
         animalsRepository.printDuplicate();
-    }
-
-    public static void print(Map<?, ?> map) {
-        for (Map.Entry<?, ?> entry : map.entrySet()) {
-            Object key = entry.getKey();
-            Object value = entry.getValue();
-
-            if (value instanceof List) {
-                System.out.println("Type: " + key);
-                printAnimalList((List<Animal>) value);
-            } else if (value instanceof LocalDate) {
-                System.out.println("Animal: " + key + ", Date of Birth: " + value);
-            } else if (value instanceof Integer) {
-                System.out.println("Animal: " + key + ", Age: " + value);
-            } else {
-                throw new IllegalArgumentException("Unexpected value type for value : " + value
-                        + " or key: " + key);
-            }
-        }
-    }
-
-    private static void printAnimalList(List<Animal> animals) {
-        for (Animal animal : animals) {
-            System.out.println("  Animal: " + animal);
-        }
     }
 }
