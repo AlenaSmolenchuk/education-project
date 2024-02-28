@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Helper {
+    
     public static void print(Map<?, ?> map) {
         for (Map.Entry<?, ?> entry : map.entrySet()) {
             Object key = entry.getKey();
@@ -26,7 +27,7 @@ public class Helper {
         }
     }
 
-    public static void printAnimalList(List<Animal> animals) {
+    private static void printAnimalList(List<Animal> animals) {
         for (Animal animal : animals) {
             System.out.println("  Animal: " + animal);
         }
