@@ -46,5 +46,11 @@ public interface Animal {
      */
     LocalDate getDateOfBirth();
 
+    /**
+     * Возвращает тип животного.
+     *
+     * @return тип животного
+     */
+    String getType();
 }
 

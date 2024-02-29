@@ -2,6 +2,8 @@ package ru.mts.educationproject.educationprojectstarter.service;
 
 import ru.mts.educationproject.educationprojectstarter.model.animalint.Animal;
 
+import java.util.*;
+
 /**
  * Объявление интерфейса CreateAnimalService предоставляет методы для создания уникальных животных.
  */
@@ -12,7 +14,7 @@ public interface CreateAnimalService {
      *
      * @return массив созданных животных
      */
-    Animal[] createAnimals(int n);
+    Map<String, List<Animal>> createAnimals(int n);
 
     /**
      * Определяет тип животного для последующего создания.

@@ -19,8 +19,14 @@ public abstract class Predator extends AbstractAnimal {
      * @param cost      стоимость животного
      * @param character характер животного
      * @param dateOfBirth дата рождения животного
+     * @param type тип животного
      */
-    public Predator(AnimalBreed breed, String name, BigDecimal cost, AnimalCharacter character, LocalDate dateOfBirth) {
-        super(breed, name, cost, character, dateOfBirth);
+    public Predator(AnimalBreed breed,
+                    String name,
+                    BigDecimal cost,
+                    AnimalCharacter character,
+                    LocalDate dateOfBirth,
+                    String type) {
+        super(breed, name, cost, character, dateOfBirth, type);
     }
 }

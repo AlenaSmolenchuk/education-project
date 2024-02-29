@@ -3,7 +3,7 @@ package ru.mts.educationproject.educationprojectstarter.service;
 import ru.mts.educationproject.educationprojectstarter.factory.AnimalFactory;
 import ru.mts.educationproject.educationprojectstarter.model.animalint.Animal;
 
-import java.util.List;
+import java.util.*;
 
 /**
  * Реализация интерфейса CreateAnimalService для создания животных.
@@ -27,19 +27,27 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
     }
 
     /**
-     * Создает n уникальных животных при помощи цикла do-while.
+     * Создает n уникальных животных при помощи цикла for.
      *
      * @param n количество животных для создания
-     * @return список созданных животных
+     * @return Map, где ключ - тип животного, значение - список созданных животных этого типа
      */
     @Override
-    public Animal[] createAnimals(int n) {
+    public Map<String, List<Animal>> createAnimals(int n) {
+        Map<String, List<Animal>> uniqueAnimals = new HashMap<>(n);
 
-        Animal[] uniqueAnimals = new Animal[n];
-        int index = 0;
-        do {
-            uniqueAnimals[index++] = createRandomAnimalByType(initializeAnimalType());
-        } while (index < n);
+        for (int i = 0; i < n; i++) {
+            animalType = initializeAnimalType();
+            Animal animal = createRandomAnimalByType(animalType);
+
+            if (uniqueAnimals.containsKey(animalType)) {
+                uniqueAnimals.get(animalType).add(animal);
+            } else {
+                List<Animal> animalList = new ArrayList<>();
+                animalList.add(animal);
+                uniqueAnimals.put(animalType, animalList);
+            }
+        }
 
         return uniqueAnimals;
     }
@@ -51,8 +59,9 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
      */
     @Override
     public String initializeAnimalType() {
-        String[] availableTypes = {"Wolf", "Shark", "Dog"};
-        animalType = availableTypes[(int) (Math.random() * availableTypes.length)];
+        List<String> availableTypes = new ArrayList<>(List.of("Wolf", "Shark", "Dog"));
+
+        animalType = availableTypes.get((int) (Math.random() * availableTypes.size()));
 
         return animalType;
     }

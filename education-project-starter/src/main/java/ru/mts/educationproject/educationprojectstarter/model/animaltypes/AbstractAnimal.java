@@ -18,6 +18,7 @@ public abstract class AbstractAnimal implements Animal {
     protected BigDecimal cost;
     protected AnimalCharacter character;
     protected LocalDate dateOfBirth;
+    protected String type;
 
     /**
      * Конструктор для создания экземпляра абстрактного животного.
@@ -27,17 +28,20 @@ public abstract class AbstractAnimal implements Animal {
      * @param cost      стоимость животного
      * @param character характер животного
      * @param dateOfBirth дата рождения животного
+     * @param type тип животного
      */
     public AbstractAnimal(AnimalBreed breed,
                           String name,
                           BigDecimal cost,
                           AnimalCharacter character,
-                          LocalDate dateOfBirth) {
+                          LocalDate dateOfBirth,
+                          String type) {
         this.breed = breed;
         this.name = name;
         this.cost = cost.setScale(2, RoundingMode.HALF_UP);
         this.character = character;
         this.dateOfBirth = dateOfBirth;
+        this.type = type;
     }
 
     // Реализация методов интерфейса Animal
@@ -66,6 +70,11 @@ public abstract class AbstractAnimal implements Animal {
         return dateOfBirth;
     }
 
+    @Override
+    public String getType() {
+        return type;
+    }
+
     // Переопределение метода equals()
     @Override
     public boolean equals(Object o) {
@@ -76,11 +85,12 @@ public abstract class AbstractAnimal implements Animal {
                 && Objects.equals(name, that.name)
                 && Objects.equals(cost, that.cost)
                 && character == that.character
-                && Objects.equals(dateOfBirth, that.dateOfBirth);
+                && Objects.equals(dateOfBirth, that.dateOfBirth)
+                && Objects.equals(type, that.type);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(breed, name, cost, character, dateOfBirth);
+        return Objects.hash(breed, name, cost, character, dateOfBirth, type);
     }
 }
