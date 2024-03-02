@@ -26,7 +26,7 @@ public class Helper {
         }
     }
 
-    public static void printAnimalList(List<Animal> animals) {
+    private static void printAnimalList(List<Animal> animals) {
         for (Animal animal : animals) {
             System.out.println("  Animal: " + animal);
         }

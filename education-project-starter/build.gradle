@@ -18,6 +18,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-autoconfigure:2.7.4'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test:2.7.4'
+    testImplementation 'junit:junit:4.13.1'
 
 }
 targetCompatibility = JavaVersion.VERSION_14
