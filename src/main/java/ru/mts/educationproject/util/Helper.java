@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Helper {
+    
     public static void print(Map<?, ?> map) {
         for (Map.Entry<?, ?> entry : map.entrySet()) {
             Object key = entry.getKey();
