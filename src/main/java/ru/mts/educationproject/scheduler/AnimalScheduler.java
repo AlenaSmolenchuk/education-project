@@ -8,7 +8,7 @@ import ru.mts.educationproject.repository.AnimalsRepository;
 import java.time.LocalDate;
 import java.util.*;
 
-import static ru.mts.educationproject.util.Helper.print;
+import static ru.mts.educationproject.util.Helper.*;
 
 @Component
 public class AnimalScheduler {
@@ -36,5 +36,20 @@ public class AnimalScheduler {
 
         System.out.println("Finding duplicate animals: ");
         animalsRepository.printDuplicate();
+        System.out.println();
+
+        System.out.println("Finding animals' average age: ");
+        printAverage(animalsRepository.findAverageAge());
+        System.out.println();
+
+        System.out.println("Finding the oldest and expensive animals: ");
+        List<Animal> oldAndExpensive = animalsRepository.findOldAndExpensive();
+        printAnimalList(oldAndExpensive);
+        System.out.println();
+
+        System.out.println("Finding min cost animals: ");
+        List<String> minCostAnimals = animalsRepository.findMinCostAnimals();
+        printNames(minCostAnimals);
+        System.out.println();
     }
 }

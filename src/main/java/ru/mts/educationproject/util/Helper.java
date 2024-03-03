@@ -7,7 +7,21 @@ import java.util.List;
 import java.util.Map;
 
 public class Helper {
-    
+
+    /**
+     * Метод для нахождения возраста животного по его дате рождения
+     *
+     * @param birthDate  дата рождения животного.
+     * @return возраст животного
+     */
+    public static int calculateAge (LocalDate birthDate) {
+        return LocalDate.now().getYear() - birthDate.getYear();
+    }
+
+    public static void printAverage(double averageAge) {
+        System.out.println("Average age of animals: " + averageAge);
+    }
+
     public static void print(Map<?, ?> map) {
         for (Map.Entry<?, ?> entry : map.entrySet()) {
             Object key = entry.getKey();
@@ -27,9 +41,18 @@ public class Helper {
         }
     }
 
-    private static void printAnimalList(List<Animal> animals) {
+    public static void printAnimalList(List<Animal> animals) {
+        if (animals.isEmpty()) {
+            System.out.println("No animals for this type");
+        }
         for (Animal animal : animals) {
             System.out.println("  Animal: " + animal);
+        }
+    }
+
+    public static void printNames(List<String> names) {
+        for (String name : names) {
+            System.out.print(name + ", ");
         }
     }
 }
