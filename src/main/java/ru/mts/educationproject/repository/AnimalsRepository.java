@@ -2,6 +2,8 @@ package ru.mts.educationproject.repository;
 
 import ru.mts.educationproject.educationprojectstarter.model.animalint.Animal;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 import java.time.LocalDate;
 
@@ -48,6 +50,24 @@ public interface AnimalsRepository {
      * Метод инициализации животных при старте приложения.
      */
     void initAnimals();
+
+    /**
+     * Метод для вычисления средней стоимости животных.
+     *
+     * @param animals Коллекция, где ключ - тип животного, а значение - список животных этого типа.
+     * @return средняя стоимость животных.
+     */
+    default BigDecimal calculateAverageCost(Map<String, List<Animal>> animals) {
+        return animals.values().stream()
+                .flatMap(List::stream)
+                .map(Animal::getCost)
+                .reduce(BigDecimal.ZERO, BigDecimal::add)
+                .divide(BigDecimal.valueOf(
+                                animals.values().stream()
+                                        .mapToInt(List::size)
+                                        .sum()),
+                        RoundingMode.HALF_UP);
+    }
 
     /**
      * Метод нахождения среднего возраста животных.

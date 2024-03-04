@@ -107,20 +107,21 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
      */
     @Override
     public Map<String, List<Animal>> findDuplicate() {
-        Map<String, Set<Animal>> uniqueAnimals = new HashMap<>();
         return animals.values().stream()
                 .flatMap(List::stream)
                 .collect(Collectors.groupingBy(
-                        Animal::getType,
-                        Collectors.filtering(animal -> {
-                            Set<Animal> animalSet = uniqueAnimals
-                                    .computeIfAbsent(animal.getType(), k -> new HashSet<>());
-                            return !animalSet.add(animal);
-                        }, Collectors.toList())
+                        animal -> animal.getType() + " " +
+                                animal.getName() + " " +
+                                animal.getBreed() + " " +
+                                animal.getCharacter() + " " +
+                                animal.getDateOfBirth() + " " +
+                                animal.getCost(),
+                        Collectors.toList()
                 ))
                 .entrySet().stream()
                 .filter(entry -> entry.getValue().size() > 1)
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue ));
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+
     }
 
     /**
@@ -133,7 +134,8 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
         if (!duplicateAnimals.isEmpty()) {
             System.out.println("Duplicate animals found:");
             duplicateAnimals.forEach((animalType, duplicates) -> {
-                System.out.println(animalType + ":");
+                List<String> type = List.of(animalType.split(" "));
+                System.out.println(type.get(0) + ": ");
                 duplicates.forEach(System.out::println);
             });
         } else {
@@ -168,7 +170,8 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
 
         return animals.values().stream()
                 .flatMap(List::stream)
-                .filter(animal -> calculateAge(animal.getDateOfBirth()) > 5 && animal.getCost().compareTo(averageCost) > 0)
+                .filter(animal -> calculateAge(animal.getDateOfBirth()) > 5
+                        && animal.getCost().compareTo(averageCost) > 0)
                 .sorted(Comparator.comparing(Animal::getDateOfBirth))
                 .collect(Collectors.toList());
     }
@@ -190,7 +193,6 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
                 .collect(Collectors.toList());
     }
 
-
     public void setAnimals(Map<String, List<Animal>> animals) {
         this.animals = animals;
     }
@@ -205,18 +207,5 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
         return animalList.stream()
                 .max(Comparator.comparingInt(animal -> calculateAge(animal.getDateOfBirth())))
                 .orElseThrow();
-    }
-
-    // Вспомогательный метод для нахождения средней стоимости всех животных
-    private BigDecimal calculateAverageCost(Map<String, List<Animal>> animals) {
-        return animals.values().stream()
-                .flatMap(List::stream)
-                .map(Animal::getCost)
-                .reduce(BigDecimal.ZERO, BigDecimal::add)
-                .divide(BigDecimal.valueOf(
-                        animals.values().stream()
-                                .mapToInt(List::size)
-                                .sum()),
-                        RoundingMode.HALF_UP);
     }
 }
