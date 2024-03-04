@@ -15,7 +15,16 @@ public class Helper {
      * @return возраст животного
      */
     public static int calculateAge (LocalDate birthDate) {
-        return LocalDate.now().getYear() - birthDate.getYear();
+        LocalDate currentDate = LocalDate.now();
+        int age = currentDate.getYear() - birthDate.getYear();
+
+        if (currentDate.getMonthValue() < birthDate.getMonthValue() ||
+                (currentDate.getMonthValue() == birthDate.getMonthValue() &&
+                        currentDate.getDayOfMonth() < birthDate.getDayOfMonth())) {
+            age--;
+        }
+
+        return age;
     }
 
     public static void printAverage(double averageAge) {

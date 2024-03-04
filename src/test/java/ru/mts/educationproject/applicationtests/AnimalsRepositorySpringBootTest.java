@@ -52,10 +52,11 @@ public class AnimalsRepositorySpringBootTest {
     public void testFindLeapYearNames() {
         Map<String, LocalDate> leapYearNames = animalsRepository.findLeapYearNames();
 
-        assertThat(leapYearNames).hasSize(2);
+        assertThat(leapYearNames).hasSize(3);
         assertThat(leapYearNames)
                 .containsEntry("Wolf wulf", LocalDate.of(2000, 1, 2))
-                .containsEntry("Wolf wolf", LocalDate.of(2016, 12, 22));
+                .containsEntry("Wolf wolf", LocalDate.of(2016, 12, 22))
+                .containsEntry("Dog dug", LocalDate.of(2000, 5, 14));
     }
 
     @Test
@@ -82,7 +83,7 @@ public class AnimalsRepositorySpringBootTest {
                         "dug",
                         BigDecimal.ONE,
                         AnimalCharacter.PLAYFUL,
-                        LocalDate.of(1999, 5, 14)), 25);
+                        LocalDate.of(2000, 5, 14)), 23);
     }
 
     @Test
@@ -92,12 +93,12 @@ public class AnimalsRepositorySpringBootTest {
 
         assertThat(olderAnimals).hasSize(1);
         assertThat(olderAnimals)
-                .containsEntry(new Dog(
-                        AnimalBreed.WHITE,
-                        "dug",
-                        BigDecimal.ONE,
-                        AnimalCharacter.PLAYFUL,
-                        LocalDate.of(1999, 5, 14)), 25);
+                .containsEntry(new Wolf(
+                        AnimalBreed.BROWN,
+                        "wulf",
+                        BigDecimal.TEN,
+                        AnimalCharacter.AGGRESSIVE,
+                        LocalDate.of(2000, 1, 2)), 24);
 
     }
 
@@ -176,7 +177,7 @@ public class AnimalsRepositorySpringBootTest {
                 calculateAge(LocalDate.of(2016, 12, 22)) +
                 calculateAge(LocalDate.of(2000, 1, 2)) +
                 calculateAge(LocalDate.of(2001, 3, 3)) +
-                calculateAge(LocalDate.of(1999, 5, 14)) +
+                calculateAge(LocalDate.of(2000, 5, 14)) +
                 calculateAge(LocalDate.of(2009, 3, 27)) +
                 calculateAge(LocalDate.of(2009, 3, 27))) / 7.0;
 
@@ -261,7 +262,7 @@ public class AnimalsRepositorySpringBootTest {
                                 "dug",
                                 BigDecimal.ONE,
                                 AnimalCharacter.PLAYFUL,
-                                LocalDate.of(1999, 5, 14)))
+                                LocalDate.of(2000, 5, 14)))
         );
 
         List<Animal> sharkList = new ArrayList<>(
