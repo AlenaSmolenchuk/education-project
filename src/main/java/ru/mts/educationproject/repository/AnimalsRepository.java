@@ -2,6 +2,8 @@ package ru.mts.educationproject.repository;
 
 import ru.mts.educationproject.educationprojectstarter.model.animalint.Animal;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 import java.time.LocalDate;
 
@@ -30,7 +32,7 @@ public interface AnimalsRepository {
      *
      * @return множество дубликатов животных.
      */
-    Map<String, Integer> findDuplicate();
+    Map<String, List<Animal>> findDuplicate();
 
     /**
      * Выводит в консоль информацию о дубликатах животных в репозитории.
@@ -48,4 +50,47 @@ public interface AnimalsRepository {
      * Метод инициализации животных при старте приложения.
      */
     void initAnimals();
+
+    /**
+     * Метод для вычисления средней стоимости животных.
+     *
+     * @param animals Коллекция, где ключ - тип животного, а значение - список животных этого типа.
+     * @return средняя стоимость животных.
+     */
+    default BigDecimal calculateAverageCost(Map<String, List<Animal>> animals) {
+        return animals.values().stream()
+                .flatMap(List::stream)
+                .map(Animal::getCost)
+                .reduce(BigDecimal.ZERO, BigDecimal::add)
+                .divide(BigDecimal.valueOf(
+                                animals.values().stream()
+                                        .mapToInt(List::size)
+                                        .sum()),
+                        RoundingMode.HALF_UP);
+    }
+
+    /**
+     * Метод нахождения среднего возраста животных.
+     *
+     * @return средний возраст.
+     */
+    double findAverageAge();
+
+    /**
+     * Метод нахождения списка животных, возраст которых больше 5 лет и стоимость которых
+     * превышает среднюю стоимость всех животных. Результат отсортирован по дате рождения
+     * в порядке возрастания.
+     *
+     * @return Список животных, соответствующих условиям по возрасту и стоимости.
+     */
+    List<Animal> findOldAndExpensive();
+
+    /**
+     * Метод нахождения списка имен животных с минимальной стоимостью.
+     * Результат отсортирован в обратном алфавитном порядке.
+     *
+     * @return Список имен животных с минимальной стоимостью.
+     */
+    List<String> findMinCostAnimals();
+
 }
