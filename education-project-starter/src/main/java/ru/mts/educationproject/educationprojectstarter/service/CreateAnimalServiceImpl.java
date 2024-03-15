@@ -1,5 +1,7 @@
 package ru.mts.educationproject.educationprojectstarter.service;
 
+import ru.mts.educationproject.educationprojectstarter.exceptionst.UnknownAnimalTypeException;
+import ru.mts.educationproject.educationprojectstarter.exceptionst.UnknownCountOfAnimalException;
 import ru.mts.educationproject.educationprojectstarter.factory.AnimalFactory;
 import ru.mts.educationproject.educationprojectstarter.model.animalint.Animal;
 
@@ -34,6 +36,10 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
      */
     @Override
     public Map<String, List<Animal>> createAnimals(int n) {
+        if (n <= 0) {
+            throw new UnknownCountOfAnimalException("The number of animals must be greater than 0.");
+        }
+
         Map<String, List<Animal>> uniqueAnimals = new HashMap<>(n);
 
         for (int i = 0; i < n; i++) {
@@ -78,8 +84,7 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
             case "wolf" -> factories.get(0).createRandomAnimal();
             case "dog" -> factories.get(1).createRandomAnimal();
             case "shark" -> factories.get(2).createRandomAnimal();
-            default -> throw new IllegalArgumentException("Unknown animal type: " + animalType);
+            default -> throw new UnknownAnimalTypeException("Unknown animal type: " + animalType);
         };
     }
-
 }
