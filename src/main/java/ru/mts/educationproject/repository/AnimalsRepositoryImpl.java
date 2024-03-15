@@ -97,7 +97,6 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
             int oldestAnimalAge = calculateAge(oldestAnimal.getDateOfBirth());
             olderAnimals.put(oldestAnimal, oldestAnimalAge);
         }
-
         return olderAnimals;
     }
 
@@ -201,7 +200,6 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
                 .sorted(Comparator.reverseOrder())
                 .collect(Collectors.toList());
     }
-
 
     public void setAnimals(Map<String, List<Animal>> animals) {
         this.animals = animals;
