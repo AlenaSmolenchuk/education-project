@@ -1,19 +1,21 @@
 package ru.mts.educationproject.scheduler;
 
+import org.slf4j.*;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import ru.mts.educationproject.educationprojectstarter.model.animalint.Animal;
 import ru.mts.educationproject.repository.AnimalsRepository;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
 import static ru.mts.educationproject.util.Helper.*;
 
 @Component
 public class AnimalScheduler {
     private final AnimalsRepository animalsRepository;
-
+    private static final Logger log = LoggerFactory.getLogger(AnimalScheduler.class);
     public AnimalScheduler(AnimalsRepository animalsRepository) {
         this.animalsRepository = animalsRepository;
     }
@@ -53,8 +55,7 @@ public class AnimalScheduler {
             printNames(minCostAnimals);
             System.out.println();
         } catch (Exception e) {
-            System.out.println("Something went wrong: " + e.getMessage());
-            e.printStackTrace();
+            log.error("Something went wrong: " + e.getMessage());
         }
     }
 }

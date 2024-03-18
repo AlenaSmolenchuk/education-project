@@ -225,23 +225,23 @@ public class AnimalsRepositorySpringBootTest {
     }
 
     @Test
-    public void testFindMinCostAnimals() {
+    public void testFindMinCostAnimals() throws AnimalsArrayException {
         List<String> result = animalsRepository.findMinCostAnimals();
 
         assertThat(result).isNotNull();
         assertThat(result).hasSize(3);
         assertThat(result).containsExactly("wolf", "dug", "dag");
+        assertDoesNotThrow(() -> animalsRepository.findMinCostAnimals());
     }
 
     @Test
     public void testFindMinCostAnimalsWithNullMap() {
         animalsRepository.setAnimals(Collections.emptyMap());
 
-        RuntimeException exception = assertThrows(RuntimeException.class,
+        AnimalsArrayException exception = assertThrows(AnimalsArrayException.class,
                 () -> animalsRepository.findMinCostAnimals());
         assertThat(exception.getMessage())
-                .isEqualTo( "ru.mts.educationproject.exception.AnimalsArrayException: " +
-                        "The 'animals' map is null or contains less than 3 elements.");
+                .isEqualTo("The 'animals' map is null or contains less than 3 elements.");
     }
 
     private Map<String, List<Animal>> createTestAnimals() {

@@ -184,13 +184,9 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
      * @return Список имен животных с минимальной стоимостью.
      */
     @Override
-    public List<String> findMinCostAnimals() {
+    public List<String> findMinCostAnimals() throws AnimalsArrayException {
         if (animals == null || animals.size() < 3) {
-            try {
-                throw new AnimalsArrayException("The 'animals' map is null or contains less than 3 elements.");
-            } catch (AnimalsArrayException e) {
-                throw new RuntimeException(e);
-            }
+            throw new AnimalsArrayException("The 'animals' map is null or contains less than 3 elements.");
         }
 
         return animals.values().stream()
