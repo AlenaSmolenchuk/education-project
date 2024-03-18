@@ -55,7 +55,7 @@ public class AnimalScheduler {
             printNames(minCostAnimals);
             System.out.println();
         } catch (Exception e) {
-            log.error("Something went wrong: " + e.getMessage());
+            log.error("Something went wrong: " + e.getMessage(), e);
         }
     }
 }
