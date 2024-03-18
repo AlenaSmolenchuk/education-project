@@ -3,6 +3,8 @@ package ru.mts.educationproject.repository;
 import org.springframework.stereotype.Component;
 import ru.mts.educationproject.educationprojectstarter.model.animalint.Animal;
 import ru.mts.educationproject.educationprojectstarter.service.CreateAnimalService;
+import ru.mts.educationproject.exception.AnimalsArrayException;
+import ru.mts.educationproject.exception.UnknownAgeFormatException;
 
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
@@ -72,7 +74,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
     @Override
     public Map<Animal, Integer> findOlderAnimals(int age) {
         if (age < 0 || age > 100) {
-            throw new IllegalArgumentException("Unknown age format: " + age);
+            throw new UnknownAgeFormatException("Unknown age format: " + age);
         }
 
         Map<Animal, Integer> olderAnimals = animals.values().stream()
@@ -95,7 +97,6 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
             int oldestAnimalAge = calculateAge(oldestAnimal.getDateOfBirth());
             olderAnimals.put(oldestAnimal, oldestAnimalAge);
         }
-
         return olderAnimals;
     }
 
@@ -182,7 +183,11 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
      * @return Список имен животных с минимальной стоимостью.
      */
     @Override
-    public List<String> findMinCostAnimals() {
+    public List<String> findMinCostAnimals() throws AnimalsArrayException {
+        if (animals == null || animals.size() < 3) {
+            throw new AnimalsArrayException("The 'animals' map is null or contains less than 3 elements.");
+        }
+
         return animals.values().stream()
                 .flatMap(List::stream)
                 .sorted(Comparator.comparing(Animal::getCost))

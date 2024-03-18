@@ -1,10 +1,13 @@
 package ru.mts.educationproject.startertests;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import ru.mts.educationproject.config.TestConfig;
+import ru.mts.educationproject.educationprojectstarter.exceptionst.UnknownAnimalTypeException;
+import ru.mts.educationproject.educationprojectstarter.exceptionst.UnknownCountOfAnimalException;
 import ru.mts.educationproject.educationprojectstarter.factory.DogFactory;
 import ru.mts.educationproject.educationprojectstarter.factory.SharkFactory;
 import ru.mts.educationproject.educationprojectstarter.factory.WolfFactory;
@@ -72,7 +75,7 @@ public class AnimalStarterSpringBootTest {
     @Test
     public void testCreateAnimalWithUnknownType() {
 
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+        UnknownAnimalTypeException exception = assertThrows(UnknownAnimalTypeException.class,
                 () -> createAnimalService.createRandomAnimalByType("cat"));
 
         assertThat(exception.getMessage()).isEqualTo("Unknown animal type: cat");
@@ -81,9 +84,32 @@ public class AnimalStarterSpringBootTest {
     @Test
     public void testCreateAnimalWithEmptyType() {
 
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+        UnknownAnimalTypeException exception = assertThrows(UnknownAnimalTypeException.class,
                 () -> createAnimalService.createRandomAnimalByType(" "));
 
         assertThat(exception.getMessage()).isEqualTo("Unknown animal type:  ");
+    }
+
+    @Test
+    public void testCreateAnimalsWithNegativeNumber() {
+        int negativeNumber = -5;
+
+        UnknownCountOfAnimalException exception = assertThrows(UnknownCountOfAnimalException.class,
+                () -> createAnimalService.createAnimals(negativeNumber)
+        );
+        Assertions.assertThat(exception.getMessage())
+                .isEqualTo("The number of animals must be greater than 0.");
+
+    }
+
+    @Test
+    public void testCreateAnimalsWithZero() {
+        int zero = 0;
+
+        UnknownCountOfAnimalException exception = assertThrows(UnknownCountOfAnimalException.class,
+                () -> createAnimalService.createAnimals(zero)
+        );
+        Assertions.assertThat(exception.getMessage())
+                .isEqualTo("The number of animals must be greater than 0.");
     }
 }

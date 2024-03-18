@@ -1,6 +1,7 @@
 package ru.mts.educationproject.repository;
 
 import ru.mts.educationproject.educationprojectstarter.model.animalint.Animal;
+import ru.mts.educationproject.exception.AnimalsArrayException;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -91,6 +92,6 @@ public interface AnimalsRepository {
      *
      * @return Список имен животных с минимальной стоимостью.
      */
-    List<String> findMinCostAnimals();
+    List<String> findMinCostAnimals() throws AnimalsArrayException;
 
 }

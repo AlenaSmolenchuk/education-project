@@ -14,6 +14,8 @@ import ru.mts.educationproject.educationprojectstarter.model.animals.Dog;
 import ru.mts.educationproject.educationprojectstarter.model.animals.Shark;
 import ru.mts.educationproject.educationprojectstarter.model.animals.Wolf;
 import ru.mts.educationproject.educationprojectstarter.service.CreateAnimalService;
+import ru.mts.educationproject.exception.AnimalsArrayException;
+import ru.mts.educationproject.exception.UnknownAgeFormatException;
 import ru.mts.educationproject.repository.AnimalsRepository;
 
 import java.io.ByteArrayOutputStream;
@@ -99,7 +101,6 @@ public class AnimalsRepositorySpringBootTest {
                         BigDecimal.TEN,
                         AnimalCharacter.AGGRESSIVE,
                         LocalDate.of(2000, 1, 2)), 24);
-
     }
 
     @Test
@@ -156,7 +157,7 @@ public class AnimalsRepositorySpringBootTest {
     public void testFindOlderAnimalsWithBigAge() {
         int age = 200;
 
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+        UnknownAgeFormatException exception = assertThrows(UnknownAgeFormatException.class,
                 () -> animalsRepository.findOlderAnimals(age));
         assertThat(exception.getMessage()).isEqualTo("Unknown age format: 200");
     }
@@ -165,7 +166,7 @@ public class AnimalsRepositorySpringBootTest {
     public void testFindOlderAnimalsWithNegativeAge() {
         int age = -5;
 
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+        UnknownAgeFormatException exception = assertThrows(UnknownAgeFormatException.class,
                 () -> animalsRepository.findOlderAnimals(age));
         assertThat(exception.getMessage()).isEqualTo("Unknown age format: -5");
     }
@@ -224,12 +225,23 @@ public class AnimalsRepositorySpringBootTest {
     }
 
     @Test
-    public void testFindMinCostAnimals() {
+    public void testFindMinCostAnimals() throws AnimalsArrayException {
         List<String> result = animalsRepository.findMinCostAnimals();
 
         assertThat(result).isNotNull();
         assertThat(result).hasSize(3);
         assertThat(result).containsExactly("wolf", "dug", "dag");
+        assertDoesNotThrow(() -> animalsRepository.findMinCostAnimals());
+    }
+
+    @Test
+    public void testFindMinCostAnimalsWithNullMap() {
+        animalsRepository.setAnimals(Collections.emptyMap());
+
+        AnimalsArrayException exception = assertThrows(AnimalsArrayException.class,
+                () -> animalsRepository.findMinCostAnimals());
+        assertThat(exception.getMessage())
+                .isEqualTo("The 'animals' map is null or contains less than 3 elements.");
     }
 
     private Map<String, List<Animal>> createTestAnimals() {

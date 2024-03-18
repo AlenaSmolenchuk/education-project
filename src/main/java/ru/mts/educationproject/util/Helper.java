@@ -16,7 +16,7 @@ public class Helper {
      * @return возраст животного
      */
     public static int calculateAge (LocalDate birthDate) {
-     return Period.between(birthDate, LocalDate.now()).getYears();
+        return Period.between(birthDate, LocalDate.now()).getYears();
     }
 
     public static void printAverage(double averageAge) {
