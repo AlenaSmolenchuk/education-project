@@ -1,9 +1,13 @@
 package ru.mts.educationproject.educationprojectstarter.service;
 
+import ru.mts.educationproject.educationprojectstarter.exceptionst.UnknownAnimalTypeException;
+import ru.mts.educationproject.educationprojectstarter.exceptionst.UnknownCountOfAnimalException;
 import ru.mts.educationproject.educationprojectstarter.factory.AnimalFactory;
 import ru.mts.educationproject.educationprojectstarter.model.animalint.Animal;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Реализация интерфейса CreateAnimalService для создания животных.
@@ -34,7 +38,11 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
      */
     @Override
     public Map<String, List<Animal>> createAnimals(int n) {
-        Map<String, List<Animal>> uniqueAnimals = new HashMap<>(n);
+        if (n <= 0) {
+            throw new UnknownCountOfAnimalException("The number of animals must be greater than 0.");
+        }
+
+        Map<String, List<Animal>> uniqueAnimals = new ConcurrentHashMap<>(n);
 
         for (int i = 0; i < n; i++) {
             animalType = initializeAnimalType();
@@ -43,7 +51,7 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
             if (uniqueAnimals.containsKey(animalType)) {
                 uniqueAnimals.get(animalType).add(animal);
             } else {
-                List<Animal> animalList = new ArrayList<>();
+                List<Animal> animalList = new CopyOnWriteArrayList<>();
                 animalList.add(animal);
                 uniqueAnimals.put(animalType, animalList);
             }
@@ -59,7 +67,7 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
      */
     @Override
     public String initializeAnimalType() {
-        List<String> availableTypes = new ArrayList<>(List.of("Wolf", "Shark", "Dog"));
+        List<String> availableTypes = new CopyOnWriteArrayList<>(List.of("Wolf", "Shark", "Dog"));
 
         animalType = availableTypes.get((int) (Math.random() * availableTypes.size()));
 
@@ -78,8 +86,7 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
             case "wolf" -> factories.get(0).createRandomAnimal();
             case "dog" -> factories.get(1).createRandomAnimal();
             case "shark" -> factories.get(2).createRandomAnimal();
-            default -> throw new IllegalArgumentException("Unknown animal type: " + animalType);
+            default -> throw new UnknownAnimalTypeException("Unknown animal type: " + animalType);
         };
     }
-
 }
