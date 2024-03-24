@@ -176,6 +176,7 @@ public class AnimalsRepositorySpringBootTest {
 
     @Test
     public void testFindAverageAge() throws InterruptedException {
+      
         double expectedAverageAge = (calculateAge(LocalDate.of(2007, 1, 2)) +
                 calculateAge(LocalDate.of(2016, 12, 22)) +
                 calculateAge(LocalDate.of(2000, 1, 2)) +
@@ -188,6 +189,7 @@ public class AnimalsRepositorySpringBootTest {
         TimeUnit.SECONDS.sleep(30);
 
         double actualAverageAge = animalsRepository.getAverageAge();
+
         assertThat(actualAverageAge).isEqualTo(expectedAverageAge);
     }
 

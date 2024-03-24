@@ -5,3 +5,4 @@ public class UnknownAnimalTypeException extends IllegalArgumentException {
         super(message);
     }
 }
+

@@ -41,9 +41,9 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
         if (n <= 0) {
             throw new UnknownCountOfAnimalException("The number of animals must be greater than 0.");
         }
-
+      
         Map<String, List<Animal>> uniqueAnimals = new ConcurrentHashMap<>(n);
-
+      
         for (int i = 0; i < n; i++) {
             animalType = initializeAnimalType();
             Animal animal = createRandomAnimalByType(animalType);
