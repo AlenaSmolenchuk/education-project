@@ -1,5 +1,7 @@
 package ru.mts.educationproject.repository;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import ru.mts.educationproject.educationprojectstarter.model.animalint.Animal;
 import ru.mts.educationproject.educationprojectstarter.service.CreateAnimalService;
@@ -21,6 +23,7 @@ import static ru.mts.educationproject.util.Helper.print;
  */
 @Component
 public class AnimalsRepositoryImpl implements AnimalsRepository {
+    private static final Logger log = LoggerFactory.getLogger(AnimalsRepositoryImpl.class);
 
     private final CreateAnimalService createAnimalService;
     private Map<String, List<Animal>> animals;
@@ -41,7 +44,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
      */
     public void initAnimals() {
 
-        System.out.println("Creating animals:");
+        log.info("Creating animals:");
 
         animals = createAnimalService.createAnimals(20);
 
@@ -89,7 +92,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
                 ));
 
         if (olderAnimals.isEmpty()) {
-            System.out.println("No older animals found. The oldest Animal is: ");
+            log.info("No older animals found. The oldest Animal is: ");
             Animal oldestAnimal = findOldest(
                     animals.values().stream()
                             .flatMap(List::stream)
@@ -133,17 +136,17 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
      */
     @Override
     public void printDuplicate() {
-        System.out.println("Finding duplicate animals: ");
+//        log.info("Finding duplicate animals: ");
         Map<String, List<Animal>> duplicateAnimals = findDuplicate();
         if (!duplicateAnimals.isEmpty()) {
-            System.out.println("Duplicate animals found:");
+            log.info("Duplicate animals found:");
             duplicateAnimals.forEach((animalType, duplicates) -> {
                 List<String> type = List.of(animalType.split(" "));
                 System.out.println(type.get(0) + ": ");
                 duplicates.forEach(System.out::println);
             });
         } else {
-            System.out.println("No duplicate animals found.");
+            log.info("No duplicate animals found.");
         }
     }
 
@@ -152,7 +155,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
      */
     @Override
     public void findAverageAge() {
-        System.out.println("Finding animals' average age: ");
+        log.info("Finding animals' average age: ");
         double averageAge = animals.values().stream()
                 .flatMap(List::stream)
                 .mapToDouble(animal -> calculateAge(animal.getDateOfBirth()))

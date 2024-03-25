@@ -28,7 +28,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
-import static ru.mts.educationproject.util.Helper.calculateAge;
 
 @SpringBootTest(classes = TestConfig.class)
 @ActiveProfiles("test")

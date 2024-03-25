@@ -57,22 +57,22 @@ public class AnimalScheduler {
     @Scheduled(fixedRate = 60000)
     public void executeScheduledTask() {
         try {
-            System.out.println("\nFinding leap year names: ");
+            log.info("Finding leap year names: ");
             Map<String, LocalDate> leapYearNames = animalsRepository.findLeapYearNames();
             print(leapYearNames);
             System.out.println();
 
-            System.out.println("Finding older animals than 7 years: ");
+            log.info("Finding older animals than 7 years: ");
             Map<Animal, Integer> olderAnimals = animalsRepository.findOlderAnimals(7);
             print(olderAnimals);
             System.out.println();
 
-            System.out.println("Finding the oldest and expensive animals: ");
+            log.info("Finding the oldest and expensive animals: ");
             List<Animal> oldAndExpensive = animalsRepository.findOldAndExpensive();
             printAnimalList(oldAndExpensive);
             System.out.println();
 
-            System.out.println("Finding min cost animals: ");
+            log.info("Finding min cost animals: ");
             List<String> minCostAnimals = animalsRepository.findMinCostAnimals();
             printNames(minCostAnimals);
             System.out.println();
