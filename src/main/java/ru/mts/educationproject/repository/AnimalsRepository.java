@@ -72,10 +72,8 @@ public interface AnimalsRepository {
 
     /**
      * Метод нахождения среднего возраста животных.
-     *
-     * @return средний возраст.
      */
-    double findAverageAge();
+    void findAverageAge();
 
     /**
      * Метод нахождения списка животных, возраст которых больше 5 лет и стоимость которых
@@ -93,5 +91,4 @@ public interface AnimalsRepository {
      * @return Список имен животных с минимальной стоимостью.
      */
     List<String> findMinCostAnimals() throws AnimalsArrayException;
-
 }

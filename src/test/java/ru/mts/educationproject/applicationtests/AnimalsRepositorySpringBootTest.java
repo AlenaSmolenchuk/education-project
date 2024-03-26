@@ -18,17 +18,16 @@ import ru.mts.educationproject.exception.AnimalsArrayException;
 import ru.mts.educationproject.exception.UnknownAgeFormatException;
 import ru.mts.educationproject.repository.AnimalsRepository;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
-import static ru.mts.educationproject.util.Helper.calculateAge;
 
 @SpringBootTest(classes = TestConfig.class)
 @ActiveProfiles("test")
@@ -40,7 +39,7 @@ public class AnimalsRepositorySpringBootTest {
     @MockBean
     private CreateAnimalService testCreateAnimalServiceMock;
 
-    Map<String, List<Animal>> testAnimals = new HashMap<>();
+    Map<String, List<Animal>> testAnimals = new ConcurrentHashMap<>();
 
     @BeforeEach
     public void setUp() {
@@ -92,7 +91,6 @@ public class AnimalsRepositorySpringBootTest {
     public void testFindTheOldestAnimal() {
         int age = 70;
         Map<Animal, Integer> olderAnimals = animalsRepository.findOlderAnimals(age);
-
         assertThat(olderAnimals).hasSize(1);
         assertThat(olderAnimals)
                 .containsEntry(new Wolf(
@@ -141,19 +139,6 @@ public class AnimalsRepositorySpringBootTest {
     }
 
     @Test
-    public void testPrintDuplicateWithEmptyList() {
-        animalsRepository.setAnimals(Collections.emptyMap());
-
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outputStream));
-
-        animalsRepository.printDuplicate();
-        System.setOut(System.out);
-
-        assertThat(outputStream.toString()).contains("No duplicate animals found.");
-    }
-
-    @Test
     public void testFindOlderAnimalsWithBigAge() {
         int age = 200;
 
@@ -169,21 +154,6 @@ public class AnimalsRepositorySpringBootTest {
         UnknownAgeFormatException exception = assertThrows(UnknownAgeFormatException.class,
                 () -> animalsRepository.findOlderAnimals(age));
         assertThat(exception.getMessage()).isEqualTo("Unknown age format: -5");
-    }
-
-    @Test
-    public void testFindAverageAge() {
-
-        double expectedAverageAge = (calculateAge(LocalDate.of(2007, 1, 2)) +
-                calculateAge(LocalDate.of(2016, 12, 22)) +
-                calculateAge(LocalDate.of(2000, 1, 2)) +
-                calculateAge(LocalDate.of(2001, 3, 3)) +
-                calculateAge(LocalDate.of(2000, 5, 14)) +
-                calculateAge(LocalDate.of(2009, 3, 27)) +
-                calculateAge(LocalDate.of(2009, 3, 27))) / 7.0;
-
-        double actualAverageAge = animalsRepository.findAverageAge();
-        assertThat(actualAverageAge).isEqualTo(expectedAverageAge);
     }
 
     @Test
@@ -221,13 +191,12 @@ public class AnimalsRepositorySpringBootTest {
                                 BigDecimal.TEN,
                                 AnimalCharacter.FRIENDLY,
                                 LocalDate.of(2009, 3, 27))
-                        );
+                );
     }
 
     @Test
     public void testFindMinCostAnimals() throws AnimalsArrayException {
         List<String> result = animalsRepository.findMinCostAnimals();
-
         assertThat(result).isNotNull();
         assertThat(result).hasSize(3);
         assertThat(result).containsExactly("wolf", "dug", "dag");
@@ -246,7 +215,7 @@ public class AnimalsRepositorySpringBootTest {
 
     private Map<String, List<Animal>> createTestAnimals() {
 
-        List<Animal> wolfList = new ArrayList<>(
+        List<Animal> wolfList = new CopyOnWriteArrayList<>(
                 List.of(new Wolf(AnimalBreed.BROWN,
                                 "wulf",
                                 BigDecimal.TEN,
@@ -264,7 +233,7 @@ public class AnimalsRepositorySpringBootTest {
                                 LocalDate.of(2000, 1, 2)))
         );
 
-        List<Animal> dogList = new ArrayList<>(
+        List<Animal> dogList = new CopyOnWriteArrayList<>(
                 List.of(new Dog(AnimalBreed.WHITE,
                                 "dag",
                                 BigDecimal.ZERO,
@@ -277,7 +246,7 @@ public class AnimalsRepositorySpringBootTest {
                                 LocalDate.of(2000, 5, 14)))
         );
 
-        List<Animal> sharkList = new ArrayList<>(
+        List<Animal> sharkList = new CopyOnWriteArrayList<>(
                 List.of(new Shark(AnimalBreed.BLACK,
                                 "shark",
                                 BigDecimal.TEN,

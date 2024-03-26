@@ -1,15 +1,18 @@
 package ru.mts.educationproject.repository;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import ru.mts.educationproject.educationprojectstarter.model.animalint.Animal;
 import ru.mts.educationproject.educationprojectstarter.service.CreateAnimalService;
 import ru.mts.educationproject.exception.AnimalsArrayException;
 import ru.mts.educationproject.exception.UnknownAgeFormatException;
 
-import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 import static ru.mts.educationproject.util.Helper.calculateAge;
@@ -20,6 +23,7 @@ import static ru.mts.educationproject.util.Helper.print;
  */
 @Component
 public class AnimalsRepositoryImpl implements AnimalsRepository {
+    private static final Logger log = LoggerFactory.getLogger(AnimalsRepositoryImpl.class);
 
     private final CreateAnimalService createAnimalService;
     private Map<String, List<Animal>> animals;
@@ -35,15 +39,14 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
 
     /**
      * Метод инициализации животных при старте приложения.
-     * Создает 10 животных при помощи сервиса для создания животных.
+     * Создает 20 животных при помощи сервиса для создания животных.
      * Выводит информацию о созданных животных в консоль.
      */
-    @PostConstruct
     public void initAnimals() {
 
-        System.out.println("Creating animals:");
+        log.info("Creating animals:");
 
-        animals = createAnimalService.createAnimals(10);
+        animals = createAnimalService.createAnimals(20);
 
         print(animals);
     }
@@ -58,10 +61,11 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
         return animals.values().stream()
                 .flatMap(List::stream)
                 .filter(animal -> isLeapYear(animal.getDateOfBirth().getYear()))
-                .collect(Collectors.toMap(
+                .collect(Collectors.toConcurrentMap(
                         animal -> animal.getType() + " " + animal.getName(),
                         Animal::getDateOfBirth,
-                        (existing, replacement) -> existing.isAfter(replacement) ? existing : replacement
+                        (existing, replacement) -> existing.isAfter(replacement) ? existing : replacement,
+                        ConcurrentHashMap::new
                 ));
     }
 
@@ -80,18 +84,19 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
         Map<Animal, Integer> olderAnimals = animals.values().stream()
                 .flatMap(List::stream)
                 .filter(animal -> calculateAge(animal.getDateOfBirth()) > age)
-                .collect(Collectors.toMap(
+                .collect(Collectors.toConcurrentMap(
                         animal -> animal,
                         animal -> calculateAge(animal.getDateOfBirth()),
-                        Integer::sum
+                        Integer::sum,
+                        ConcurrentHashMap::new
                 ));
 
         if (olderAnimals.isEmpty()) {
-            System.out.println("No older animals found. The oldest Animal is: ");
+            log.info("No older animals found. The oldest Animal is: ");
             Animal oldestAnimal = findOldest(
                     animals.values().stream()
                             .flatMap(List::stream)
-                            .collect(Collectors.toList())
+                            .collect(Collectors.toCollection(CopyOnWriteArrayList::new))
             );
 
             int oldestAnimalAge = calculateAge(oldestAnimal.getDateOfBirth());
@@ -116,11 +121,12 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
                                 animal.getCharacter() + " " +
                                 animal.getDateOfBirth() + " " +
                                 animal.getCost(),
-                        Collectors.toList()
+                        ConcurrentHashMap::new,
+                        Collectors.toCollection(CopyOnWriteArrayList::new)
                 ))
                 .entrySet().stream()
                 .filter(entry -> entry.getValue().size() > 1)
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+                .collect(Collectors.toConcurrentMap(Map.Entry::getKey, Map.Entry::getValue));
 
     }
 
@@ -130,31 +136,32 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
      */
     @Override
     public void printDuplicate() {
+//        log.info("Finding duplicate animals: ");
         Map<String, List<Animal>> duplicateAnimals = findDuplicate();
         if (!duplicateAnimals.isEmpty()) {
-            System.out.println("Duplicate animals found:");
+            log.info("Duplicate animals found:");
             duplicateAnimals.forEach((animalType, duplicates) -> {
                 List<String> type = List.of(animalType.split(" "));
                 System.out.println(type.get(0) + ": ");
                 duplicates.forEach(System.out::println);
             });
         } else {
-            System.out.println("No duplicate animals found.");
+            log.info("No duplicate animals found.");
         }
     }
 
     /**
      * Метод нахождения среднего возраста животных.
-     *
-     * @return средний возраст.
      */
     @Override
-    public double findAverageAge() {
-        return animals.values().stream()
+    public void findAverageAge() {
+        log.info("Finding animals' average age: ");
+        double averageAge = animals.values().stream()
                 .flatMap(List::stream)
                 .mapToDouble(animal -> calculateAge(animal.getDateOfBirth()))
                 .average()
                 .orElse(0);
+        System.out.println("Average age of animals: " + averageAge);
     }
 
     /**
@@ -173,7 +180,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
                 .filter(animal -> calculateAge(animal.getDateOfBirth()) > 5
                         && animal.getCost().compareTo(averageCost) > 0)
                 .sorted(Comparator.comparing(Animal::getDateOfBirth))
-                .collect(Collectors.toList());
+                .collect(Collectors.toCollection(CopyOnWriteArrayList::new));
     }
 
     /**
@@ -194,7 +201,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
                 .limit(3)
                 .map(Animal::getName)
                 .sorted(Comparator.reverseOrder())
-                .collect(Collectors.toList());
+                .collect(Collectors.toCollection(CopyOnWriteArrayList::new));
     }
 
     public void setAnimals(Map<String, List<Animal>> animals) {
