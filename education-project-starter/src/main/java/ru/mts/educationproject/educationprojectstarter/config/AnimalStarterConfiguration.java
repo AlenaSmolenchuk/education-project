@@ -1,5 +1,8 @@
 package ru.mts.educationproject.educationprojectstarter.config;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
@@ -25,5 +28,12 @@ public class AnimalStarterConfiguration {
                                                    AnimalFactory dogFactory,
                                                    AnimalFactory sharkFactory) {
         return new CreateAnimalServiceImpl(wolfFactory, dogFactory, sharkFactory);
+    }
+
+    @Bean
+    public ObjectMapper objectMapper() {
+        return new ObjectMapper()
+                .setSerializationInclusion(JsonInclude.Include.NON_NULL)
+                .registerModule(new JavaTimeModule());
     }
 }

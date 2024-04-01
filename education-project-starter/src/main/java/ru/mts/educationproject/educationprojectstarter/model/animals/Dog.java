@@ -7,7 +7,6 @@ import ru.mts.educationproject.educationprojectstarter.model.animaltypes.Pet;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-
 /**
  * Класс Dog представляет собаку в качестве домашнего животного.
  */
@@ -22,10 +21,17 @@ public class Dog extends Pet {
      * @param character   характер собаки
      * @param dateOfBirth дата рождения собаки
      */
-    public Dog(AnimalBreed breed, String name, BigDecimal cost, AnimalCharacter character, LocalDate dateOfBirth) {
+    public Dog(AnimalBreed breed,
+               String name,
+               BigDecimal cost,
+               AnimalCharacter character,
+               LocalDate dateOfBirth) {
         super(breed, name, cost, character, dateOfBirth, "Dog");
     }
 
+    public Dog () {
+        super();
+    }
     @Override
     public String toString() {
         return "Dog{" +

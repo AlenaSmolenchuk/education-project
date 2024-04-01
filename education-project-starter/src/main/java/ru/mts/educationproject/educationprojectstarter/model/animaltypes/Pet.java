@@ -29,5 +29,13 @@ public abstract class Pet extends AbstractAnimal {
                String type) {
         super(breed, name, cost, character, dateOfBirth, type);
     }
+
+    public Pet() {
+    }
+
+    @Override
+    public String toString() {
+        return getSecretInfo();
+    }
 }
 

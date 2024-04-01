@@ -52,5 +52,12 @@ public interface Animal {
      * @return тип животного
      */
     String getType();
+
+    /**
+     * Возвращает секретную информацию(зашифрованный тип) о животном.
+     *
+     * @return секретная информация
+     */
+    String getSecretInfo();
 }
 

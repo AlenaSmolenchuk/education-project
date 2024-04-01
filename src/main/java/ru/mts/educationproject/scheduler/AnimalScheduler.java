@@ -4,9 +4,12 @@ import org.slf4j.*;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import ru.mts.educationproject.educationprojectstarter.model.animalint.Animal;
+import ru.mts.educationproject.exception.FileException;
 import ru.mts.educationproject.repository.AnimalsRepository;
+import ru.mts.educationproject.util.Constants;
 
 import javax.annotation.PostConstruct;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -37,15 +40,23 @@ public class AnimalScheduler {
 
         scheduler.scheduleAtFixedRate(() -> {
             Thread.currentThread().setName("PrintDuplicate");
-            log.info("Thread name: {}", Thread.currentThread().getName());
-
+            try {
+                log.info("Thread name: {}", Thread.currentThread().getName());
+                animalsRepository.readJson(Constants.FIND_DUPLICATE_RESULT, Map.class);
+            } catch (IOException e) {
+                throw new FileException("Failed to read a file" + e.getMessage() + e);
+            }
             animalsRepository.printDuplicate();
         }, 0, 10, TimeUnit.SECONDS);
 
         scheduler.scheduleAtFixedRate(() -> {
             Thread.currentThread().setName("FindAverageAge");
-            log.info("Thread name: {}", Thread.currentThread().getName());
-
+            try {
+                log.info("Thread name: {}", Thread.currentThread().getName());
+                animalsRepository.readJson(Constants.FIND_AVERAGE_AGE_RESULT, Integer.class);
+            } catch (IOException e) {
+                throw new FileException("Failed to read a file" + e.getMessage() + e);
+            }
             animalsRepository.findAverageAge();
         }, 0, 20, TimeUnit.SECONDS);
     }
@@ -58,24 +69,21 @@ public class AnimalScheduler {
     public void executeScheduledTask() {
         try {
             log.info("Finding leap year names: ");
-            Map<String, LocalDate> leapYearNames = animalsRepository.findLeapYearNames();
-            print(leapYearNames);
-            System.out.println();
+            animalsRepository.findLeapYearNames();
+            animalsRepository.readJson(Constants.FIND_LEAP_YEAR_NAMES_RESULT, Map.class);
+
 
             log.info("Finding older animals than 7 years: ");
-            Map<Animal, Integer> olderAnimals = animalsRepository.findOlderAnimals(7);
-            print(olderAnimals);
-            System.out.println();
+            animalsRepository.findOlderAnimals(7);
+            animalsRepository.readJson(Constants.FIND_OLDER_ANIMALS_RESULT, Map.class);
 
             log.info("Finding the oldest and expensive animals: ");
-            List<Animal> oldAndExpensive = animalsRepository.findOldAndExpensive();
-            printAnimalList(oldAndExpensive);
-            System.out.println();
+            animalsRepository.findOldAndExpensive();
+            animalsRepository.readJson(Constants.FIND_OLDER_ANIMALS_RESULT, List.class);
 
             log.info("Finding min cost animals: ");
-            List<String> minCostAnimals = animalsRepository.findMinCostAnimals();
-            printNames(minCostAnimals);
-            System.out.println();
+            animalsRepository.findMinCostAnimals();
+            animalsRepository.readJson(Constants.FIND_MIN_COST_ANIMALS_RESULT, List.class);
         } catch (Exception e) {
             log.error("Something went wrong: " + e.getMessage(), e);
         }

@@ -29,4 +29,12 @@ public abstract class Predator extends AbstractAnimal {
                     String type) {
         super(breed, name, cost, character, dateOfBirth, type);
     }
+
+    public Predator () {
+    }
+
+    @Override
+    public String toString() {
+        return getSecretInfo();
+    }
 }

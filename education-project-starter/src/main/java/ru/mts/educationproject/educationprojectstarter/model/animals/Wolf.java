@@ -11,7 +11,7 @@ import java.time.LocalDate;
  * Класс Wolf представляет волка.
  */
 public class Wolf extends Predator {
-  
+
     /**
      * Конструктор для создания экземпляра волка.
      *
@@ -23,6 +23,10 @@ public class Wolf extends Predator {
      */
     public Wolf(AnimalBreed breed,String name, BigDecimal cost, AnimalCharacter character, LocalDate dateOfBirth) {
         super(breed, name, cost, character, dateOfBirth, "Wolf");
+    }
+
+    public Wolf() {
+        super();
     }
 
     @Override

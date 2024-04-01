@@ -1,10 +1,17 @@
 package ru.mts.educationproject.educationprojectstarter.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.mts.educationproject.educationprojectstarter.exceptionst.UnknownAnimalTypeException;
 import ru.mts.educationproject.educationprojectstarter.exceptionst.UnknownCountOfAnimalException;
 import ru.mts.educationproject.educationprojectstarter.factory.AnimalFactory;
 import ru.mts.educationproject.educationprojectstarter.model.animalint.Animal;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -14,8 +21,10 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class CreateAnimalServiceImpl implements CreateAnimalService {
 
+    private static final Logger log = LoggerFactory.getLogger(CreateAnimalServiceImpl.class);
     private final List<AnimalFactory> factories;
     private String animalType;
+    private static int counter = 0;
 
     /**
      * Конструктор сервиса для создания животных.
@@ -44,17 +53,32 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
 
         Map<String, List<Animal>> uniqueAnimals = new ConcurrentHashMap<>(n);
 
-        for (int i = 0; i < n; i++) {
-            animalType = initializeAnimalType();
-            Animal animal = createRandomAnimalByType(animalType);
+        try (BufferedWriter writer = Files.newBufferedWriter(Paths
+                        .get("D:\\IdeaProjects\\education-project\\src\\main\\resources\\animals\\logData.txt"),
+                StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING)) {
 
-            if (uniqueAnimals.containsKey(animalType)) {
-                uniqueAnimals.get(animalType).add(animal);
-            } else {
-                List<Animal> animalList = new CopyOnWriteArrayList<>();
-                animalList.add(animal);
-                uniqueAnimals.put(animalType, animalList);
+            for (int i = 0; i < n; i++) {
+                animalType = initializeAnimalType();
+                Animal animal = createRandomAnimalByType(animalType);
+
+                if (uniqueAnimals.containsKey(animalType)) {
+                    uniqueAnimals.get(animalType).add(animal);
+                } else {
+                    List<Animal> animalList = new CopyOnWriteArrayList<>();
+                    animalList.add(animal);
+                    uniqueAnimals.put(animalType, animalList);
+                }
+
+                writer.write(++counter + " "
+                        + animal.getType() + " "
+                        + animal.getBreed() + " "
+                        + animal.getName() + " "
+                        + animal.getCost() + " "
+                        + animal.getCharacter() + " "
+                        + animal.getDateOfBirth() + "\n");
             }
+        } catch (IOException e) {
+            log.error("Something went wrong by writing data in a File: " + e.getMessage(), e);
         }
 
         return uniqueAnimals;
