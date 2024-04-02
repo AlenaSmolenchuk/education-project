@@ -38,17 +38,17 @@ public class AnimalScheduler {
     public void startScheduledTasks() {
         animalsRepository.initAnimals();
 
-//        scheduler.scheduleAtFixedRate(() -> {
-//            Thread.currentThread().setName("PrintDuplicate");
-//            try {
-//                log.info("Thread name: {}", Thread.currentThread().getName());
-//                animalsRepository.readJson(Constants.FIND_DUPLICATE_RESULT
-//                        , new TypeReference<Map<String,List<Animal>>>() {});
-//            } catch (IOException e) {
-//                throw new FileException("Failed to read a file" + e.getMessage() + e);
-//            }
-//            animalsRepository.findDuplicate();
-//        }, 0, 10, TimeUnit.SECONDS);
+        scheduler.scheduleAtFixedRate(() -> {
+            Thread.currentThread().setName("PrintDuplicate");
+            try {
+                log.info("Thread name: {}", Thread.currentThread().getName());
+                animalsRepository.readJson(Constants.FIND_DUPLICATE_RESULT
+                        , new TypeReference<Map<String,List<Animal>>>() {});
+            } catch (IOException e) {
+                throw new FileException("Failed to read a file" + e.getMessage() + e);
+            }
+            animalsRepository.findDuplicate();
+        }, 0, 10, TimeUnit.SECONDS);
 
         scheduler.scheduleAtFixedRate(() -> {
             Thread.currentThread().setName("FindAverageAge");
