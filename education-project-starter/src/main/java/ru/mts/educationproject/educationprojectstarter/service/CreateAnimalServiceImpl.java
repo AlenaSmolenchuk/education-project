@@ -2,19 +2,21 @@ package ru.mts.educationproject.educationprojectstarter.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
 import ru.mts.educationproject.educationprojectstarter.exceptionst.UnknownAnimalTypeException;
 import ru.mts.educationproject.educationprojectstarter.exceptionst.UnknownCountOfAnimalException;
 import ru.mts.educationproject.educationprojectstarter.factory.AnimalFactory;
 import ru.mts.educationproject.educationprojectstarter.model.animalint.Animal;
+import ru.mts.educationproject.educationprojectstarter.utilstarter.ConstantsStarter;
 
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Реализация интерфейса CreateAnimalService для создания животных.
@@ -24,7 +26,6 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
     private static final Logger log = LoggerFactory.getLogger(CreateAnimalServiceImpl.class);
     private final List<AnimalFactory> factories;
     private String animalType;
-    private static int counter = 0;
 
     /**
      * Конструктор сервиса для создания животных.
@@ -52,11 +53,8 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
         }
 
         Map<String, List<Animal>> uniqueAnimals = new ConcurrentHashMap<>(n);
-
-        try (BufferedWriter writer = Files.newBufferedWriter(Paths
-                        .get("D:\\IdeaProjects\\education-project\\src\\main\\resources\\animals\\logData.txt"),
-                StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING)) {
-
+        try {
+            List<String> lines = new ArrayList<>();
             for (int i = 0; i < n; i++) {
                 animalType = initializeAnimalType();
                 Animal animal = createRandomAnimalByType(animalType);
@@ -69,18 +67,16 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
                     uniqueAnimals.put(animalType, animalList);
                 }
 
-                writer.write(++counter + " "
-                        + animal.getType() + " "
-                        + animal.getBreed() + " "
-                        + animal.getName() + " "
-                        + animal.getCost() + " "
-                        + animal.getCharacter() + " "
-                        + animal.getDateOfBirth() + "\n");
+                lines.add(animalToString(animal, i + 1));
             }
-        } catch (IOException e) {
-            log.error("Something went wrong by writing data in a File: " + e.getMessage(), e);
-        }
 
+            Files.write(Path.of(ConstantsStarter.LOG_DATA_RESULT), lines,
+                    StandardOpenOption.CREATE,
+                    StandardOpenOption.WRITE,
+                    StandardOpenOption.TRUNCATE_EXISTING);
+        } catch (IOException e) {
+            log.error("Something went wrong by writing data in a File: {}", e.getMessage(), e);
+        }
         return uniqueAnimals;
     }
 
@@ -112,5 +108,17 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
             case "shark" -> factories.get(2).createRandomAnimal();
             default -> throw new UnknownAnimalTypeException("Unknown animal type: " + animalType);
         };
+    }
+
+    private String animalToString(Animal animal, int currentCounter) {
+        return String.format("%d %s %s %s %s %s %s %s",
+                currentCounter,
+                animal.getType(),
+                animal.getBreed(),
+                animal.getName(),
+                animal.getCost(),
+                animal.getCharacter(),
+                animal.getDateOfBirth(),
+                animal.getSecretInfo());
     }
 }

@@ -46,7 +46,6 @@ public class SharkFactory implements AnimalFactory {
             AnimalCharacter character = AnimalCharacter.values()
                     [(int) (Math.random() * AnimalCharacter.values().length)];
             LocalDate dateOfBirth = generateRandomDateOfBirth();
-
             return new Shark(breed, name, cost, character, dateOfBirth);
         }
     }

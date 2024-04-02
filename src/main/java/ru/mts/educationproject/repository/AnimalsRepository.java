@@ -1,5 +1,6 @@
 package ru.mts.educationproject.repository;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import ru.mts.educationproject.educationprojectstarter.model.animalint.Animal;
 import ru.mts.educationproject.exception.AnimalsArrayException;
 
@@ -93,5 +94,5 @@ public interface AnimalsRepository {
      */
     List<String> findMinCostAnimals() throws AnimalsArrayException;
 
-    <T> T readJson(String fileName, Class<T> valueType) throws IOException;
+    <T> T readJson(String fileName, TypeReference<T> typeReferencee) throws IOException;
 }

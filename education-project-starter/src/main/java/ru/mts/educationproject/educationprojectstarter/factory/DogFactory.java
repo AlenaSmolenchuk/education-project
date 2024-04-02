@@ -19,6 +19,7 @@ public class DogFactory implements AnimalFactory {
     @Value("${animal.dog.names}")
     private  String[] dogNames;
 
+
     public DogFactory(String[] dogNames) {
         this.dogNames = dogNames;
     }

@@ -8,7 +8,6 @@ import java.time.LocalDate;
  * Объявление интерфейса фабрики для создания животных.
  */
 public interface AnimalFactory {
-
     /**
      * Создает случайное животное.
      *

@@ -1,5 +1,6 @@
 package ru.mts.educationproject.scheduler;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.slf4j.*;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -11,13 +12,12 @@ import ru.mts.educationproject.util.Constants;
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-
-import static ru.mts.educationproject.util.Helper.*;
 
 @Component
 public class AnimalScheduler {
@@ -38,22 +38,23 @@ public class AnimalScheduler {
     public void startScheduledTasks() {
         animalsRepository.initAnimals();
 
-        scheduler.scheduleAtFixedRate(() -> {
-            Thread.currentThread().setName("PrintDuplicate");
-            try {
-                log.info("Thread name: {}", Thread.currentThread().getName());
-                animalsRepository.readJson(Constants.FIND_DUPLICATE_RESULT, Map.class);
-            } catch (IOException e) {
-                throw new FileException("Failed to read a file" + e.getMessage() + e);
-            }
-            animalsRepository.printDuplicate();
-        }, 0, 10, TimeUnit.SECONDS);
+//        scheduler.scheduleAtFixedRate(() -> {
+//            Thread.currentThread().setName("PrintDuplicate");
+//            try {
+//                log.info("Thread name: {}", Thread.currentThread().getName());
+//                animalsRepository.readJson(Constants.FIND_DUPLICATE_RESULT
+//                        , new TypeReference<Map<String,List<Animal>>>() {});
+//            } catch (IOException e) {
+//                throw new FileException("Failed to read a file" + e.getMessage() + e);
+//            }
+//            animalsRepository.findDuplicate();
+//        }, 0, 10, TimeUnit.SECONDS);
 
         scheduler.scheduleAtFixedRate(() -> {
             Thread.currentThread().setName("FindAverageAge");
             try {
                 log.info("Thread name: {}", Thread.currentThread().getName());
-                animalsRepository.readJson(Constants.FIND_AVERAGE_AGE_RESULT, Integer.class);
+                animalsRepository.readJson(Constants.FIND_AVERAGE_AGE_RESULT, new TypeReference<Double>() {});
             } catch (IOException e) {
                 throw new FileException("Failed to read a file" + e.getMessage() + e);
             }
@@ -70,20 +71,23 @@ public class AnimalScheduler {
         try {
             log.info("Finding leap year names: ");
             animalsRepository.findLeapYearNames();
-            animalsRepository.readJson(Constants.FIND_LEAP_YEAR_NAMES_RESULT, Map.class);
-
+            animalsRepository.readJson(Constants.FIND_LEAP_YEAR_NAMES_RESULT,
+                    new TypeReference<Map<String, LocalDate >>() {});
 
             log.info("Finding older animals than 7 years: ");
             animalsRepository.findOlderAnimals(7);
-            animalsRepository.readJson(Constants.FIND_OLDER_ANIMALS_RESULT, Map.class);
+            animalsRepository.readJson(Constants.FIND_OLDER_ANIMALS_RESULT,
+                    new TypeReference<Map<Animal, Integer>>() {});
 
             log.info("Finding the oldest and expensive animals: ");
             animalsRepository.findOldAndExpensive();
-            animalsRepository.readJson(Constants.FIND_OLDER_ANIMALS_RESULT, List.class);
+            animalsRepository.readJson(Constants.FIND_OLDER_ANIMALS_RESULT,
+                    new TypeReference<List<Animal>>(){});
 
             log.info("Finding min cost animals: ");
             animalsRepository.findMinCostAnimals();
-            animalsRepository.readJson(Constants.FIND_MIN_COST_ANIMALS_RESULT, List.class);
+            animalsRepository.readJson(Constants.FIND_MIN_COST_ANIMALS_RESULT,
+                    new TypeReference<List<String>>() {});
         } catch (Exception e) {
             log.error("Something went wrong: " + e.getMessage(), e);
         }

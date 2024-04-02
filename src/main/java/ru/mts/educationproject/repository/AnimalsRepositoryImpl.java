@@ -1,8 +1,10 @@
 package ru.mts.educationproject.repository;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import ru.mts.educationproject.educationprojectstarter.model.animalint.Animal;
 import ru.mts.educationproject.educationprojectstarter.service.CreateAnimalService;
@@ -21,8 +23,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
-import static ru.mts.educationproject.util.Helper.calculateAge;
-import static ru.mts.educationproject.util.Helper.print;
+import static ru.mts.educationproject.util.Helper.*;
 
 /**
  * Реализация интерфейса AnimalsRepository для хранения и обработки информации о животных.
@@ -53,7 +54,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
 
         log.info("Creating animals:");
 
-        animals = createAnimalService.createAnimals(20);
+        animals = createAnimalService.createAnimals(10);
 
         print(animals);
     }
@@ -66,7 +67,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
     @Override
     public Map<String, LocalDate> findLeapYearNames() {
 
-        Map<String, LocalDate> result = animals.values().stream()
+        Map<String, LocalDate> leapYearNames = animals.values().stream()
                 .flatMap(List::stream)
                 .filter(animal -> isLeapYear(animal.getDateOfBirth().getYear()))
                 .collect(Collectors.toConcurrentMap(
@@ -76,8 +77,10 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
                         ConcurrentHashMap::new
                 ));
 
-        writeJson(result, Constants.FIND_LEAP_YEAR_NAMES_RESULT);
-        return result;
+        writeJson(leapYearNames, Constants.FIND_LEAP_YEAR_NAMES_RESULT);
+
+        print(leapYearNames);
+        return leapYearNames;
     }
 
     /**
@@ -115,6 +118,8 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
         }
 
         writeJson(olderAnimals, Constants.FIND_OLDER_ANIMALS_RESULT);
+
+        print(olderAnimals);
         return olderAnimals;
     }
 
@@ -143,6 +148,8 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
                 .collect(Collectors.toConcurrentMap(Map.Entry::getKey, Map.Entry::getValue));
 
         writeJson(duplicates, Constants.FIND_DUPLICATE_RESULT);
+
+        print(duplicates);
         return duplicates;
     }
 
@@ -178,6 +185,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
                 .average()
                 .orElse(0);
         System.out.println("Average age of animals: " + averageAge);
+
         writeJson(averageAge, Constants.FIND_AVERAGE_AGE_RESULT);
     }
 
@@ -200,6 +208,8 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
                 .collect(Collectors.toCollection(CopyOnWriteArrayList::new));
 
         writeJson(oldAndExpensiveAnimals, Constants.FIND_OLD_AND_EXPENSIVE_RESULT);
+
+        printAnimalList(oldAndExpensiveAnimals);
         return oldAndExpensiveAnimals;
     }
 
@@ -224,6 +234,8 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
                 .collect(Collectors.toCollection(CopyOnWriteArrayList::new));
 
         writeJson(minCostAnimals, Constants.FIND_MIN_COST_ANIMALS_RESULT);
+
+        printNames(minCostAnimals);
         return minCostAnimals;
     }
 
@@ -246,15 +258,15 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
     private void writeJson(Object data, String fileName) {
         try {
             Files.writeString(Path.of(fileName), objectMapper.writeValueAsString(data),
-                    StandardOpenOption.CREATE);
+                    StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
         } catch (IOException e) {
             log.error("Failed to write data to JSON file: {}", e.getMessage(), e);
         }
     }
 
-    public  <T> T readJson(String fileName, Class<T> valueType) throws IOException {
+    public  <T> T readJson(String fileName, TypeReference<T> typeReference) throws IOException {
         try {
-            return objectMapper.readValue(Files.readString(Path.of(fileName)), valueType);
+            return objectMapper.readValue(Files.readString(Path.of(fileName)), typeReference);
         } catch (IOException e) {
             log.error("Failed to read data from JSON file: {}", fileName);
             throw e;

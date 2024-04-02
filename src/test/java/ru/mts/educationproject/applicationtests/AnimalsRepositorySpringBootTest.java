@@ -109,7 +109,7 @@ public class AnimalsRepositorySpringBootTest {
         assertThat(duplicateAnimals).isNotNull();
         assertThat(duplicateAnimals).hasSize(1);
         assertThat(duplicateAnimals)
-                .containsEntry("Shark shark BLACK FRIENDLY 2009-03-27 10.00", List.of(
+                .containsEntry("Shark shark BLACK FRIENDLY 2009-03-27 10", List.of(
                         new Shark(AnimalBreed.BLACK,
                                 "shark",
                                 BigDecimal.TEN,

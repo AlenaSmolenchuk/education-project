@@ -26,21 +26,15 @@ public class Dog extends Pet {
                BigDecimal cost,
                AnimalCharacter character,
                LocalDate dateOfBirth) {
-        super(breed, name, cost, character, dateOfBirth, "Dog");
+        this.breed = breed;
+        this.name = name;
+        this.cost = cost;
+        this.character = character;
+        this.dateOfBirth = dateOfBirth;
+        this.type = "Dog";
     }
 
-    public Dog () {
-        super();
-    }
-    @Override
-    public String toString() {
-        return "Dog{" +
-                "breed='" + breed + '\'' +
-                ", name='" + name + '\'' +
-                ", cost=" + cost +
-                ", character=" + character +
-                ", dateOfBirth=" + dateOfBirth +
-                '}';
+    public Dog() {
     }
 
     @Override
