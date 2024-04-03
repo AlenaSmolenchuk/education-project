@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ResourceUtils;
 import ru.mts.educationproject.educationprojectstarter.model.animalint.Animal;
 import ru.mts.educationproject.educationprojectstarter.service.CreateAnimalService;
 import ru.mts.educationproject.exception.AnimalsArrayException;
@@ -257,8 +258,8 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
 
     private void writeJson(Object data, String fileName) {
         try {
-            Files.writeString(Path.of(fileName), objectMapper.writeValueAsString(data),
-                    StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+            Files.writeString(ResourceUtils.getFile(fileName).toPath(), objectMapper.writeValueAsString(data),
+                    StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
         } catch (IOException e) {
             log.error("Failed to write data to JSON file: {}", e.getMessage(), e);
         }
@@ -266,7 +267,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
 
     public  <T> T readJson(String fileName, TypeReference<T> typeReference) throws IOException {
         try {
-            return objectMapper.readValue(Files.readString(Path.of(fileName)), typeReference);
+            return objectMapper.readValue(Files.readString(ResourceUtils.getFile((fileName)).toPath()), typeReference);
         } catch (IOException e) {
             log.error("Failed to read data from JSON file: {}", fileName);
             throw e;

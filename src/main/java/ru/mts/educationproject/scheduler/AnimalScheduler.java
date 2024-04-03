@@ -19,6 +19,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import static ru.mts.educationproject.util.Helper.printAnimalList;
+import static ru.mts.educationproject.util.Helper.printNames;
+
 @Component
 public class AnimalScheduler {
     private final AnimalsRepository animalsRepository;
@@ -39,26 +42,26 @@ public class AnimalScheduler {
         animalsRepository.initAnimals();
 
         scheduler.scheduleAtFixedRate(() -> {
+            animalsRepository.findDuplicate();
             Thread.currentThread().setName("PrintDuplicate");
             try {
                 log.info("Thread name: {}", Thread.currentThread().getName());
                 animalsRepository.readJson(Constants.FIND_DUPLICATE_RESULT
-                        , new TypeReference<Map<String,List<Animal>>>() {});
+                        , new TypeReference<>() {});
             } catch (IOException e) {
                 throw new FileException("Failed to read a file" + e.getMessage() + e);
             }
-            animalsRepository.findDuplicate();
         }, 0, 10, TimeUnit.SECONDS);
 
         scheduler.scheduleAtFixedRate(() -> {
+            animalsRepository.findAverageAge();
             Thread.currentThread().setName("FindAverageAge");
             try {
                 log.info("Thread name: {}", Thread.currentThread().getName());
-                animalsRepository.readJson(Constants.FIND_AVERAGE_AGE_RESULT, new TypeReference<Double>() {});
+                animalsRepository.readJson(Constants.FIND_AVERAGE_AGE_RESULT, new TypeReference<>() {});
             } catch (IOException e) {
                 throw new FileException("Failed to read a file" + e.getMessage() + e);
             }
-            animalsRepository.findAverageAge();
         }, 0, 20, TimeUnit.SECONDS);
     }
 
@@ -72,22 +75,22 @@ public class AnimalScheduler {
             log.info("Finding leap year names: ");
             animalsRepository.findLeapYearNames();
             animalsRepository.readJson(Constants.FIND_LEAP_YEAR_NAMES_RESULT,
-                    new TypeReference<Map<String, LocalDate >>() {});
+                    new TypeReference<>() {});
 
             log.info("Finding older animals than 7 years: ");
             animalsRepository.findOlderAnimals(7);
             animalsRepository.readJson(Constants.FIND_OLDER_ANIMALS_RESULT,
-                    new TypeReference<Map<Animal, Integer>>() {});
+                    new TypeReference<>() {});
 
             log.info("Finding the oldest and expensive animals: ");
             animalsRepository.findOldAndExpensive();
             animalsRepository.readJson(Constants.FIND_OLDER_ANIMALS_RESULT,
-                    new TypeReference<List<Animal>>(){});
+                    new TypeReference<>(){});
 
             log.info("Finding min cost animals: ");
             animalsRepository.findMinCostAnimals();
             animalsRepository.readJson(Constants.FIND_MIN_COST_ANIMALS_RESULT,
-                    new TypeReference<List<String>>() {});
+                    new TypeReference<>() {});
         } catch (Exception e) {
             log.error("Something went wrong: " + e.getMessage(), e);
         }

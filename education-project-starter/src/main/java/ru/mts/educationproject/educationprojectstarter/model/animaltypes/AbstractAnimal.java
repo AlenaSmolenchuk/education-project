@@ -3,6 +3,7 @@ package ru.mts.educationproject.educationprojectstarter.model.animaltypes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.util.ResourceUtils;
 import ru.mts.educationproject.educationprojectstarter.exceptionst.EmptyFileStarterException;
 import ru.mts.educationproject.educationprojectstarter.model.animalcharacteristic.AnimalBreed;
 import ru.mts.educationproject.educationprojectstarter.model.animalcharacteristic.AnimalCharacter;
@@ -106,7 +107,7 @@ public abstract class AbstractAnimal implements Animal, Externalizable {
     public String getSecretInfo() {
         try {
             List<String> secretInfo = Files
-                    .readAllLines(Path.of(ConstantsStarter.SECRET_INFORMATION_RESULT));
+                    .readAllLines(ResourceUtils.getFile(ConstantsStarter.SECRET_INFORMATION_RESULT).toPath());
             if (!secretInfo.isEmpty()) {
                 Random rand = new Random();
                 int index = rand.nextInt(secretInfo.size());

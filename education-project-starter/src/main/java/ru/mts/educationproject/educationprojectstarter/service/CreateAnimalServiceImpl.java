@@ -3,6 +3,7 @@ package ru.mts.educationproject.educationprojectstarter.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.util.ResourceUtils;
 import ru.mts.educationproject.educationprojectstarter.exceptionst.UnknownAnimalTypeException;
 import ru.mts.educationproject.educationprojectstarter.exceptionst.UnknownCountOfAnimalException;
 import ru.mts.educationproject.educationprojectstarter.factory.AnimalFactory;
@@ -70,7 +71,8 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
                 lines.add(animalToString(animal, i + 1));
             }
 
-            Files.write(Path.of(ConstantsStarter.LOG_DATA_RESULT), lines,
+            Files.write(ResourceUtils.getFile(ConstantsStarter.LOG_DATA_RESULT).toPath(),
+                    lines,
                     StandardOpenOption.CREATE,
                     StandardOpenOption.WRITE,
                     StandardOpenOption.TRUNCATE_EXISTING);
