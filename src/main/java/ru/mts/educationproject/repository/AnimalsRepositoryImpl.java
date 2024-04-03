@@ -258,8 +258,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
 
     private void writeJson(Object data, String fileName) {
         try {
-            Files.writeString(ResourceUtils.getFile(fileName).toPath(), objectMapper.writeValueAsString(data),
-                    StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
+            objectMapper.writeValue(ResourceUtils.getFile(fileName),data);
         } catch (IOException e) {
             log.error("Failed to write data to JSON file: {}", e.getMessage(), e);
         }
@@ -267,7 +266,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
 
     public  <T> T readJson(String fileName, TypeReference<T> typeReference) throws IOException {
         try {
-            return objectMapper.readValue(Files.readString(ResourceUtils.getFile((fileName)).toPath()), typeReference);
+            return objectMapper.readValue(ResourceUtils.getFile(fileName), typeReference);
         } catch (IOException e) {
             log.error("Failed to read data from JSON file: {}", fileName);
             throw e;

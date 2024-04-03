@@ -4,23 +4,15 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import org.slf4j.*;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import ru.mts.educationproject.educationprojectstarter.model.animalint.Animal;
 import ru.mts.educationproject.exception.FileException;
 import ru.mts.educationproject.repository.AnimalsRepository;
 import ru.mts.educationproject.util.Constants;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-
-import static ru.mts.educationproject.util.Helper.printAnimalList;
-import static ru.mts.educationproject.util.Helper.printNames;
 
 @Component
 public class AnimalScheduler {

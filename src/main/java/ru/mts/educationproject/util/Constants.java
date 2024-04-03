@@ -2,7 +2,7 @@ package ru.mts.educationproject.util;
 
 public class Constants {
 
-    public static final String RESULTS_DIRECTORY = "classpath:results/";
+    public static final String RESULTS_DIRECTORY = "src/main/resources/results/";
     public static final String FIND_LEAP_YEAR_NAMES_RESULT = RESULTS_DIRECTORY + "findLeapYearNames.json";
     public static final String FIND_OLDER_ANIMALS_RESULT = RESULTS_DIRECTORY + "findOlderAnimals.json";
     public static final String FIND_DUPLICATE_RESULT = RESULTS_DIRECTORY + "findDuplicate.json";
