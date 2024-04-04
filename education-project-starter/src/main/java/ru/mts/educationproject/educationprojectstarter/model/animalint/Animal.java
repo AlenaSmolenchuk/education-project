@@ -1,6 +1,5 @@
 package ru.mts.educationproject.educationprojectstarter.model.animalint;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import ru.mts.educationproject.educationprojectstarter.model.animalcharacteristic.AnimalBreed;
@@ -21,7 +20,6 @@ public interface Animal {
      *
      * @return порода животного
      */
-    @JsonProperty("breed")
     AnimalBreed getBreed();
 
     /**
@@ -29,7 +27,6 @@ public interface Animal {
      *
      * @return имя животного
      */
-    @JsonProperty("name")
     String getName();
 
     /**
@@ -37,7 +34,6 @@ public interface Animal {
      *
      * @return стоимость животного
      */
-    @JsonProperty("cost")
     BigDecimal getCost();
 
     /**
@@ -45,7 +41,6 @@ public interface Animal {
      *
      * @return характер животного
      */
-    @JsonProperty("character")
     AnimalCharacter getCharacter();
 
     /**
@@ -53,7 +48,6 @@ public interface Animal {
      *
      * @return дата рождения
      */
-    @JsonProperty("dateOfBirth")
     LocalDate getDateOfBirth();
 
     /**
@@ -61,7 +55,6 @@ public interface Animal {
      *
      * @return тип животного
      */
-    @JsonProperty("type")
     String getType();
 
     /**
@@ -69,9 +62,6 @@ public interface Animal {
      *
      * @return секретная информация
      */
-    @JsonProperty("secretInfo")
-    @JsonDeserialize(using = Base64Deserializer.class)
-    @JsonSerialize(using = Base64Serializer.class)
     String getSecretInfo();
 }
 
