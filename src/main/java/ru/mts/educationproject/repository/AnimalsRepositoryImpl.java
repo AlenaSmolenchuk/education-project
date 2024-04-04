@@ -79,7 +79,6 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
 
         writeJson(leapYearNames, Constants.FIND_LEAP_YEAR_NAMES_RESULT);
 
-        print(leapYearNames);
         return leapYearNames;
     }
 
@@ -119,7 +118,6 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
 
         writeJson(olderAnimals, Constants.FIND_OLDER_ANIMALS_RESULT);
 
-        print(olderAnimals);
         return olderAnimals;
     }
 
@@ -149,7 +147,6 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
 
         writeJson(duplicates, Constants.FIND_DUPLICATE_RESULT);
 
-        print(duplicates);
         return duplicates;
     }
 
@@ -184,7 +181,6 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
                 .mapToDouble(animal -> calculateAge(animal.getDateOfBirth()))
                 .average()
                 .orElse(0);
-        System.out.println("Average age of animals: " + averageAge);
 
         writeJson(averageAge, Constants.FIND_AVERAGE_AGE_RESULT);
     }
@@ -200,7 +196,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
     public List<Animal> findOldAndExpensive() {
         BigDecimal averageCost = calculateAverageCost(animals);
 
-        List<Animal> oldAndExpensiveAnimals =  animals.values().stream()
+        List<Animal> oldAndExpensiveAnimals = animals.values().stream()
                 .flatMap(List::stream)
                 .filter(animal -> calculateAge(animal.getDateOfBirth()) > 5
                         && animal.getCost().compareTo(averageCost) > 0)
@@ -209,7 +205,6 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
 
         writeJson(oldAndExpensiveAnimals, Constants.FIND_OLD_AND_EXPENSIVE_RESULT);
 
-        printAnimalList(oldAndExpensiveAnimals);
         return oldAndExpensiveAnimals;
     }
 
@@ -225,7 +220,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
             throw new AnimalsArrayException("The 'animals' map is null or contains less than 3 elements.");
         }
 
-        List<String> minCostAnimals =  animals.values().stream()
+        List<String> minCostAnimals = animals.values().stream()
                 .flatMap(List::stream)
                 .sorted(Comparator.comparing(Animal::getCost))
                 .limit(3)
@@ -235,7 +230,6 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
 
         writeJson(minCostAnimals, Constants.FIND_MIN_COST_ANIMALS_RESULT);
 
-        printNames(minCostAnimals);
         return minCostAnimals;
     }
 
@@ -265,14 +259,14 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
         }
     }
 
-    public <T> void readJson(String fileName, TypeReference<T> typeReference) throws IOException {
+    public <T> T readJson(String fileName, TypeReference<T> typeReference) throws IOException {
         try {
             Path filePath = ResourceUtils.getFile(fileName).toPath();
             if (!Files.exists(filePath)) {
                 log.error("File {} not found", fileName);
                 throw new FileException("File not found: " + fileName);
             }
-            objectMapper.readValue(filePath.toFile(), typeReference);
+            return objectMapper.readValue(filePath.toFile(), typeReference);
         } catch (IOException e) {
             log.error("Failed to read data from JSON file: {}", fileName);
             throw e;

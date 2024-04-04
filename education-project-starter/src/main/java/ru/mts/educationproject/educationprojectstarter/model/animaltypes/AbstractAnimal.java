@@ -1,11 +1,14 @@
 package ru.mts.educationproject.educationprojectstarter.model.animaltypes;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.mts.educationproject.educationprojectstarter.model.animalcharacteristic.AnimalBreed;
 import ru.mts.educationproject.educationprojectstarter.model.animalcharacteristic.AnimalCharacter;
 import ru.mts.educationproject.educationprojectstarter.model.animalint.Animal;
+import ru.mts.educationproject.educationprojectstarter.utilstarter.Base64Deserializer;
 import ru.mts.educationproject.educationprojectstarter.utilstarter.Base64Serializer;
 
 import java.math.BigDecimal;
@@ -23,8 +26,9 @@ public abstract class AbstractAnimal implements Animal {
     protected AnimalCharacter character;
     protected LocalDate dateOfBirth;
     protected String type;
+//    @JsonDeserialize(using = Base64Deserializer.class)
+//    @JsonSerialize(using = Base64Serializer.class)
     protected String secretInfo;
-
 
     private static final Logger log = LoggerFactory.getLogger(AbstractAnimal.class);
 
@@ -63,37 +67,45 @@ public abstract class AbstractAnimal implements Animal {
 
     // Реализация методов интерфейса Animal
     @Override
+//    @JsonProperty("breed")
     public AnimalBreed getBreed() {
         return breed;
     }
 
     @Override
+//    @JsonProperty("name")
     public String getName() {
         return name;
     }
 
     @Override
+//    @JsonProperty("cost")
     public BigDecimal getCost() {
         return cost;
     }
 
     @Override
+//    @JsonProperty("character")
     public AnimalCharacter getCharacter() {
         return character;
     }
 
     @Override
+//    @JsonProperty("dateOfBirth")
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
     @Override
+//    @JsonProperty("type")
     public String getType() {
         return type;
     }
 
     @Override
-    @JsonSerialize(using = Base64Serializer.class)
+//    @JsonProperty("secretInfo")
+//    @JsonDeserialize(using = Base64Deserializer.class)
+//    @JsonSerialize(using = Base64Serializer.class)
     public String getSecretInfo() {
         return secretInfo;
     }

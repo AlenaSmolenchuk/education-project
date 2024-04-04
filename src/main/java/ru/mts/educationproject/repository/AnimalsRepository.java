@@ -94,5 +94,5 @@ public interface AnimalsRepository {
      */
     List<String> findMinCostAnimals() throws AnimalsArrayException;
 
-    <T> void readJson(String fileName, TypeReference<T> typeReferencee) throws IOException;
+    <T> T readJson(String fileName, TypeReference<T> typeReferencee) throws IOException;
 }
