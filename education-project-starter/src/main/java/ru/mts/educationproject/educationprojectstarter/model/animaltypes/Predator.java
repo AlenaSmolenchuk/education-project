@@ -1,11 +1,5 @@
 package ru.mts.educationproject.educationprojectstarter.model.animaltypes;
 
-import ru.mts.educationproject.educationprojectstarter.model.animalcharacteristic.AnimalBreed;
-import ru.mts.educationproject.educationprojectstarter.model.animalcharacteristic.AnimalCharacter;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
-
 /**
  * Абстрактный класс Predator представляет хищных животных.
  */

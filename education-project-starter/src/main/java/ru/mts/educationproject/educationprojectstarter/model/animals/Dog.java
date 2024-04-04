@@ -7,6 +7,8 @@ import ru.mts.educationproject.educationprojectstarter.model.animaltypes.Pet;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import static ru.mts.educationproject.educationprojectstarter.utilstarter.StarterHelper.createSecret;
+
 /**
  * Класс Dog представляет собаку в качестве домашнего животного.
  */
@@ -32,6 +34,7 @@ public class Dog extends Pet {
         this.character = character;
         this.dateOfBirth = dateOfBirth;
         this.type = "Dog";
+        this.secretInfo = createSecret();
     }
 
     public Dog() {

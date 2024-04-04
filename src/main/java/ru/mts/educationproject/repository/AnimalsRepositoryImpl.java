@@ -4,12 +4,12 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 import ru.mts.educationproject.educationprojectstarter.model.animalint.Animal;
 import ru.mts.educationproject.educationprojectstarter.service.CreateAnimalService;
 import ru.mts.educationproject.exception.AnimalsArrayException;
+import ru.mts.educationproject.exception.FileException;
 import ru.mts.educationproject.exception.UnknownAgeFormatException;
 import ru.mts.educationproject.util.Constants;
 
@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -258,15 +257,22 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
 
     private void writeJson(Object data, String fileName) {
         try {
-            objectMapper.writeValue(ResourceUtils.getFile(fileName),data);
+            Path filePath = ResourceUtils.getFile(fileName).toPath();
+            Files.createDirectories(filePath.getParent());
+            objectMapper.writeValue(filePath.toFile(), data);
         } catch (IOException e) {
             log.error("Failed to write data to JSON file: {}", e.getMessage(), e);
         }
     }
 
-    public  <T> T readJson(String fileName, TypeReference<T> typeReference) throws IOException {
+    public <T> void readJson(String fileName, TypeReference<T> typeReference) throws IOException {
         try {
-            return objectMapper.readValue(ResourceUtils.getFile(fileName), typeReference);
+            Path filePath = ResourceUtils.getFile(fileName).toPath();
+            if (!Files.exists(filePath)) {
+                log.error("File {} not found", fileName);
+                throw new FileException("File not found: " + fileName);
+            }
+            objectMapper.readValue(filePath.toFile(), typeReference);
         } catch (IOException e) {
             log.error("Failed to read data from JSON file: {}", fileName);
             throw e;

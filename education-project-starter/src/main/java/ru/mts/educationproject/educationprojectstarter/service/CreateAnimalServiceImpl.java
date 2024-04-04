@@ -2,7 +2,6 @@ package ru.mts.educationproject.educationprojectstarter.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.ResourceUtils;
 import ru.mts.educationproject.educationprojectstarter.exceptionst.UnknownAnimalTypeException;
 import ru.mts.educationproject.educationprojectstarter.exceptionst.UnknownCountOfAnimalException;
@@ -17,7 +16,8 @@ import java.nio.file.StandardOpenOption;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.atomic.AtomicInteger;
+
+import static ru.mts.educationproject.educationprojectstarter.utilstarter.StarterHelper.animalToString;
 
 /**
  * Реализация интерфейса CreateAnimalService для создания животных.
@@ -71,9 +71,9 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
                 lines.add(animalToString(animal, i + 1));
             }
 
-            Files.write(ResourceUtils.getFile(ConstantsStarter.LOG_DATA_RESULT).toPath(),
-                    lines,
-                    StandardOpenOption.CREATE,
+            Path filePath = ResourceUtils.getFile(ConstantsStarter.LOG_DATA_RESULT).toPath();
+            Files.createDirectories(filePath.getParent());
+            Files.write(filePath, lines, StandardOpenOption.CREATE,
                     StandardOpenOption.WRITE,
                     StandardOpenOption.TRUNCATE_EXISTING);
         } catch (IOException e) {
@@ -110,17 +110,5 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
             case "shark" -> factories.get(2).createRandomAnimal();
             default -> throw new UnknownAnimalTypeException("Unknown animal type: " + animalType);
         };
-    }
-
-    private String animalToString(Animal animal, int currentCounter) {
-        return String.format("%d %s %s %s %s %s %s %s",
-                currentCounter,
-                animal.getType(),
-                animal.getBreed(),
-                animal.getName(),
-                animal.getCost(),
-                animal.getCharacter(),
-                animal.getDateOfBirth(),
-                animal.getSecretInfo());
     }
 }

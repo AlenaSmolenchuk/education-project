@@ -7,6 +7,8 @@ import ru.mts.educationproject.educationprojectstarter.model.animaltypes.Predato
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import static ru.mts.educationproject.educationprojectstarter.utilstarter.StarterHelper.createSecret;
+
 /**
  * Класс Wolf представляет волка.
  */
@@ -32,6 +34,7 @@ public class Wolf extends Predator {
         this.character = character;
         this.dateOfBirth = dateOfBirth;
         this.type = "Wolf";
+        this.secretInfo = createSecret();
     }
 
     public Wolf() {

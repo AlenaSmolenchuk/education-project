@@ -9,6 +9,8 @@ import ru.mts.educationproject.educationprojectstarter.model.animaltypes.Predato
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import static ru.mts.educationproject.educationprojectstarter.utilstarter.StarterHelper.createSecret;
+
 /**
  * Класс Shark представляет акулу.
  */
@@ -34,6 +36,7 @@ public class Shark extends Predator {
         this.character = character;
         this.dateOfBirth = dateOfBirth;
         this.type = "Shark";
+        this.secretInfo = createSecret();
     }
 
     public Shark() {

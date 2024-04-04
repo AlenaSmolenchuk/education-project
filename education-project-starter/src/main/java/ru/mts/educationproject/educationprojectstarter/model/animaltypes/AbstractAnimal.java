@@ -1,35 +1,22 @@
 package ru.mts.educationproject.educationprojectstarter.model.animaltypes;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.util.ResourceUtils;
-import ru.mts.educationproject.educationprojectstarter.exceptionst.EmptyFileStarterException;
 import ru.mts.educationproject.educationprojectstarter.model.animalcharacteristic.AnimalBreed;
 import ru.mts.educationproject.educationprojectstarter.model.animalcharacteristic.AnimalCharacter;
 import ru.mts.educationproject.educationprojectstarter.model.animalint.Animal;
-import ru.mts.educationproject.educationprojectstarter.utilstarter.ConstantsStarter;
+import ru.mts.educationproject.educationprojectstarter.utilstarter.Base64Serializer;
 
-import java.io.Externalizable;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.time.LocalDate;
-import java.util.Base64;
-import java.util.List;
 import java.util.Objects;
-import java.util.Random;
 
 /**
  * Абстрактный класс AbstractAnimal реализует интерфейс Animal и предоставляет базовую реализацию методов.
  */
-public abstract class AbstractAnimal implements Animal, Externalizable {
+public abstract class AbstractAnimal implements Animal {
     protected AnimalBreed breed;
     protected String name;
     protected BigDecimal cost;
@@ -106,23 +93,37 @@ public abstract class AbstractAnimal implements Animal, Externalizable {
     }
 
     @Override
+    @JsonSerialize(using = Base64Serializer.class)
     public String getSecretInfo() {
-        try {
-            List<String> secretInfo = Files
-                    .readAllLines(ResourceUtils.getFile(ConstantsStarter.SECRET_INFORMATION_RESULT).toPath());
-            if (!secretInfo.isEmpty()) {
-                Random rand = new Random();
-                int index = rand.nextInt(secretInfo.size());
+        return secretInfo;
+    }
 
-                return secretInfo.get(index);
-            } else {
-                throw new EmptyFileStarterException("This file is empty");
-            }
+    public void setBreed(AnimalBreed breed) {
+        this.breed = breed;
+    }
 
-        } catch (IOException e) {
-            log.error("Something went wrong by by reading data: " + e.getMessage(), e);
-            return "Failed to read secret information";
-        }
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCost(BigDecimal cost) {
+        this.cost = cost;
+    }
+
+    public void setCharacter(AnimalCharacter character) {
+        this.character = character;
+    }
+
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setSecretInfo(String secretInfo) {
+        this.secretInfo = secretInfo;
     }
 
     // Переопределение метода equals()
@@ -144,25 +145,4 @@ public abstract class AbstractAnimal implements Animal, Externalizable {
         return Objects.hash(breed, name, cost, character, dateOfBirth, type);
     }
 
-    @Override
-    public void writeExternal(ObjectOutput out) throws IOException {
-        out.writeObject(breed);
-        out.writeUTF(name);
-        out.writeObject(cost);
-        out.writeObject(character);
-        out.writeObject(dateOfBirth);
-        out.writeUTF(type);
-        out.writeUTF(Base64.getEncoder().encodeToString(secretInfo.getBytes()));
-    }
-
-    @Override
-    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-        this.breed = (AnimalBreed) in.readObject();
-        this.name = in.readUTF();
-        this.cost = (BigDecimal) in.readObject();
-        this.character = (AnimalCharacter) in.readObject();
-        this.dateOfBirth = (LocalDate) in.readObject();
-        this.type = in.readUTF();
-        this.secretInfo= new String(Base64.getDecoder().decode(in.readUTF()));
-    }
 }
