@@ -1,1 +1,25 @@
-[{"breed":"BROWN","name":"grob","cost":310.75159265521734,"character":"PLAYFUL","dateOfBirth":[2005,4,13],"type":"Wolf","secretInfo":"MTExMTMx"},{"breed":"WHITE","name":"rax","cost":232.57571636313955,"character":"PLAYFUL","dateOfBirth":[2006,8,8],"type":"Shark","secretInfo":"MTExMTE2"},{"breed":"WHITE","name":"Shark","cost":323.37,"character":"PLAYFUL","dateOfBirth":[2008,4,4],"type":"Shark","secretInfo":"MTExMTI3"},{"breed":"BLACK","name":"katy","cost":212.27272048032464,"character":"FRIENDLY","dateOfBirth":[2013,10,18],"type":"Shark","secretInfo":"MTExMTE4"},{"breed":"WHITE","name":"lucky","cost":278.7316208419667,"character":"CALM","dateOfBirth":[2016,3,6],"type":"Dog","secretInfo":"MTExMTE3"}]
+[ {
+  "breed" : "WHITE",
+  "name" : "pop",
+  "cost" : 361.40,
+  "character" : "FRIENDLY",
+  "dateOfBirth" : [ 2004, 10, 15 ],
+  "type" : "Wolf",
+  "secretInfo" : "MTExMTI0"
+}, {
+  "breed" : "BLACK",
+  "name" : "tom",
+  "cost" : 409.35,
+  "character" : "AGGRESSIVE",
+  "dateOfBirth" : [ 2004, 10, 21 ],
+  "type" : "Shark",
+  "secretInfo" : "MTExMTEy"
+}, {
+  "breed" : "BROWN",
+  "name" : "grob",
+  "cost" : 702.10,
+  "character" : "CALM",
+  "dateOfBirth" : [ 2007, 9, 21 ],
+  "type" : "Wolf",
+  "secretInfo" : "MTExMTEx"
+} ]

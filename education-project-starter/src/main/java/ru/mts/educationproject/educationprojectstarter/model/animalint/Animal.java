@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import ru.mts.educationproject.educationprojectstarter.model.animalcharacteristic.AnimalBreed;
 import ru.mts.educationproject.educationprojectstarter.model.animalcharacteristic.AnimalCharacter;
+import ru.mts.educationproject.educationprojectstarter.utilstarter.AnimalDeserializer;
 import ru.mts.educationproject.educationprojectstarter.utilstarter.Base64Deserializer;
 import ru.mts.educationproject.educationprojectstarter.utilstarter.Base64Serializer;
 
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 /**
  * Реализация интерфейса Animal представляет общие методы для всех животных.
  */
+@JsonDeserialize(using = AnimalDeserializer.class)
 public interface Animal {
 
     /**

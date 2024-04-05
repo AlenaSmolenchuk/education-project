@@ -12,6 +12,7 @@ import ru.mts.educationproject.educationprojectstarter.factory.DogFactory;
 import ru.mts.educationproject.educationprojectstarter.factory.SharkFactory;
 import ru.mts.educationproject.educationprojectstarter.factory.WolfFactory;
 import ru.mts.educationproject.educationprojectstarter.model.animalint.Animal;
+import ru.mts.educationproject.educationprojectstarter.model.animaltypes.AbstractAnimal;
 import ru.mts.educationproject.educationprojectstarter.service.CreateAnimalService;
 
 import java.util.*;

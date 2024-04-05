@@ -1,1 +1,8 @@
-{"Shark{breed=WHITE, name='rax', cost=232.57571636313955, character=PLAYFUL, dateOfBirth=2006-08-08, secretInfo='111116'}":17,"Shark{breed=WHITE, name='Shark', cost=323.37, character=PLAYFUL, dateOfBirth=2008-04-04, secretInfo='111127'}":16,"Dog{breed=BROWN, name='Dog', cost=23.87, character=FRIENDLY, dateOfBirth=2016-04-04, secretInfo='111113'}":32,"Wolf{breed=BROWN, name='grob', cost=310.75159265521734, character=PLAYFUL, dateOfBirth=2005-04-13, secretInfo='111131'}":18,"Shark{breed=BLACK, name='katy', cost=212.27272048032464, character=FRIENDLY, dateOfBirth=2013-10-18, secretInfo='111118'}":10,"Dog{breed=WHITE, name='lucky', cost=278.7316208419667, character=CALM, dateOfBirth=2016-03-06, secretInfo='111117'}":8}
+{
+  "Shark{breed=BLACK, name='tom', cost=409.35, character=AGGRESSIVE, dateOfBirth=2004-10-21, secretInfo='111112'}" : 19,
+  "Dog{breed=BROWN, name='Dog', cost=23.87, character=FRIENDLY, dateOfBirth=2016-04-05, secretInfo='111129'}" : 8,
+  "Shark{breed=WHITE, name='mopsy', cost=249.13, character=AGGRESSIVE, dateOfBirth=2010-02-24, secretInfo='111129'}" : 14,
+  "Shark{breed=WHITE, name='tom', cost=24.56, character=CALM, dateOfBirth=2005-09-23, secretInfo='111133'}" : 18,
+  "Wolf{breed=WHITE, name='pop', cost=361.40, character=FRIENDLY, dateOfBirth=2004-10-15, secretInfo='111124'}" : 19,
+  "Wolf{breed=BROWN, name='grob', cost=702.10, character=CALM, dateOfBirth=2007-09-21, secretInfo='111111'}" : 16
+}

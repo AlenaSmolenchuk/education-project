@@ -28,16 +28,7 @@ public class Wolf extends Predator {
                 BigDecimal cost,
                 AnimalCharacter character,
                 LocalDate dateOfBirth) {
-        this.breed = breed;
-        this.name = name;
-        this.cost = cost;
-        this.character = character;
-        this.dateOfBirth = dateOfBirth;
-        this.type = "Wolf";
-        this.secretInfo = createSecret();
-    }
-
-    public Wolf() {
+        super(breed, name, cost, character, dateOfBirth, "Wolf", createSecret());
     }
 
     @Override

@@ -1,1 +1,19 @@
-{"Dog Dog BROWN FRIENDLY 2016-04-04 23.87":[{"breed":"BROWN","name":"Dog","cost":23.87,"character":"FRIENDLY","dateOfBirth":[2016,4,4],"type":"Dog","secretInfo":"MTExMTEz"},{"breed":"BROWN","name":"Dog","cost":23.87,"character":"FRIENDLY","dateOfBirth":[2016,4,4],"type":"Dog","secretInfo":"MTExMTMx"},{"breed":"BROWN","name":"Dog","cost":23.87,"character":"FRIENDLY","dateOfBirth":[2016,4,4],"type":"Dog","secretInfo":"MTExMTE0"},{"breed":"BROWN","name":"Dog","cost":23.87,"character":"FRIENDLY","dateOfBirth":[2016,4,4],"type":"Dog","secretInfo":"MTExMTM0"}]}
+{
+  "Wolf Wolf BLACK AGGRESSIVE 2022-04-05 500.98" : [ {
+    "breed" : "BLACK",
+    "name" : "Wolf",
+    "cost" : 500.98,
+    "character" : "AGGRESSIVE",
+    "dateOfBirth" : [ 2022, 4, 5 ],
+    "type" : "Wolf",
+    "secretInfo" : "MTExMTIx"
+  }, {
+    "breed" : "BLACK",
+    "name" : "Wolf",
+    "cost" : 500.98,
+    "character" : "AGGRESSIVE",
+    "dateOfBirth" : [ 2022, 4, 5 ],
+    "type" : "Wolf",
+    "secretInfo" : "MTExMTM1"
+  } ]
+}

@@ -28,16 +28,7 @@ public class Dog extends Pet {
                BigDecimal cost,
                AnimalCharacter character,
                LocalDate dateOfBirth) {
-        this.breed = breed;
-        this.name = name;
-        this.cost = cost;
-        this.character = character;
-        this.dateOfBirth = dateOfBirth;
-        this.type = "Dog";
-        this.secretInfo = createSecret();
-    }
-
-    public Dog() {
+        super(breed, name, cost, character, dateOfBirth, "Dog", createSecret());
     }
 
     @Override

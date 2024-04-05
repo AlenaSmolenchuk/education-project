@@ -13,6 +13,7 @@ import ru.mts.educationproject.educationprojectstarter.model.animalint.Animal;
 import ru.mts.educationproject.educationprojectstarter.model.animals.Dog;
 import ru.mts.educationproject.educationprojectstarter.model.animals.Shark;
 import ru.mts.educationproject.educationprojectstarter.model.animals.Wolf;
+import ru.mts.educationproject.educationprojectstarter.model.animaltypes.AbstractAnimal;
 import ru.mts.educationproject.educationprojectstarter.service.CreateAnimalService;
 import ru.mts.educationproject.exception.AnimalsArrayException;
 import ru.mts.educationproject.exception.UnknownAgeFormatException;
@@ -39,7 +40,7 @@ public class AnimalsRepositorySpringBootTest {
     @MockBean
     private CreateAnimalService testCreateAnimalServiceMock;
 
-    Map<String, List<Animal>> testAnimals = new ConcurrentHashMap<>();
+    Map<String, List<Animal>> testAnimals = new ConcurrentHashMap<String, List<Animal>>();
 
     @BeforeEach
     public void setUp() {
@@ -109,7 +110,7 @@ public class AnimalsRepositorySpringBootTest {
         assertThat(duplicateAnimals).isNotNull();
         assertThat(duplicateAnimals).hasSize(1);
         assertThat(duplicateAnimals)
-                .containsEntry("Shark shark BLACK FRIENDLY 2009-03-27 10", List.of(
+                .containsEntry("Shark shark BLACK FRIENDLY 2009-03-27 10.00", List.of(
                         new Shark(AnimalBreed.BLACK,
                                 "shark",
                                 BigDecimal.TEN,

@@ -30,16 +30,7 @@ public class Shark extends Predator {
                  BigDecimal cost,
                  AnimalCharacter character,
                  LocalDate dateOfBirth) {
-        this.breed = breed;
-        this.name = name;
-        this.cost = cost;
-        this.character = character;
-        this.dateOfBirth = dateOfBirth;
-        this.type = "Shark";
-        this.secretInfo = createSecret();
-    }
-
-    public Shark() {
+            super(breed, name, cost, character, dateOfBirth, "Shark", createSecret());
     }
 
     @Override

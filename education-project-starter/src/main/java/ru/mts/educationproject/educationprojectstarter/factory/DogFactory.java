@@ -6,6 +6,7 @@ import ru.mts.educationproject.educationprojectstarter.model.animalcharacteristi
 import ru.mts.educationproject.educationprojectstarter.model.animalcharacteristic.AnimalCharacter;
 import ru.mts.educationproject.educationprojectstarter.model.animalint.Animal;
 import ru.mts.educationproject.educationprojectstarter.model.animals.Dog;
+import ru.mts.educationproject.educationprojectstarter.model.animaltypes.AbstractAnimal;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

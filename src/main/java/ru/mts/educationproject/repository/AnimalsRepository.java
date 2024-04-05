@@ -2,6 +2,7 @@ package ru.mts.educationproject.repository;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import ru.mts.educationproject.educationprojectstarter.model.animalint.Animal;
+import ru.mts.educationproject.educationprojectstarter.model.animaltypes.AbstractAnimal;
 import ru.mts.educationproject.exception.AnimalsArrayException;
 
 import java.io.IOException;

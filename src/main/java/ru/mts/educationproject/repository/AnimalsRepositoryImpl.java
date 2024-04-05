@@ -77,7 +77,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
                         ConcurrentHashMap::new
                 ));
 
-        writeJson(leapYearNames, Constants.FIND_LEAP_YEAR_NAMES_RESULT);
+        writeJson(leapYearNames, Constants.FIND_LEAP_YEAR_NAMES);
 
         return leapYearNames;
     }
@@ -116,7 +116,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
             olderAnimals.put(oldestAnimal, oldestAnimalAge);
         }
 
-        writeJson(olderAnimals, Constants.FIND_OLDER_ANIMALS_RESULT);
+        writeJson(olderAnimals, Constants.FIND_OLDER_ANIMALS);
 
         return olderAnimals;
     }
@@ -145,7 +145,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
                 .filter(entry -> entry.getValue().size() > 1)
                 .collect(Collectors.toConcurrentMap(Map.Entry::getKey, Map.Entry::getValue));
 
-        writeJson(duplicates, Constants.FIND_DUPLICATE_RESULT);
+        writeJson(duplicates, Constants.FIND_DUPLICATE);
 
         return duplicates;
     }
@@ -182,7 +182,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
                 .average()
                 .orElse(0);
 
-        writeJson(averageAge, Constants.FIND_AVERAGE_AGE_RESULT);
+        writeJson(averageAge, Constants.FIND_AVERAGE_AGE);
     }
 
     /**
@@ -203,7 +203,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
                 .sorted(Comparator.comparing(Animal::getDateOfBirth))
                 .collect(Collectors.toCollection(CopyOnWriteArrayList::new));
 
-        writeJson(oldAndExpensiveAnimals, Constants.FIND_OLD_AND_EXPENSIVE_RESULT);
+        writeJson(oldAndExpensiveAnimals, Constants.FIND_OLD_AND_EXPENSIVE);
 
         return oldAndExpensiveAnimals;
     }
@@ -228,7 +228,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
                 .sorted(Comparator.reverseOrder())
                 .collect(Collectors.toCollection(CopyOnWriteArrayList::new));
 
-        writeJson(minCostAnimals, Constants.FIND_MIN_COST_ANIMALS_RESULT);
+        writeJson(minCostAnimals, Constants.FIND_MIN_COST_ANIMALS);
 
         return minCostAnimals;
     }
@@ -268,7 +268,10 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
             }
             return objectMapper.readValue(filePath.toFile(), typeReference);
         } catch (IOException e) {
-            log.error("Failed to read data from JSON file: {}", fileName);
+            log.error("Failed to read data from JSON file: {} {}",
+                    fileName,
+                    e.getMessage(),
+                    e);
             throw e;
         }
     }

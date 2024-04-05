@@ -1,11 +1,16 @@
 package ru.mts.educationproject.educationprojectstarter.model.animaltypes;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import ru.mts.educationproject.educationprojectstarter.model.animalcharacteristic.AnimalBreed;
 import ru.mts.educationproject.educationprojectstarter.model.animalcharacteristic.AnimalCharacter;
 import ru.mts.educationproject.educationprojectstarter.model.animalint.Animal;
+import ru.mts.educationproject.educationprojectstarter.model.animals.Dog;
+import ru.mts.educationproject.educationprojectstarter.model.animals.Shark;
+import ru.mts.educationproject.educationprojectstarter.model.animals.Wolf;
 import ru.mts.educationproject.educationprojectstarter.utilstarter.AnimalDeserializer;
 import ru.mts.educationproject.educationprojectstarter.utilstarter.Base64Deserializer;
 import ru.mts.educationproject.educationprojectstarter.utilstarter.Base64Serializer;
@@ -20,7 +25,6 @@ import static ru.mts.educationproject.educationprojectstarter.utilstarter.Starte
 /**
  * Абстрактный класс AbstractAnimal реализует интерфейс Animal и предоставляет базовую реализацию методов.
  */
-@JsonDeserialize(using = AnimalDeserializer.class)
 public abstract class AbstractAnimal implements Animal {
 
     protected AnimalBreed breed;
@@ -57,7 +61,7 @@ public abstract class AbstractAnimal implements Animal {
         this.character = character;
         this.dateOfBirth = dateOfBirth;
         this.type = type;
-        this.secretInfo = createSecret();
+        this.secretInfo = secretInfo;
     }
 
 

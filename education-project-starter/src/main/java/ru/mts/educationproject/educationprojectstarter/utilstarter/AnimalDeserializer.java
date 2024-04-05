@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import ru.mts.educationproject.educationprojectstarter.exceptionst.UnknownAnimalTypeException;
 import ru.mts.educationproject.educationprojectstarter.model.animalcharacteristic.AnimalBreed;
 import ru.mts.educationproject.educationprojectstarter.model.animalcharacteristic.AnimalCharacter;
+import ru.mts.educationproject.educationprojectstarter.model.animalint.Animal;
 import ru.mts.educationproject.educationprojectstarter.model.animals.Dog;
 import ru.mts.educationproject.educationprojectstarter.model.animals.Shark;
 import ru.mts.educationproject.educationprojectstarter.model.animals.Wolf;
@@ -15,22 +16,27 @@ import ru.mts.educationproject.educationprojectstarter.model.animaltypes.Abstrac
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
-public class AnimalDeserializer extends JsonDeserializer<AbstractAnimal> {
+public class AnimalDeserializer extends JsonDeserializer<Animal> {
 
     @Override
-    public AbstractAnimal deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
+    public Animal deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
         JsonNode node = jsonParser.getCodec().readTree(jsonParser);
 
         AnimalBreed breed = AnimalBreed.valueOf(node.get("breed").asText());
         String name = node.get("name").asText();
         BigDecimal cost = new BigDecimal(node.get("cost").asText());
         AnimalCharacter character = AnimalCharacter.valueOf(node.get("character").asText());
-        LocalDate dateOfBirth = LocalDate.parse(node.get("dateOfBirth").asText());
+        String dateOfBirthText = node.get("dateOfBirth").asText();
+        LocalDate dateOfBirth = null;
+        if (!dateOfBirthText.isEmpty()) {
+            dateOfBirth = LocalDate.parse(dateOfBirthText);
+        }
         String type = node.get("type").asText();
         String secretInfo = node.get("secretInfo").asText();
 
-        AbstractAnimal animal = null;
+        Animal animal = null;
 
         if ("Dog".equals(type)) {
             animal = new Dog(breed, name, cost, character, dateOfBirth);
@@ -41,7 +47,6 @@ public class AnimalDeserializer extends JsonDeserializer<AbstractAnimal> {
         } else {
             throw new UnknownAnimalTypeException("Unknown type: " + type);
         }
-
         return animal;
     }
 }
