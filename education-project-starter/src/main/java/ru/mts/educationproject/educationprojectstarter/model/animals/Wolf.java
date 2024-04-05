@@ -7,11 +7,13 @@ import ru.mts.educationproject.educationprojectstarter.model.animaltypes.Predato
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import static ru.mts.educationproject.educationprojectstarter.utilstarter.StarterHelper.createSecret;
+
 /**
  * Класс Wolf представляет волка.
  */
 public class Wolf extends Predator {
-  
+
     /**
      * Конструктор для создания экземпляра волка.
      *
@@ -21,19 +23,12 @@ public class Wolf extends Predator {
      * @param character характер волка
      * @param dateOfBirth день рождения волка
      */
-    public Wolf(AnimalBreed breed,String name, BigDecimal cost, AnimalCharacter character, LocalDate dateOfBirth) {
-        super(breed, name, cost, character, dateOfBirth, "Wolf");
-    }
-
-    @Override
-    public String toString() {
-        return "Wolf{" +
-                "breed='" + breed + '\'' +
-                ", name='" + name + '\'' +
-                ", cost=" + cost +
-                ", character='" + character + '\'' +
-                ", dateOfBirth=" + dateOfBirth +
-                '}';
+    public Wolf(AnimalBreed breed,
+                String name,
+                BigDecimal cost,
+                AnimalCharacter character,
+                LocalDate dateOfBirth) {
+        super(breed, name, cost, character, dateOfBirth, "Wolf", createSecret());
     }
 
     @Override

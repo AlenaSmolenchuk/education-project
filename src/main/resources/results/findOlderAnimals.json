@@ -1,0 +1,8 @@
+{
+  "Shark{breed=BLACK, name='tom', cost=409.35, character=AGGRESSIVE, dateOfBirth=2004-10-21, secretInfo='111112'}" : 19,
+  "Dog{breed=BROWN, name='Dog', cost=23.87, character=FRIENDLY, dateOfBirth=2016-04-05, secretInfo='111129'}" : 8,
+  "Shark{breed=WHITE, name='mopsy', cost=249.13, character=AGGRESSIVE, dateOfBirth=2010-02-24, secretInfo='111129'}" : 14,
+  "Shark{breed=WHITE, name='tom', cost=24.56, character=CALM, dateOfBirth=2005-09-23, secretInfo='111133'}" : 18,
+  "Wolf{breed=WHITE, name='pop', cost=361.40, character=FRIENDLY, dateOfBirth=2004-10-15, secretInfo='111124'}" : 19,
+  "Wolf{breed=BROWN, name='grob', cost=702.10, character=CALM, dateOfBirth=2007-09-21, secretInfo='111111'}" : 16
+}

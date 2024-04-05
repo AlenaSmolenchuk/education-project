@@ -1,6 +1,7 @@
 package ru.mts.educationproject.educationprojectstarter.factory;
 
 import ru.mts.educationproject.educationprojectstarter.model.animalint.Animal;
+import ru.mts.educationproject.educationprojectstarter.model.animaltypes.AbstractAnimal;
 
 import java.time.LocalDate;
 
@@ -8,7 +9,6 @@ import java.time.LocalDate;
  * Объявление интерфейса фабрики для создания животных.
  */
 public interface AnimalFactory {
-
     /**
      * Создает случайное животное.
      *

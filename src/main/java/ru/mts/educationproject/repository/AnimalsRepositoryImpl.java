@@ -1,22 +1,29 @@
 package ru.mts.educationproject.repository;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ResourceUtils;
 import ru.mts.educationproject.educationprojectstarter.model.animalint.Animal;
 import ru.mts.educationproject.educationprojectstarter.service.CreateAnimalService;
 import ru.mts.educationproject.exception.AnimalsArrayException;
+import ru.mts.educationproject.exception.FileException;
 import ru.mts.educationproject.exception.UnknownAgeFormatException;
+import ru.mts.educationproject.util.Constants;
 
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
-import static ru.mts.educationproject.util.Helper.calculateAge;
-import static ru.mts.educationproject.util.Helper.print;
+import static ru.mts.educationproject.util.Helper.*;
 
 /**
  * Реализация интерфейса AnimalsRepository для хранения и обработки информации о животных.
@@ -24,17 +31,18 @@ import static ru.mts.educationproject.util.Helper.print;
 @Component
 public class AnimalsRepositoryImpl implements AnimalsRepository {
     private static final Logger log = LoggerFactory.getLogger(AnimalsRepositoryImpl.class);
-
     private final CreateAnimalService createAnimalService;
     private Map<String, List<Animal>> animals;
+    private final ObjectMapper objectMapper;
 
     /**
      * Конструктор класса, принимающий на вход сервис для создания животных.
      *
      * @param createAnimalService сервис для создания животных
      */
-    public AnimalsRepositoryImpl(CreateAnimalService createAnimalService) {
+    public AnimalsRepositoryImpl(CreateAnimalService createAnimalService, ObjectMapper objectMapper) {
         this.createAnimalService = createAnimalService;
+        this.objectMapper = objectMapper;
     }
 
     /**
@@ -46,7 +54,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
 
         log.info("Creating animals:");
 
-        animals = createAnimalService.createAnimals(20);
+        animals = createAnimalService.createAnimals(10);
 
         print(animals);
     }
@@ -58,7 +66,8 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
      */
     @Override
     public Map<String, LocalDate> findLeapYearNames() {
-        return animals.values().stream()
+
+        Map<String, LocalDate> leapYearNames = animals.values().stream()
                 .flatMap(List::stream)
                 .filter(animal -> isLeapYear(animal.getDateOfBirth().getYear()))
                 .collect(Collectors.toConcurrentMap(
@@ -67,6 +76,10 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
                         (existing, replacement) -> existing.isAfter(replacement) ? existing : replacement,
                         ConcurrentHashMap::new
                 ));
+
+        writeJson(leapYearNames, Constants.FIND_LEAP_YEAR_NAMES);
+
+        return leapYearNames;
     }
 
     /**
@@ -102,6 +115,9 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
             int oldestAnimalAge = calculateAge(oldestAnimal.getDateOfBirth());
             olderAnimals.put(oldestAnimal, oldestAnimalAge);
         }
+
+        writeJson(olderAnimals, Constants.FIND_OLDER_ANIMALS);
+
         return olderAnimals;
     }
 
@@ -112,7 +128,8 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
      */
     @Override
     public Map<String, List<Animal>> findDuplicate() {
-        return animals.values().stream()
+        Map<String, List<Animal>> duplicates =
+                animals.values().stream()
                 .flatMap(List::stream)
                 .collect(Collectors.groupingBy(
                         animal -> animal.getType() + " " +
@@ -128,6 +145,9 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
                 .filter(entry -> entry.getValue().size() > 1)
                 .collect(Collectors.toConcurrentMap(Map.Entry::getKey, Map.Entry::getValue));
 
+        writeJson(duplicates, Constants.FIND_DUPLICATE);
+
+        return duplicates;
     }
 
     /**
@@ -161,7 +181,8 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
                 .mapToDouble(animal -> calculateAge(animal.getDateOfBirth()))
                 .average()
                 .orElse(0);
-        System.out.println("Average age of animals: " + averageAge);
+
+        writeJson(averageAge, Constants.FIND_AVERAGE_AGE);
     }
 
     /**
@@ -175,12 +196,16 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
     public List<Animal> findOldAndExpensive() {
         BigDecimal averageCost = calculateAverageCost(animals);
 
-        return animals.values().stream()
+        List<Animal> oldAndExpensiveAnimals = animals.values().stream()
                 .flatMap(List::stream)
                 .filter(animal -> calculateAge(animal.getDateOfBirth()) > 5
                         && animal.getCost().compareTo(averageCost) > 0)
                 .sorted(Comparator.comparing(Animal::getDateOfBirth))
                 .collect(Collectors.toCollection(CopyOnWriteArrayList::new));
+
+        writeJson(oldAndExpensiveAnimals, Constants.FIND_OLD_AND_EXPENSIVE);
+
+        return oldAndExpensiveAnimals;
     }
 
     /**
@@ -195,13 +220,17 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
             throw new AnimalsArrayException("The 'animals' map is null or contains less than 3 elements.");
         }
 
-        return animals.values().stream()
+        List<String> minCostAnimals = animals.values().stream()
                 .flatMap(List::stream)
                 .sorted(Comparator.comparing(Animal::getCost))
                 .limit(3)
                 .map(Animal::getName)
                 .sorted(Comparator.reverseOrder())
                 .collect(Collectors.toCollection(CopyOnWriteArrayList::new));
+
+        writeJson(minCostAnimals, Constants.FIND_MIN_COST_ANIMALS);
+
+        return minCostAnimals;
     }
 
     public void setAnimals(Map<String, List<Animal>> animals) {
@@ -218,5 +247,32 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
         return animalList.stream()
                 .max(Comparator.comparingInt(animal -> calculateAge(animal.getDateOfBirth())))
                 .orElseThrow();
+    }
+
+    private void writeJson(Object data, String fileName) {
+        try {
+            Path filePath = ResourceUtils.getFile(fileName).toPath();
+            Files.createDirectories(filePath.getParent());
+            objectMapper.writeValue(filePath.toFile(), data);
+        } catch (IOException e) {
+            log.error("Failed to write data to JSON file: {}", e.getMessage(), e);
+        }
+    }
+
+    public <T> T readJson(String fileName, TypeReference<T> typeReference) throws IOException {
+        try {
+            Path filePath = ResourceUtils.getFile(fileName).toPath();
+            if (!Files.exists(filePath)) {
+                log.error("File {} not found", fileName);
+                throw new FileException("File not found: " + fileName);
+            }
+            return objectMapper.readValue(filePath.toFile(), typeReference);
+        } catch (IOException e) {
+            log.error("Failed to read data from JSON file: {} {}",
+                    fileName,
+                    e.getMessage(),
+                    e);
+            throw e;
+        }
     }
 }

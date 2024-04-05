@@ -6,6 +6,7 @@ import ru.mts.educationproject.educationprojectstarter.model.animalcharacteristi
 import ru.mts.educationproject.educationprojectstarter.model.animalcharacteristic.AnimalCharacter;
 import ru.mts.educationproject.educationprojectstarter.model.animalint.Animal;
 import ru.mts.educationproject.educationprojectstarter.model.animals.Shark;
+import ru.mts.educationproject.educationprojectstarter.model.animaltypes.AbstractAnimal;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -46,7 +47,6 @@ public class SharkFactory implements AnimalFactory {
             AnimalCharacter character = AnimalCharacter.values()
                     [(int) (Math.random() * AnimalCharacter.values().length)];
             LocalDate dateOfBirth = generateRandomDateOfBirth();
-
             return new Shark(breed, name, cost, character, dateOfBirth);
         }
     }

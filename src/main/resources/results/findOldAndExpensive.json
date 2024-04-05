@@ -1,0 +1,25 @@
+[ {
+  "breed" : "WHITE",
+  "name" : "pop",
+  "cost" : 361.40,
+  "character" : "FRIENDLY",
+  "dateOfBirth" : [ 2004, 10, 15 ],
+  "type" : "Wolf",
+  "secretInfo" : "MTExMTI0"
+}, {
+  "breed" : "BLACK",
+  "name" : "tom",
+  "cost" : 409.35,
+  "character" : "AGGRESSIVE",
+  "dateOfBirth" : [ 2004, 10, 21 ],
+  "type" : "Shark",
+  "secretInfo" : "MTExMTEy"
+}, {
+  "breed" : "BROWN",
+  "name" : "grob",
+  "cost" : 702.10,
+  "character" : "CALM",
+  "dateOfBirth" : [ 2007, 9, 21 ],
+  "type" : "Wolf",
+  "secretInfo" : "MTExMTEx"
+} ]

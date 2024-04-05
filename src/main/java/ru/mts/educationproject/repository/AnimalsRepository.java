@@ -1,8 +1,11 @@
 package ru.mts.educationproject.repository;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import ru.mts.educationproject.educationprojectstarter.model.animalint.Animal;
+import ru.mts.educationproject.educationprojectstarter.model.animaltypes.AbstractAnimal;
 import ru.mts.educationproject.exception.AnimalsArrayException;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
@@ -91,4 +94,6 @@ public interface AnimalsRepository {
      * @return Список имен животных с минимальной стоимостью.
      */
     List<String> findMinCostAnimals() throws AnimalsArrayException;
+
+    <T> T readJson(String fileName, TypeReference<T> typeReferencee) throws IOException;
 }

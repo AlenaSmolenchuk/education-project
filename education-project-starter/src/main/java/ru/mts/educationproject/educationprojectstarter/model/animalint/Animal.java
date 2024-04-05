@@ -1,7 +1,12 @@
 package ru.mts.educationproject.educationprojectstarter.model.animalint;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import ru.mts.educationproject.educationprojectstarter.model.animalcharacteristic.AnimalBreed;
 import ru.mts.educationproject.educationprojectstarter.model.animalcharacteristic.AnimalCharacter;
+import ru.mts.educationproject.educationprojectstarter.utilstarter.AnimalDeserializer;
+import ru.mts.educationproject.educationprojectstarter.utilstarter.Base64Deserializer;
+import ru.mts.educationproject.educationprojectstarter.utilstarter.Base64Serializer;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -9,6 +14,7 @@ import java.time.LocalDate;
 /**
  * Реализация интерфейса Animal представляет общие методы для всех животных.
  */
+@JsonDeserialize(using = AnimalDeserializer.class)
 public interface Animal {
 
     /**
@@ -52,5 +58,12 @@ public interface Animal {
      * @return тип животного
      */
     String getType();
+
+    /**
+     * Возвращает секретную информацию о животном.
+     *
+     * @return секретная информация
+     */
+    String getSecretInfo();
 }
 

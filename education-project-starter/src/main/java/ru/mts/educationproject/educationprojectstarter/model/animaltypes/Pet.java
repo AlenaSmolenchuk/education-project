@@ -11,23 +11,26 @@ import java.time.LocalDate;
  */
 public abstract class Pet extends AbstractAnimal {
 
-    /**
-     * Конструктор для создания экземпляра домашнего животного.
-     *
-     * @param breed     порода животного
-     * @param name      имя животного
-     * @param cost      стоимость животного
-     * @param character характер животного
-     * @param dateOfBirth дата рождения животного
-     * @param type тип животного
-     */
     public Pet(AnimalBreed breed,
                String name,
                BigDecimal cost,
                AnimalCharacter character,
                LocalDate dateOfBirth,
-               String type) {
-        super(breed, name, cost, character, dateOfBirth, type);
+               String type,
+               String secretInfo) {
+        super(breed, name, cost, character, dateOfBirth, type, secretInfo);
+    }
+
+    @Override
+    public String toString() {
+        return type + "{" +
+                "breed=" + breed +
+                ", name='" + name + '\'' +
+                ", cost=" + cost +
+                ", character=" + character +
+                ", dateOfBirth=" + dateOfBirth +
+                ", secretInfo='" + secretInfo + '\'' +
+                '}';
     }
 }
 
