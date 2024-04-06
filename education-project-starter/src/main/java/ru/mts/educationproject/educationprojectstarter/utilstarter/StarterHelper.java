@@ -18,7 +18,7 @@ public class StarterHelper {
     public static String createSecret() {
         try {
             List<String> secretInfo = Files
-                    .readAllLines(ResourceUtils.getFile(ConstantsStarter.SECRET_INFORMATION_RESULT).toPath());
+                    .readAllLines(ResourceUtils.getFile(ConstantsStarter.SECRET_INFORMATION).toPath());
             if (!secretInfo.isEmpty()) {
                 Random rand = new Random();
                 int index = rand.nextInt(secretInfo.size());
