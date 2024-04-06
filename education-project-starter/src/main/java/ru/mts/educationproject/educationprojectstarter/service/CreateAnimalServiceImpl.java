@@ -71,7 +71,7 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
                 lines.add(animalToString(animal, i + 1));
             }
 
-            Path filePath = ResourceUtils.getFile(ConstantsStarter.LOG_DATA_RESULT).toPath();
+            Path filePath = ResourceUtils.getFile(ConstantsStarter.LOG_DATA).toPath();
             Files.createDirectories(filePath.getParent());
             Files.write(filePath, lines, StandardOpenOption.CREATE,
                     StandardOpenOption.WRITE,
