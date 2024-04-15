@@ -26,7 +26,7 @@ CREATE TABLE animals.animals_habitats (
 CREATE TABLE animals.provider (
                                   id_provider INTEGER PRIMARY KEY,
                                   name TEXT NOT NULL,
-                                  phone VARCHAR(50)
+                                  phone VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE animals.animals_provider (
