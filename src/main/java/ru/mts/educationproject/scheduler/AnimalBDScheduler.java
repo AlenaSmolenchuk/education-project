@@ -7,18 +7,15 @@ import org.slf4j.*;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
-import java.sql.*;
 import java.util.List;
 import java.util.Map;
 
 @Component
 public class AnimalBDScheduler {
     private static final Logger logger = LoggerFactory.getLogger(AnimalBDScheduler.class);
-    private final DataSource dataSource;
     private final JdbcTemplate jdbcTemplate;
 
     public AnimalBDScheduler(DataSource dataSource, JdbcTemplate jdbcTemplate) {
-        this.dataSource = dataSource;
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -28,7 +25,7 @@ public class AnimalBDScheduler {
 
     }
 
-    @Scheduled(fixedRate = 60000)
+    @Scheduled(fixedRate = 70000)
     public void fetchAnimalsFromDatabase() {
         List<Map<String, Object>> animalData = jdbcTemplate.queryForList(
                 "SELECT c.name AS name, t.type AS type, c.age AS age, h.area AS area, p.name AS provider " +
