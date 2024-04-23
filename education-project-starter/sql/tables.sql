@@ -34,3 +34,11 @@ CREATE TABLE animals.animals_provider (
                                           provider_id INTEGER NOT NULL references animals.provider(id_provider)
 );
 
+alter table animals.animals_habitats
+    add constraint id_animal_type_area_pk
+        primary key (id_animal_type,area_id);
+
+alter table animals.animals_provider
+    add constraint id_animal_type_provider_pk
+        primary key (id_animal_type,provider_id);
+
