@@ -1,5 +1,7 @@
 package ru.mts.educationproject.educationprojectstarter.entity;
 
+import java.util.List;
+
 public class AnimalType {
 
     private Integer idType;
@@ -9,13 +11,19 @@ public class AnimalType {
     private Boolean isWild;
 
 
+    private List<Habitat> habitats;
+
+    private List<Provider> providers;
+
     public AnimalType() {
     }
 
-    public AnimalType(String type, Boolean isWild) {
+    public AnimalType(Integer idType, String type, Boolean isWild, List<Habitat> habitats, List<Provider> providers) {
         this.idType = idType;
         this.type = type;
         this.isWild = isWild;
+        this.habitats = habitats;
+        this.providers = providers;
     }
 
     public Integer getIdType() {
@@ -40,6 +48,22 @@ public class AnimalType {
 
     public void setWild(Boolean wild) {
         isWild = wild;
+    }
+
+    public List<Habitat> getHabitats() {
+        return habitats;
+    }
+
+    public void setHabitats(List<Habitat> habitats) {
+        this.habitats = habitats;
+    }
+
+    public List<Provider> getProviders() {
+        return providers;
+    }
+
+    public void setProviders(List<Provider> providers) {
+        this.providers = providers;
     }
 
     @Override

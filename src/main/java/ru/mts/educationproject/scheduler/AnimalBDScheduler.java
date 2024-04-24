@@ -14,15 +14,17 @@ import java.util.Map;
 public class AnimalBDScheduler {
     private static final Logger logger = LoggerFactory.getLogger(AnimalBDScheduler.class);
     private final JdbcTemplate jdbcTemplate;
+    private final DataSource dataSource;
 
     public AnimalBDScheduler(DataSource dataSource, JdbcTemplate jdbcTemplate) {
+        this.dataSource = dataSource;
         this.jdbcTemplate = jdbcTemplate;
     }
 
     @PostConstruct
     public void init() {
-        logger.info("AnimalBDScheduler initialized...");
-
+        createTablesInDatabase();
+        logger.info("Tables are created...");
     }
 
     @Scheduled(fixedRate = 70000)
@@ -45,5 +47,38 @@ public class AnimalBDScheduler {
             String provider = (String) row.get("provider");
             logger.info("Name: {}, Type: {}, Age: {}, Area: {}, Provider: {}", name, type, age, area, provider);
         }
+    }
+
+    private void createTablesInDatabase() {
+        jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS animals.animal_type (" +
+                "id_type SERIAL PRIMARY KEY," +
+                " type VARCHAR(50) NOT NULL," +
+                " is_wild BOOLEAN NOT NULL)"
+        );
+        jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS animals.habitat (" +
+                "id_area SERIAL PRIMARY KEY," +
+                " area TEXT NOT NULL)"
+        );
+        jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS animals.provider (" +
+                "id_provider SERIAL PRIMARY KEY," +
+                " name TEXT NOT NULL," +
+                " phone VARCHAR(50) NOT NULL)"
+        );
+        jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS animals.creature (" +
+                "id_creature SERIAL PRIMARY KEY," +
+                " name TEXT NOT NULL," +
+                " type_id INTEGER NOT NULL REFERENCES animals.animal_type(id_type)," +
+                " age SMALLINT NOT NULL)"
+        );
+        jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS animals.animals_habitats (" +
+                "id_animal_type INTEGER NOT NULL REFERENCES animals.animal_type(id_type)," +
+                " area_id INTEGER NOT NULL REFERENCES animals.habitat(id_area)," +
+                " PRIMARY KEY (id_animal_type, area_id))"
+        );
+        jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS animals.animals_provider (" +
+                "id_animal_type INTEGER NOT NULL REFERENCES animals.animal_type(id_type)," +
+                " provider_id INTEGER NOT NULL REFERENCES animals.provider(id_provider)," +
+                " PRIMARY KEY (id_animal_type, provider_id))"
+        );
     }
 }
