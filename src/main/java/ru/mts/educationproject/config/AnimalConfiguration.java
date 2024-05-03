@@ -1,15 +1,18 @@
-package ru.mts.educationproject.educationprojectstarter.config;
+package ru.mts.educationproject.config;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import ru.mts.educationproject.educationprojectstarter.factory.AnimalFactory;
 import ru.mts.educationproject.educationprojectstarter.service.CreateAnimalService;
 import ru.mts.educationproject.educationprojectstarter.service.CreateAnimalServiceImpl;
 
@@ -19,7 +22,7 @@ import javax.sql.DataSource;
  * Конфигурационный класс Spring приложения для определения бинов.
  */
 @Configuration
-public class AnimalStarterConfiguration {
+public class AnimalConfiguration {
 
     @Value("${spring.datasource.url}")
     private String url;
@@ -50,10 +53,8 @@ public class AnimalStarterConfiguration {
      */
     @Bean
     @Scope("prototype")
-    public CreateAnimalService createAnimalService(AnimalFactory wolfFactory,
-                                                   AnimalFactory dogFactory,
-                                                   AnimalFactory sharkFactory) {
-        return new CreateAnimalServiceImpl(wolfFactory, dogFactory, sharkFactory);
+    public CreateAnimalService createAnimalService() {
+        return new CreateAnimalServiceImpl();
     }
 
     @Bean

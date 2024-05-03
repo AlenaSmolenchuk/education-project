@@ -1,25 +1,31 @@
-package ru.mts.educationproject.educationprojectstarter.entity;
+package ru.mts.educationproject.entity;
 
+import javax.persistence.*;
+import javax.persistence.GenerationType;
 import java.util.List;
+import java.util.Objects;
 
+@Entity
+@Table(schema = "animals", name = "provider")
 public class Provider {
 
+    @Id
+    @Column(name = "id_provider")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idProvider;
 
+    @Column(name = "name")
     private String name;
 
+    @Column(name = "phone")
     private String phone;
-
-    private List<AnimalType> animalTypes;
 
     public Provider() {
     }
 
-    public Provider(Integer idProvider, String name, String phone, List<AnimalType> animalTypes) {
-        this.idProvider = idProvider;
+    public Provider(String name, String phone) {
         this.name = name;
         this.phone = phone;
-        this.animalTypes = animalTypes;
     }
 
     public Integer getIdProvider() {
@@ -46,12 +52,19 @@ public class Provider {
         this.phone = phone;
     }
 
-    public List<AnimalType> getAnimalTypes() {
-        return animalTypes;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Provider provider = (Provider) o;
+        return Objects.equals(idProvider, provider.idProvider)
+                && Objects.equals(name, provider.name)
+                && Objects.equals(phone, provider.phone);
     }
 
-    public void setAnimalTypes(List<AnimalType> animalTypes) {
-        this.animalTypes = animalTypes;
+    @Override
+    public int hashCode() {
+        return Objects.hash(idProvider, name, phone);
     }
 
     @Override

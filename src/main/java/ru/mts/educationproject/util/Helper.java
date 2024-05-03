@@ -1,59 +1,53 @@
 package ru.mts.educationproject.util;
 
-import ru.mts.educationproject.educationprojectstarter.model.animalint.Animal;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.util.ResourceUtils;
+import ru.mts.educationproject.educationprojectstarter.exceptionst.EmptyFileStarterException;
+import ru.mts.educationproject.educationprojectstarter.utilstarter.ConstantsStarter;
+import ru.mts.educationproject.entity.Animal;
 
-import java.time.LocalDate;
-import java.time.Period;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
+import java.util.Random;
 
 public class Helper {
 
-    /**
-     * Метод для нахождения возраста животного по его дате рождения
-     *
-     * @param birthDate  дата рождения животного.
-     * @return возраст животного
-     */
-    public static int calculateAge (LocalDate birthDate) {
-        return Period.between(birthDate, LocalDate.now()).getYears();
+    private static final Logger log = LoggerFactory.getLogger(Helper.class);
+
+    // Вспомогательный метод для нахождения самого взрослого животного
+    public static Animal findOldest(List<Animal> animalList) {
+        return animalList.stream()
+                .max(Comparator.comparingInt(Animal::getAge))
+                .orElseThrow();
     }
+    public static String createSecret() {
+        try {
+            List<String> secretInfo = Files
+                    .readAllLines(ResourceUtils.getFile(ConstantsStarter.SECRET_INFORMATION).toPath());
+            if (!secretInfo.isEmpty()) {
+                Random rand = new Random();
+                int index = rand.nextInt(secretInfo.size());
 
-    public static void printAverage(double averageAge) {
-        System.out.println("Average age of animals: " + averageAge);
-    }
-
-    public static void print(Map<?, ?> map) {
-        for (Map.Entry<?, ?> entry : map.entrySet()) {
-            Object key = entry.getKey();
-            Object value = entry.getValue();
-
-            if (value instanceof List) {
-                System.out.println("Type: " + key);
-                printAnimalList((List<Animal>) value);
-            } else if (value instanceof LocalDate) {
-                System.out.println("Animal: " + key + ", Date of Birth: " + value);
-            } else if (value instanceof Integer) {
-                System.out.println("Animal: " + key + ", Age: " + value);
+                return secretInfo.get(index);
             } else {
-                throw new IllegalArgumentException("Unexpected value type for value : " + value
-                        + " or key: " + key);
+                throw new EmptyFileStarterException("This file is empty");
             }
+
+        } catch (IOException e) {
+            log.error("Something went wrong by by reading data: " + e.getMessage(), e);
+            return "Failed to read secret information";
         }
     }
 
-    public static void printAnimalList(List<Animal> animals) {
-        if (animals.isEmpty()) {
-            System.out.println("No animals for this type");
-        }
-        for (Animal animal : animals) {
-            System.out.println("  Animal: " + animal);
-        }
-    }
-
-    public static void printNames(List<String> names) {
-        for (String name : names) {
-            System.out.print(name + ", ");
-        }
+    public static String animalToString(Animal animal, int currentCounter) {
+        return String.format("%d %s %s %s %s %s",
+                currentCounter,
+                animal.getType(),
+                animal.getBreed(),
+                animal.getName(),
+                animal.getAge());
     }
 }
