@@ -24,20 +24,20 @@ CREATE TABLE IF NOT EXISTS animals.animal (
                                               age SMALLINT NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS animals.animals_habitats (
+CREATE TABLE IF NOT EXISTS animals.animal_habitats (
     id_animal_type INTEGER NOT NULL references animals.animal_type(id_type),
     area_id INTEGER NOT NULL references animals.habitat(id_area)
 );
 
-CREATE TABLE IF NOT EXISTS animals.animals_provider (
+CREATE TABLE IF NOT EXISTS animals.animal_provider (
     id_animal_type INTEGER NOT NULL references animals.animal_type(id_type),
     provider_id INTEGER NOT NULL references animals.provider(id_provider)
 );
 
-alter table animals.animals_habitats
+alter table animals.animal_habitats
     add constraint id_animal_type_area_pk
         primary key (id_animal_type,area_id);
 
-alter table animals.animals_provider
+alter table animals.animal_provider
     add constraint id_animal_type_provider_pk
         primary key (id_animal_type,provider_id);

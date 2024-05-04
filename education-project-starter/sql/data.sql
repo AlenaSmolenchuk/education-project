@@ -20,13 +20,13 @@ INSERT INTO animals.animal(name, id_type, age) VALUES ('Tom', 1, 10);
 INSERT INTO animals.animal(name, id_type, age) VALUES ('Shon', 2, 5);
 INSERT INTO animals.animal(name, id_type, age) VALUES ('Lusy', 3, 13);
 
--- data for animals.animals_habitats
-INSERT INTO animals.animals_habitats (id_animal_type, area_id) VALUES (1, 4);
-INSERT INTO animals.animals_habitats (id_animal_type, area_id) VALUES (2, 1);
-INSERT INTO animals.animals_habitats (id_animal_type, area_id) VALUES (3, 3);
-INSERT INTO animals.animals_habitats (id_animal_type, area_id) VALUES (1, 2);
+-- data for animals.animal_habitats
+INSERT INTO animals.animal_habitats (id_animal_type, area_id) VALUES (1, 4);
+INSERT INTO animals.animal_habitats (id_animal_type, area_id) VALUES (2, 1);
+INSERT INTO animals.animal_habitats (id_animal_type, area_id) VALUES (3, 3);
+INSERT INTO animals.animal_habitats (id_animal_type, area_id) VALUES (1, 2);
 
--- data for animals.animals_provider
-INSERT INTO animals.animals_provider (id_animal_type, provider_id) VALUES (1, 3);
-INSERT INTO animals.animals_provider (id_animal_type, provider_id) VALUES (2, 1);
-INSERT INTO animals.animals_provider (id_animal_type, provider_id) VALUES (3, 2);
+-- data for animals.animal_provider
+INSERT INTO animals.animal_provider (id_animal_type, provider_id) VALUES (1, 3);
+INSERT INTO animals.animal_provider (id_animal_type, provider_id) VALUES (2, 1);
+INSERT INTO animals.animal_provider (id_animal_type, provider_id) VALUES (3, 2);

@@ -18,7 +18,7 @@ public class Animal {
     @OneToOne
     @JoinColumn(name="id_type")
     private AnimalType type;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_breed")
     private Breed breed;
 

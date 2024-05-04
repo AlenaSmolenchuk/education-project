@@ -2,8 +2,6 @@ package ru.mts.educationproject.repository;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -39,7 +37,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
      * Конструктор класса, принимающий на вход сервис для создания животных.
      *
      */
-    public AnimalsRepositoryImpl(ObjectMapper objectMapper, SessionFactory sessionFactory, AnimalRepository animalRepository) {
+    public AnimalsRepositoryImpl(ObjectMapper objectMapper, AnimalRepository animalRepository) {
         this.objectMapper = objectMapper;
         this.animalRepository = animalRepository;
     }
@@ -55,7 +53,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
         Map<String, LocalDate> leapYearNames = animalRepository.findAll().stream()
                 .filter(animal -> LocalDate.now().minusYears(animal.getAge()).isLeapYear())
                 .collect(Collectors.toConcurrentMap(
-                        animal -> animal.getType().getType() + " " + animal.getName(),
+                        animal -> animal.getType() + " " + animal.getName(),
                         animal -> LocalDate.now().minusYears(animal.getAge()),
                         (existing, replacement) -> existing.isAfter(replacement) ? existing : replacement,
                         ConcurrentHashMap::new

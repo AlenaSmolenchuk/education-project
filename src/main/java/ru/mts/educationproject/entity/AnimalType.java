@@ -1,5 +1,8 @@
 package ru.mts.educationproject.entity;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import javax.persistence.*;
 
 import java.util.List;
@@ -21,13 +24,15 @@ public class AnimalType {
     private boolean isWild;
 
 
-    @ManyToMany
+    @ManyToMany(targetEntity = Habitat.class)
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(name = "animal_habitats",
             joinColumns = @JoinColumn(name = "id_animal_type", referencedColumnName = "id_type"),
             inverseJoinColumns = @JoinColumn(name = "area_id", referencedColumnName = "id_area"))
     private List<Habitat> habitats;
 
-    @ManyToMany
+    @ManyToMany(targetEntity = Provider.class)
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(name = "animal_provider",
             joinColumns = @JoinColumn(name = "id_animal_type", referencedColumnName = "id_type"),
             inverseJoinColumns = @JoinColumn(name = "provider_id", referencedColumnName = "id_provider"))

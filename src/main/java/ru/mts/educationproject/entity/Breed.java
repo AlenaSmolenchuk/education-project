@@ -16,7 +16,7 @@ public class Breed {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "breed")
+    @OneToMany(mappedBy = "breed", fetch = FetchType.EAGER)
     private List<Animal> animals;
 
     public Breed() {
