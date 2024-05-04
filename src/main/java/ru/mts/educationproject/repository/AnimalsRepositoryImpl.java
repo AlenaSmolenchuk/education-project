@@ -131,7 +131,6 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
      */
     @Override
     public void printDuplicate() {
-        log.info("Finding duplicate animals: ");
         Map<String, List<Animal>> duplicateAnimals = findDuplicate();
         if (!duplicateAnimals.isEmpty()) {
             log.info("Duplicate animals found:");
