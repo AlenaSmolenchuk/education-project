@@ -1,12 +1,17 @@
 package ru.mts.educationproject.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import javax.persistence.GenerationType;
 import java.util.List;
 import java.util.Objects;
 
+@Getter
+@Setter
 @Entity
-@Table(schema = "animals", name = "provider")
+@Table(name = "provider")
 public class Provider {
 
     @Id
@@ -28,43 +33,18 @@ public class Provider {
         this.phone = phone;
     }
 
-    public Integer getIdProvider() {
-        return idProvider;
-    }
-
-    public void setIdProvider(Integer idProvider) {
-        this.idProvider = idProvider;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    @Override
+   @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Provider provider = (Provider) o;
-        return Objects.equals(idProvider, provider.idProvider)
-                && Objects.equals(name, provider.name)
+        return Objects.equals(name, provider.name)
                 && Objects.equals(phone, provider.phone);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idProvider, name, phone);
+        return Objects.hash(name, phone);
     }
 
     @Override

@@ -1,10 +1,14 @@
 package ru.mts.educationproject.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.Objects;
 
+@Getter
+@Setter
 @Entity
-@Table(schema = "animals", name = "animal")
 public class Animal {
 
     @Id
@@ -12,13 +16,13 @@ public class Animal {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idAnimal;
 
-    @Column(name = "name")
     private String name;
 
-    @OneToOne
+    @ManyToOne(targetEntity = AnimalType.class, cascade = CascadeType.ALL)
     @JoinColumn(name="id_type")
     private AnimalType type;
-    @ManyToOne(fetch = FetchType.LAZY)
+
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_breed")
     private Breed breed;
 
@@ -34,64 +38,24 @@ public class Animal {
     public Animal() {
     }
 
-    public Integer getIdAnimal() {
-        return idAnimal;
-    }
-
-    public void setIdAnimal(Integer idAnimal) {
-        this.idAnimal = idAnimal;
-    }
-
-    public Breed getBreed() {
-        return breed;
-    }
-
-    public void setBreed(Breed breed) {
-        this.breed = breed;
-    }
-
-    public AnimalType getType() {
-        return type;
-    }
-
-    public void setType(AnimalType type) {
-        this.type = type;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Short getAge() {
-        return age;
-    }
-
-    public void setAge(Short age) {
-        this.age = age;
-    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Animal animal = (Animal) o;
-        return Objects.equals(idAnimal, animal.idAnimal) && Objects.equals(breed, animal.breed) && Objects.equals(type, animal.type) && Objects.equals(name, animal.name) && Objects.equals(age, animal.age);
+        return Objects.equals(breed, animal.breed) && Objects.equals(type, animal.type) && Objects.equals(name, animal.name) && Objects.equals(age, animal.age);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idAnimal, breed, type, name, age);
+        return Objects.hash(breed, type, name, age);
     }
 
     @Override
     public String toString() {
         return "Animal{" +
                 "idAnimal=" + idAnimal +
-                ", breed=" + breed +
                 ", type=" + type +
                 ", name='" + name + '\'' +
                 ", age=" + age +

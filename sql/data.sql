@@ -21,12 +21,12 @@ INSERT INTO animals.animal(name, id_type, age) VALUES ('Shon', 2, 5);
 INSERT INTO animals.animal(name, id_type, age) VALUES ('Lusy', 3, 13);
 
 -- data for animals.animal_habitats
-INSERT INTO animals.animal_habitats (id_animal_type, area_id) VALUES (1, 4);
-INSERT INTO animals.animal_habitats (id_animal_type, area_id) VALUES (2, 1);
-INSERT INTO animals.animal_habitats (id_animal_type, area_id) VALUES (3, 3);
-INSERT INTO animals.animal_habitats (id_animal_type, area_id) VALUES (1, 2);
+INSERT INTO animals.animal_habitats (id_animal_type, id_area) VALUES (1, 4);
+INSERT INTO animals.animal_habitats (id_animal_type, id_area) VALUES (2, 1);
+INSERT INTO animals.animal_habitats (id_animal_type, id_area) VALUES (3, 3);
+INSERT INTO animals.animal_habitats (id_animal_type, id_area) VALUES (1, 2);
 
 -- data for animals.animal_provider
-INSERT INTO animals.animal_provider (id_animal_type, provider_id) VALUES (1, 3);
-INSERT INTO animals.animal_provider (id_animal_type, provider_id) VALUES (2, 1);
-INSERT INTO animals.animal_provider (id_animal_type, provider_id) VALUES (3, 2);
+INSERT INTO animals.animal_provider (id_animal_type, id_provider) VALUES (1, 3);
+INSERT INTO animals.animal_provider (id_animal_type, id_provider) VALUES (2, 1);
+INSERT INTO animals.animal_provider (id_animal_type, id_provider) VALUES (3, 2);

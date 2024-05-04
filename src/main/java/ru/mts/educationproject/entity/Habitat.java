@@ -1,11 +1,16 @@
 package ru.mts.educationproject.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import javax.persistence.GenerationType;
 import java.util.Objects;
 
+@Getter
+@Setter
 @Entity
-@Table(schema = "animals", name = "habitat")
+@Table(name = "habitat")
 public class Habitat {
 
     @Id
@@ -23,35 +28,17 @@ public class Habitat {
         this.area = area;
     }
 
-    public Integer getIdArea() {
-        return idArea;
-    }
-
-    public void setIdArea(Integer idArea) {
-        this.idArea = idArea;
-    }
-
-    public String getArea() {
-        return area;
-    }
-
-    public void setArea(String area) {
-        this.area = area;
-    }
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Habitat habitat = (Habitat) o;
-        return Objects.equals(idArea, habitat.idArea)
-                && Objects.equals(area, habitat.area);
+        return Objects.equals(area, habitat.area);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idArea, area);
+        return Objects.hash(area);
     }
 
     @Override

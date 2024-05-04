@@ -21,7 +21,7 @@ public class Helper {
     public static Animal findOldest(List<Animal> animalList) {
         return animalList.stream()
                 .max(Comparator.comparingInt(Animal::getAge))
-                .orElseThrow();
+                .orElse(null);
     }
     public static String createSecret() {
         try {

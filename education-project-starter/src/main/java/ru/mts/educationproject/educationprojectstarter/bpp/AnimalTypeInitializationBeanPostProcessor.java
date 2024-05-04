@@ -22,9 +22,6 @@ public class AnimalTypeInitializationBeanPostProcessor implements BeanPostProces
      */
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-        if (bean instanceof CreateAnimalService) {
-            ((CreateAnimalService) bean).createAnimals(10);
-        }
         return bean;
     }
 

@@ -1,11 +1,16 @@
 package ru.mts.educationproject.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import javax.persistence.GenerationType;
 import java.util.List;
+import java.util.Objects;
 
+@Getter
+@Setter
 @Entity
-@Table(schema = "animals", name = "breed")
 public class Breed {
 
     @Id
@@ -16,7 +21,7 @@ public class Breed {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "breed", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "breed", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Animal> animals;
 
     public Breed() {
@@ -30,28 +35,17 @@ public class Breed {
         }
     }
 
-    public Integer getIdBreed() {
-        return idBreed;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Breed breed = (Breed) o;
+        return Objects.equals(name, breed.name) && Objects.equals(animals, breed.animals);
     }
 
-    public void setIdBreed(Integer idBreed) {
-        this.idBreed = idBreed;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<Animal> getAnimals() {
-        return animals;
-    }
-
-    public void setAnimals(List<Animal> animals) {
-        this.animals = animals;
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, animals);
     }
 
     @Override

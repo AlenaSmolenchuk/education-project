@@ -19,6 +19,8 @@ import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static ru.mts.educationproject.util.Helper.findOldest;
@@ -53,7 +55,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
         Map<String, LocalDate> leapYearNames = animalRepository.findAll().stream()
                 .filter(animal -> LocalDate.now().minusYears(animal.getAge()).isLeapYear())
                 .collect(Collectors.toConcurrentMap(
-                        animal -> animal.getType() + " " + animal.getName(),
+                        Animal::getName,
                         animal -> LocalDate.now().minusYears(animal.getAge()),
                         (existing, replacement) -> existing.isAfter(replacement) ? existing : replacement,
                         ConcurrentHashMap::new
@@ -87,7 +89,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
                 ));
 
         if (olderAnimals.isEmpty()) {
-            log.info("No older animals found.");
+            log.info("No older animals found. The oldest animal is: ");
             Animal oldestAnimal = findOldest(animalRepository.findAll());
             int oldestAnimalAge = oldestAnimal.getAge();
             olderAnimals.put(oldestAnimal, oldestAnimalAge);
