@@ -6,24 +6,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
-import ru.mts.educationproject.educationprojectstarter.model.animalint.Animal;
-import ru.mts.educationproject.educationprojectstarter.service.CreateAnimalService;
-import ru.mts.educationproject.exception.AnimalsArrayException;
+
+import ru.mts.educationproject.entity.Animal;
 import ru.mts.educationproject.exception.FileException;
 import ru.mts.educationproject.exception.UnknownAgeFormatException;
+import ru.mts.educationproject.repository.ent.AnimalRepository;
 import ru.mts.educationproject.util.Constants;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.*;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static ru.mts.educationproject.util.Helper.*;
+import static ru.mts.educationproject.util.Helper.findOldest;
 
 /**
  * Реализация интерфейса AnimalsRepository для хранения и обработки информации о животных.
@@ -31,32 +31,17 @@ import static ru.mts.educationproject.util.Helper.*;
 @Component
 public class AnimalsRepositoryImpl implements AnimalsRepository {
     private static final Logger log = LoggerFactory.getLogger(AnimalsRepositoryImpl.class);
-    private final CreateAnimalService createAnimalService;
-    private Map<String, List<Animal>> animals;
     private final ObjectMapper objectMapper;
+    private final AnimalRepository animalRepository;
+
 
     /**
      * Конструктор класса, принимающий на вход сервис для создания животных.
      *
-     * @param createAnimalService сервис для создания животных
      */
-    public AnimalsRepositoryImpl(CreateAnimalService createAnimalService, ObjectMapper objectMapper) {
-        this.createAnimalService = createAnimalService;
+    public AnimalsRepositoryImpl(ObjectMapper objectMapper, AnimalRepository animalRepository) {
         this.objectMapper = objectMapper;
-    }
-
-    /**
-     * Метод инициализации животных при старте приложения.
-     * Создает 20 животных при помощи сервиса для создания животных.
-     * Выводит информацию о созданных животных в консоль.
-     */
-    public void initAnimals() {
-
-        log.info("Creating animals:");
-
-        animals = createAnimalService.createAnimals(10);
-
-        print(animals);
+        this.animalRepository = animalRepository;
     }
 
     /**
@@ -67,12 +52,11 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
     @Override
     public Map<String, LocalDate> findLeapYearNames() {
 
-        Map<String, LocalDate> leapYearNames = animals.values().stream()
-                .flatMap(List::stream)
-                .filter(animal -> isLeapYear(animal.getDateOfBirth().getYear()))
+        Map<String, LocalDate> leapYearNames = animalRepository.findAll().stream()
+                .filter(animal -> LocalDate.now().minusYears(animal.getAge()).isLeapYear())
                 .collect(Collectors.toConcurrentMap(
-                        animal -> animal.getType() + " " + animal.getName(),
-                        Animal::getDateOfBirth,
+                        Animal::getName,
+                        animal -> LocalDate.now().minusYears(animal.getAge()),
                         (existing, replacement) -> existing.isAfter(replacement) ? existing : replacement,
                         ConcurrentHashMap::new
                 ));
@@ -94,25 +78,20 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
             throw new UnknownAgeFormatException("Unknown age format: " + age);
         }
 
-        Map<Animal, Integer> olderAnimals = animals.values().stream()
-                .flatMap(List::stream)
-                .filter(animal -> calculateAge(animal.getDateOfBirth()) > age)
+        Map<Animal, Integer> olderAnimals = animalRepository.findAll()
+                .stream()
+                .filter(animal -> animal.getAge() > age)
                 .collect(Collectors.toConcurrentMap(
                         animal -> animal,
-                        animal -> calculateAge(animal.getDateOfBirth()),
+                        animal -> (int) animal.getAge(),
                         Integer::sum,
                         ConcurrentHashMap::new
                 ));
 
         if (olderAnimals.isEmpty()) {
-            log.info("No older animals found. The oldest Animal is: ");
-            Animal oldestAnimal = findOldest(
-                    animals.values().stream()
-                            .flatMap(List::stream)
-                            .collect(Collectors.toCollection(CopyOnWriteArrayList::new))
-            );
-
-            int oldestAnimalAge = calculateAge(oldestAnimal.getDateOfBirth());
+            log.info("No older animals found. The oldest animal is: ");
+            Animal oldestAnimal = findOldest(animalRepository.findAll());
+            int oldestAnimalAge = oldestAnimal.getAge();
             olderAnimals.put(oldestAnimal, oldestAnimalAge);
         }
 
@@ -129,21 +108,17 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
     @Override
     public Map<String, List<Animal>> findDuplicate() {
         Map<String, List<Animal>> duplicates =
-                animals.values().stream()
-                .flatMap(List::stream)
-                .collect(Collectors.groupingBy(
-                        animal -> animal.getType() + " " +
-                                animal.getName() + " " +
-                                animal.getBreed() + " " +
-                                animal.getCharacter() + " " +
-                                animal.getDateOfBirth() + " " +
-                                animal.getCost(),
-                        ConcurrentHashMap::new,
-                        Collectors.toCollection(CopyOnWriteArrayList::new)
-                ))
-                .entrySet().stream()
-                .filter(entry -> entry.getValue().size() > 1)
-                .collect(Collectors.toConcurrentMap(Map.Entry::getKey, Map.Entry::getValue));
+                animalRepository.findAll().stream()
+                        .collect(Collectors.groupingBy(
+                                animal -> animal.getType() + " " +
+                                        animal.getName() + " " +
+                                        animal.getBreed(),
+                                ConcurrentHashMap::new,
+                                Collectors.toList()
+                        ))
+                        .entrySet().stream()
+                        .filter(entry -> entry.getValue().size() > 1)
+                        .collect(Collectors.toConcurrentMap(Map.Entry::getKey, Map.Entry::getValue));
 
         writeJson(duplicates, Constants.FIND_DUPLICATE);
 
@@ -156,7 +131,6 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
      */
     @Override
     public void printDuplicate() {
-//        log.info("Finding duplicate animals: ");
         Map<String, List<Animal>> duplicateAnimals = findDuplicate();
         if (!duplicateAnimals.isEmpty()) {
             log.info("Duplicate animals found:");
@@ -174,79 +148,16 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
      * Метод нахождения среднего возраста животных.
      */
     @Override
-    public void findAverageAge() {
+    public double findAverageAge() {
         log.info("Finding animals' average age: ");
-        double averageAge = animals.values().stream()
-                .flatMap(List::stream)
-                .mapToDouble(animal -> calculateAge(animal.getDateOfBirth()))
+        double averageAge = animalRepository.findAll().stream()
+                .mapToDouble(Animal::getAge)
                 .average()
                 .orElse(0);
 
         writeJson(averageAge, Constants.FIND_AVERAGE_AGE);
-    }
 
-    /**
-     * Метод нахождения списка животных, возраст которых больше 5 лет и стоимость которых
-     * превышает среднюю стоимость всех животных. Результат отсортирован по дате рождения
-     * в порядке возрастания.
-     *
-     * @return Список животных, соответствующих условиям по возрасту и стоимости.
-     */
-    @Override
-    public List<Animal> findOldAndExpensive() {
-        BigDecimal averageCost = calculateAverageCost(animals);
-
-        List<Animal> oldAndExpensiveAnimals = animals.values().stream()
-                .flatMap(List::stream)
-                .filter(animal -> calculateAge(animal.getDateOfBirth()) > 5
-                        && animal.getCost().compareTo(averageCost) > 0)
-                .sorted(Comparator.comparing(Animal::getDateOfBirth))
-                .collect(Collectors.toCollection(CopyOnWriteArrayList::new));
-
-        writeJson(oldAndExpensiveAnimals, Constants.FIND_OLD_AND_EXPENSIVE);
-
-        return oldAndExpensiveAnimals;
-    }
-
-    /**
-     * Метод нахождения списка имен животных с минимальной стоимостью.
-     * Результат отсортирован в обратном алфавитном порядке.
-     *
-     * @return Список имен животных с минимальной стоимостью.
-     */
-    @Override
-    public List<String> findMinCostAnimals() throws AnimalsArrayException {
-        if (animals == null || animals.size() < 3) {
-            throw new AnimalsArrayException("The 'animals' map is null or contains less than 3 elements.");
-        }
-
-        List<String> minCostAnimals = animals.values().stream()
-                .flatMap(List::stream)
-                .sorted(Comparator.comparing(Animal::getCost))
-                .limit(3)
-                .map(Animal::getName)
-                .sorted(Comparator.reverseOrder())
-                .collect(Collectors.toCollection(CopyOnWriteArrayList::new));
-
-        writeJson(minCostAnimals, Constants.FIND_MIN_COST_ANIMALS);
-
-        return minCostAnimals;
-    }
-
-    public void setAnimals(Map<String, List<Animal>> animals) {
-        this.animals = animals;
-    }
-
-    // Вспомогательный метод для определения високосного года
-    private boolean isLeapYear(int year) {
-        return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
-    }
-
-    // Вспомогательный метод для нахождения самого взрослого животного
-    private Animal findOldest(List<Animal> animalList) {
-        return animalList.stream()
-                .max(Comparator.comparingInt(animal -> calculateAge(animal.getDateOfBirth())))
-                .orElseThrow();
+        return averageAge;
     }
 
     private void writeJson(Object data, String fileName) {
