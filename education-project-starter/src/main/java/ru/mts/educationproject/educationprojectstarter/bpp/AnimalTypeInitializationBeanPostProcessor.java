@@ -3,7 +3,6 @@ package ru.mts.educationproject.educationprojectstarter.bpp;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.stereotype.Component;
-import ru.mts.educationproject.educationprojectstarter.service.CreateAnimalService;
 
 /**
  * Реализация BeanPostProcessor для инициализации типа животного в бинах типа CreateAnimalService.
