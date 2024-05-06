@@ -17,6 +17,7 @@ public class Animal {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idAnimal;
 
+    @Column(name = "name")
     private String name;
 
     @ManyToOne(targetEntity = AnimalType.class, cascade = CascadeType.ALL)
