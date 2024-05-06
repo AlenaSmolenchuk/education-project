@@ -10,7 +10,7 @@ import org.springframework.util.ResourceUtils;
 import ru.mts.educationproject.entity.Animal;
 import ru.mts.educationproject.exception.FileException;
 import ru.mts.educationproject.exception.UnknownAgeFormatException;
-import ru.mts.educationproject.repository.ent.AnimalRepository;
+import ru.mts.educationproject.repository.dao.AnimalRepository;
 import ru.mts.educationproject.util.Constants;
 
 import java.io.IOException;
@@ -19,8 +19,6 @@ import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static ru.mts.educationproject.util.Helper.findOldest;

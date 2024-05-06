@@ -1,4 +1,4 @@
-package ru.mts.educationproject.repository.ent;
+package ru.mts.educationproject.repository.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
