@@ -11,11 +11,9 @@ public class AnimalBDScheduler {
     private static final Logger logger = LoggerFactory.getLogger(AnimalBDScheduler.class);
 
     private final AnimalsRepository animalsRepository;
-    private final AnimalRepository animalRepository;
 
     public AnimalBDScheduler(AnimalsRepository animalsRepository, AnimalRepository animalRepository) {
         this.animalsRepository = animalsRepository;
-        this.animalRepository = animalRepository;
     }
 
     @Scheduled(fixedRate = 70000)
@@ -25,6 +23,6 @@ public class AnimalBDScheduler {
         logger.info("Finding older than 7 years animals: {}", animalsRepository.findOlderAnimals(7));
         logger.info("Finding duplicate animals: ");
         animalsRepository.printDuplicate();
-        logger.info("Finding average age: {}", animalRepository.findByAgeGreaterThan(7));
+        logger.info("Finding average age: {}", animalsRepository.findAverageAge());
     }
 }

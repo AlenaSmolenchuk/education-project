@@ -10,7 +10,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @Entity
-@Table(name = "habitat")
+@Table(schema = "animals", name = "habitat")
 public class Habitat {
 
     @Id

@@ -11,7 +11,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @Entity
-@Table(name = "provider")
+@Table(schema = "animals", name = "provider")
 public class Provider {
 
     @Id
