@@ -43,7 +43,6 @@ public interface AnimalsRepository {
      */
     void printDuplicate();
 
-
     /**
      * Метод нахождения среднего возраста животных.
      */

@@ -25,8 +25,7 @@ public class Breed {
     @OneToMany(mappedBy = "breed", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Animal> animals;
 
-    public Breed() {
-    }
+    public Breed() {}
 
     public Breed(String name, List<Animal> animals) {
         this.name = name;

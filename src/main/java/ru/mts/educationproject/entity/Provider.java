@@ -25,8 +25,7 @@ public class Provider {
     @Column(name = "phone")
     private String phone;
 
-    public Provider() {
-    }
+    public Provider() {}
 
     public Provider(String name, String phone) {
         this.name = name;

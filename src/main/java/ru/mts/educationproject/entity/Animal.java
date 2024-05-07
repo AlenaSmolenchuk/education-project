@@ -37,8 +37,7 @@ public class Animal {
         this.age = age;
     }
 
-    public Animal() {
-    }
+    public Animal() {}
 
     @Override
     public boolean equals(Object o) {

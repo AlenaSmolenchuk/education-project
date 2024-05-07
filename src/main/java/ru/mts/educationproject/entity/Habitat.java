@@ -21,8 +21,7 @@ public class Habitat {
     @Column(name = "area")
     private String area;
 
-    public Habitat() {
-    }
+    public Habitat() {}
 
     public Habitat(String area) {
         this.area = area;

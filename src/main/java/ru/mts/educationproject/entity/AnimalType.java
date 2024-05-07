@@ -41,8 +41,7 @@ public class AnimalType {
             inverseJoinColumns = @JoinColumn(name = "id_provider", referencedColumnName = "id_provider"))
     private List<Provider> providers;
 
-    public AnimalType() {
-    }
+    public AnimalType() {}
 
     public AnimalType(String type,
                       Boolean isWild,

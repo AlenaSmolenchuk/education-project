@@ -4,7 +4,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.slf4j.*;
 import ru.mts.educationproject.repository.AnimalsRepository;
-import ru.mts.educationproject.repository.dao.AnimalRepository;
 
 @Component
 public class AnimalBDScheduler {

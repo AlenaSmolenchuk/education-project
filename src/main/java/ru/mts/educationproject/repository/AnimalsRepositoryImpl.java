@@ -32,7 +32,6 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
     private final ObjectMapper objectMapper;
     private final AnimalRepository animalRepository;
 
-
     /**
      * Конструктор класса, принимающий на вход сервис для создания животных.
      *
@@ -106,7 +105,8 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
                         .collect(Collectors.groupingBy(
                                 animal -> animal.getType() + " " +
                                         animal.getName() + " " +
-                                        animal.getBreed(),
+                                        animal.getBreed() + " " +
+                                        animal.getAge(),
                                 ConcurrentHashMap::new,
                                 Collectors.toList()
                         ))
