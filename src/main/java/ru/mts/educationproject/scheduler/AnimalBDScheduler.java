@@ -20,7 +20,7 @@ public class AnimalBDScheduler {
     public void fetchAnimalsFromDatabase() {
 
         logger.info("Finding leap year names animals: {}", animalsRepository.findLeapYearNames());
-        logger.info("Finding older than 7 years animals: {}", animalsRepository.findOlderAnimals(7));
+        logger.info("Finding older than 8 years animals: {}", animalsRepository.findOlderAnimals((short) 8));
         logger.info("Finding duplicate animals: ");
         animalsRepository.printDuplicate();
         logger.info("Finding average age: {}", animalsRepository.findAverageAge());

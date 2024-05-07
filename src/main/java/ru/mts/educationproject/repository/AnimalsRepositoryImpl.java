@@ -59,7 +59,6 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
                         ConcurrentHashMap::new
                 ));
 
-        writeJson(leapYearNames, Constants.FIND_LEAP_YEAR_NAMES);
 
         return leapYearNames;
     }
@@ -71,14 +70,13 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
      * @return Map животных, старше заданного возраста или самое взрослое животное
      */
     @Override
-    public Map<Animal, Integer> findOlderAnimals(int age) {
+    public Map<Animal, Integer> findOlderAnimals(short age) {
         if (age < 0 || age > 100) {
             throw new UnknownAgeFormatException("Unknown age format: " + age);
         }
 
-        Map<Animal, Integer> olderAnimals = animalRepository.findAll()
+        Map<Animal, Integer> olderAnimals = animalRepository.findByAgeGreaterThanEqual(age)
                 .stream()
-                .filter(animal -> animal.getAge() > age)
                 .collect(Collectors.toConcurrentMap(
                         animal -> animal,
                         animal -> (int) animal.getAge(),
@@ -92,8 +90,6 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
             int oldestAnimalAge = oldestAnimal.getAge();
             olderAnimals.put(oldestAnimal, oldestAnimalAge);
         }
-
-        writeJson(olderAnimals, Constants.FIND_OLDER_ANIMALS);
 
         return olderAnimals;
     }
@@ -118,7 +114,6 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
                         .filter(entry -> entry.getValue().size() > 1)
                         .collect(Collectors.toConcurrentMap(Map.Entry::getKey, Map.Entry::getValue));
 
-        writeJson(duplicates, Constants.FIND_DUPLICATE);
 
         return duplicates;
     }
@@ -152,8 +147,6 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
                 .mapToDouble(Animal::getAge)
                 .average()
                 .orElse(0);
-
-        writeJson(averageAge, Constants.FIND_AVERAGE_AGE);
 
         return averageAge;
     }
