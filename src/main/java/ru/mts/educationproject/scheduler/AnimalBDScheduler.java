@@ -12,7 +12,7 @@ public class AnimalBDScheduler {
 
     private final AnimalsRepository animalsRepository;
 
-    public AnimalBDScheduler(AnimalsRepository animalsRepository, AnimalRepository animalRepository) {
+    public AnimalBDScheduler(AnimalsRepository animalsRepository) {
         this.animalsRepository = animalsRepository;
     }
 
