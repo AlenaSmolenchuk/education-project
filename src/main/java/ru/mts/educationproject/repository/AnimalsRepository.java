@@ -29,7 +29,7 @@ public interface AnimalsRepository {
      * @param age возраст, по отношению к которому производится поиск.
      * @return Map с ключами в виде животных и значениями в возраста.
      */
-    Map<Animal, Integer> findOlderAnimals(int age);
+    Map<Animal, Integer> findOlderAnimals(short age);
 
     /**
      * Находит и возвращает множество дубликатов животных в репозитории.
@@ -42,7 +42,6 @@ public interface AnimalsRepository {
      * Выводит в консоль информацию о дубликатах животных в репозитории.
      */
     void printDuplicate();
-
 
     /**
      * Метод нахождения среднего возраста животных.

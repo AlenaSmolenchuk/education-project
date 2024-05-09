@@ -11,7 +11,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @Entity
-@Table(name = "provider")
+@Table(schema = "animals", name = "provider")
 public class Provider {
 
     @Id
@@ -25,8 +25,7 @@ public class Provider {
     @Column(name = "phone")
     private String phone;
 
-    public Provider() {
-    }
+    public Provider() {}
 
     public Provider(String name, String phone) {
         this.name = name;

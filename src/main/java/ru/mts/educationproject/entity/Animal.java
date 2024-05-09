@@ -9,6 +9,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @Entity
+@Table(schema = "animals", name = "animal")
 public class Animal {
 
     @Id
@@ -16,6 +17,7 @@ public class Animal {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idAnimal;
 
+    @Column(name = "name")
     private String name;
 
     @ManyToOne(targetEntity = AnimalType.class, cascade = CascadeType.ALL)
@@ -35,9 +37,7 @@ public class Animal {
         this.age = age;
     }
 
-    public Animal() {
-    }
-
+    public Animal() {}
 
     @Override
     public boolean equals(Object o) {

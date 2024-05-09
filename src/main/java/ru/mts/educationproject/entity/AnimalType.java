@@ -13,7 +13,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @Entity
-@Table(name = "animal_type")
+@Table(schema = "animals", name = "animal_type")
 public class AnimalType {
 
     @Id
@@ -29,20 +29,19 @@ public class AnimalType {
 
     @ManyToMany(targetEntity = Habitat.class, cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
-    @JoinTable(name = "animal_habitats",
+    @JoinTable(schema = "animals", name = "animal_habitats",
             joinColumns = @JoinColumn(name = "id_animal_type", referencedColumnName = "id_type"),
             inverseJoinColumns = @JoinColumn(name = "id_area", referencedColumnName = "id_area"))
     private List<Habitat> habitats;
 
     @ManyToMany(targetEntity = Provider.class, cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
-    @JoinTable(name = "animal_provider",
+    @JoinTable(schema = "animals", name = "animal_provider",
             joinColumns = @JoinColumn(name = "id_animal_type", referencedColumnName = "id_type"),
             inverseJoinColumns = @JoinColumn(name = "id_provider", referencedColumnName = "id_provider"))
     private List<Provider> providers;
 
-    public AnimalType() {
-    }
+    public AnimalType() {}
 
     public AnimalType(String type,
                       Boolean isWild,
