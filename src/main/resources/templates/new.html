@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADD NEW ANIMAL</title>
+</head>
+<body>
+<form action="#"
+      th:action="@{/new}"
+      th:object="${animal}"
+      method="post">
+
+    <label for="name">Name: </label>
+    <input type="text" id="name" th:field="*{name}">
+    <div style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>
+
+    <br>
+    <label for="type">Type: </label>
+    <input type="text" id="type" th:field="*{type.type}">
+    <div style="color: red" th:if="${#fields.hasErrors('type')}" th:errors="*{type}">Type error</div>
+
+    <br>
+    <label for="age">Age: </label>
+    <input type="text" id="age" th:field="*{age}">
+    <div style="color: red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Age error</div>
+
+
+    <div th:if="${#fields.hasGlobalErrors()}">
+        <div style="color: red" th:each="error : ${#fields.globalErrors()}" th:text="${error}">Error message</div>
+    </div>
+
+    <br>
+    <input type="submit" name="action" value="CREATE">
+    <input type="submit" name="action" value="BACK">
+</form>
+</body>
+</html>

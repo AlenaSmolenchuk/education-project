@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALL ANIMALS</title>
+</head>
+<body>
+
+<h2 style="color: blueviolet">ALL ANIMALS</h2>
+
+<table border="5">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Breed</th>
+        <th>Age</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="animal : ${allAnimals}">
+        <td th:text="${animal.idAnimal}"></td>
+        <td th:text="${animal.name}"></td>
+        <td th:text="${animal.type.type}"></td>
+        <td th:text="${animal.breed.name}"></td>
+        <td th:text="${animal.age}"></td>
+        <th><a th:href="@{/delete/{id}(id=${animal.idAnimal})}">Delete this animal</a></th>
+    </tr>
+    </tbody>
+</table>
+
+<a href="/new">Add new animal</a>
+
+</body>
+</html>

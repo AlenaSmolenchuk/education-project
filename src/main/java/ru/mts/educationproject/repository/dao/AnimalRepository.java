@@ -10,4 +10,6 @@ import java.util.List;
 public interface AnimalRepository extends JpaRepository<Animal, Integer> {
 
     List<Animal> findByAgeGreaterThanEqual(short age);
+
+    void deleteByIdAnimal(int id);
 }
