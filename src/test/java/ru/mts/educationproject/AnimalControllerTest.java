@@ -11,12 +11,14 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import ru.mts.educationproject.entity.Animal;
+import ru.mts.educationproject.entity.AnimalType;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
 @ActiveProfiles("test")
@@ -32,59 +34,52 @@ public class AnimalControllerTest {
 
     @Test
     void createNewAnimalTest() throws Exception {
+        Animal animal = new Animal();
+        animal.setName("TestAnimal");
+        animal.setType(new AnimalType("Some type"));
+        animal.setAge((short) 2);
+
         mockMvc.perform(
-                post("/animals/api/new")
-                        .content(
-                                "{\n" +
-                                        "    \"idAnimal\": 75,\n" +
-                                        "    \"name\": \"TestAnimal\",\n" +
-                                        "    \"type\": \"Some type\",\n" +
-                                        "    \"breed\": \"Some breed\",\n" +
-                                        "    \"age\":22\n" +
-                                        "}")
-                        .contentType(MediaType.APPLICATION_JSON)
-        ).andExpect(status().isOk())
-        .andExpect(content().string("SUCCESSFULLY ADDED"));
+                        post("/new")
+                                .param("action", "CREATE")
+                                .flashAttr("animal", animal)
+                )
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/index"));
     }
 
     @Test
     void deleteAnimalTest() throws Exception {
+        int id = 10;
+
         mockMvc.perform(
-                        post("/animals/api/delete")
-                                .content(
-                                        "{\n" +
-                                                "    \"idAnimal\": 75,\n" +
-                                                "    \"name\": \"TestAnimal\",\n" +
-                                                "    \"type\": \"Some type\",\n" +
-                                                "    \"breed\": \"Some breed\",\n" +
-                                                "    \"age\":22\n" +
-                                                "}")
-                                .contentType(MediaType.APPLICATION_JSON)
-                ).andExpect(status().isOk())
-                .andExpect(content().string("SUCCESSFULLY DELETED"));
+                        get("/delete/{id}", id)
+                )
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/index"));
     }
 
     @Test
     void addNewAnimalTest() throws Exception {
         long beforeCall = jdbcTemplate.queryForObject("select count(*) from animals.animal", Long.class);
         System.out.println("beforeCall = "  + beforeCall);
+
+        Animal animal = new Animal();
+        animal.setName("TestAnimal");
+        animal.setType(new AnimalType("Some type"));
+        animal.setAge((short) 2);
+
         mockMvc.perform(
-                        post("/animals/api/new")
-                                .content(
-                                        "{\n" +
-                                                "    \"idAnimal\": 75,\n" +
-                                                "    \"name\": \"TestAnimal\",\n" +
-                                                "    \"type\": \"Some type\",\n" +
-                                                "    \"breed\": \"Some breed\",\n" +
-                                                "    \"age\":22\n" +
-                                                "}")
-                                .contentType(MediaType.APPLICATION_JSON)
+                        post("/new")
+                                .param("action", "CREATE")
+                                .flashAttr("animal", animal)
                 )
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().string("SUCCESSFULLY ADDED"));
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/index"));
+
         long afterCall = jdbcTemplate.queryForObject("select count(*) from animals.animal", Long.class);
         System.out.println("afterCall = " + afterCall);
+
         assertThat(afterCall, IsEqual.equalTo(beforeCall + 1));
 
     }
