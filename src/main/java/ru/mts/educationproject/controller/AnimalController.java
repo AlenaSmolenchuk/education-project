@@ -9,12 +9,12 @@ import ru.mts.educationproject.entity.Animal;
 import ru.mts.educationproject.service.AnimalService;
 
 @Controller
-public class UIAnimalController {
+public class AnimalController {
 
-    private static final Logger logger = LoggerFactory.getLogger(UIAnimalController.class);
+    private static final Logger logger = LoggerFactory.getLogger(AnimalController.class);
     private final AnimalService animalService;
 
-    public UIAnimalController(AnimalService animalService) {
+    public AnimalController(AnimalService animalService) {
         this.animalService = animalService;
     }
 
