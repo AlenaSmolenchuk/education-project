@@ -150,31 +150,4 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
 
         return averageAge;
     }
-
-    private void writeJson(Object data, String fileName) {
-        try {
-            Path filePath = ResourceUtils.getFile(fileName).toPath();
-            Files.createDirectories(filePath.getParent());
-            objectMapper.writeValue(filePath.toFile(), data);
-        } catch (IOException e) {
-            log.error("Failed to write data to JSON file: {}", e.getMessage(), e);
-        }
-    }
-
-    public <T> T readJson(String fileName, TypeReference<T> typeReference) throws IOException {
-        try {
-            Path filePath = ResourceUtils.getFile(fileName).toPath();
-            if (!Files.exists(filePath)) {
-                log.error("File {} not found", fileName);
-                throw new FileException("File not found: " + fileName);
-            }
-            return objectMapper.readValue(filePath.toFile(), typeReference);
-        } catch (IOException e) {
-            log.error("Failed to read data from JSON file: {} {}",
-                    fileName,
-                    e.getMessage(),
-                    e);
-            throw e;
-        }
-    }
 }

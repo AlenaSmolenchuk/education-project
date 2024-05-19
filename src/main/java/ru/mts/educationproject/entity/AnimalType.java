@@ -53,6 +53,10 @@ public class AnimalType {
         this.providers = providers;
     }
 
+    public AnimalType(String type) {
+        this.type = type;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
