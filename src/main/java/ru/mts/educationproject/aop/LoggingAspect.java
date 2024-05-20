@@ -39,7 +39,7 @@ public class LoggingAspect {
         }
 
         if (logging.logParams()) {
-            log(logging.level(), entrySymbol + methodName + " parameters: " + objectMapper.writeValueAsString(args));
+            log(logging.level(), entrySymbol + " " + methodName + " parameters: " + objectMapper.writeValueAsString(args));
         }
 
         Object result;
@@ -51,7 +51,7 @@ public class LoggingAspect {
         }
 
         if (logging.logResult()) {
-            log(logging.level(), exitSymbol + methodName + " result: " + objectMapper.writeValueAsString(result));
+            log(logging.level(), exitSymbol + " " + methodName + " result: " + objectMapper.writeValueAsString(result));
         }
 
         if (logging.exit()) {

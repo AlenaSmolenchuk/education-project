@@ -151,11 +151,9 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
             logResult = true)
     @Override
     public double findAverageAge() {
-        double averageAge = animalRepository.findAll().stream()
+        return animalRepository.findAll().stream()
                 .mapToDouble(Animal::getAge)
                 .average()
                 .orElse(0);
-
-        return averageAge;
     }
 }
