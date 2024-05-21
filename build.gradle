@@ -3,6 +3,7 @@ plugins {
     id 'org.springframework.boot' version '2.7.4'
     id 'io.spring.dependency-management' version '1.1.4'
     id 'org.flywaydb.flyway' version '8.5.13'
+    id 'io.freefair.aspectj.post-compile-weaving' version '8.6'
 }
 
 group = 'ru.mts'
@@ -16,7 +17,15 @@ repositories {
     mavenCentral()
 }
 
+compileTestJava.ajc.options.aspectpath.from = sourceSets.main.output
+[compileJava, compileTestJava].each {
+    it.ajc.options.compilerArgs += ['-xmlConfigured', "${projectDir}/src/main/resources/aop.xml"]
+}
+
+
 dependencies {
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.8.1'
+
     implementation group: 'org.flywaydb', name: 'flyway-core', version: '8.5.13'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter', version: '2.7.4'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.7.4'

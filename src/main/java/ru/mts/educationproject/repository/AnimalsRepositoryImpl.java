@@ -99,8 +99,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
      */
     @Logging(value = "Finding duplicate animals",
             enter = true,
-            exit = true,
-            logResult = true)
+            exit = true)
     @Override
     public Map<String, List<Animal>> findDuplicate() {
         Map<String, List<Animal>> duplicates =

@@ -8,9 +8,6 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 import ru.mts.educationproject.annotations.Logging;
-import ru.mts.educationproject.repository.AnimalsRepository;
-
-import java.lang.reflect.Method;
 
 @Aspect
 @Component
@@ -18,6 +15,8 @@ import java.lang.reflect.Method;
 public class LoggingAspect {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
+    private static final String ENTRY_SYMBOL = ">>";
+    private static final String EXIT_SYMBOL = "<<";
 
     @Around("@annotation(logging)")
     public Object logMethod(ProceedingJoinPoint joinPoint, Logging logging) throws Throwable {
@@ -29,39 +28,52 @@ public class LoggingAspect {
         String methodName = signature.getMethod().getName();
         Object[] args = joinPoint.getArgs();
 
-        String entrySymbol = ">>";
-        String exitSymbol = "<<";
-
         String message = logging.value().isEmpty() ? methodName : logging.value();
 
         if (logging.enter()) {
-            log(logging.level(), entrySymbol + " Enter " + methodName + ": " + message);
+            logLevel(logging.level(), ENTRY_SYMBOL
+                    + " Enter "
+                    + methodName + ": "
+                    + message);
         }
 
         if (logging.logParams()) {
-            log(logging.level(), entrySymbol + " " + methodName + " parameters: " + objectMapper.writeValueAsString(args));
+            logLevel(logging.level(), ENTRY_SYMBOL
+                    + " " + methodName
+                    + " parameters: "
+                    + objectMapper.writeValueAsString(args));
         }
 
         Object result;
         try {
             result = joinPoint.proceed();
         } catch (Throwable t) {
-            log("ERROR", "Exception in : " + methodName + ". " + t.getMessage());
+            logLevel("ERROR", "Exception in : "
+                    + methodName + ". "
+                    + "Something went wrong"
+                    + t.getMessage()
+                    + t);
             throw t;
         }
 
         if (logging.logResult()) {
-            log(logging.level(), exitSymbol + " " + methodName + " result: " + objectMapper.writeValueAsString(result));
+            logLevel(logging.level(), EXIT_SYMBOL
+                    + " " + methodName
+                    + " result: "
+                    + objectMapper.writeValueAsString(result));
         }
 
         if (logging.exit()) {
-            log(logging.level(), exitSymbol + " Exit " + methodName + ": " + message);
+            logLevel(logging.level(), EXIT_SYMBOL
+                    + " Exit "
+                    + methodName + ": "
+                    + message);
         }
 
         return result;
     }
 
-    private void log(String level, String message) {
+    private void logLevel(String level, String message) {
         switch (level.toUpperCase()) {
             case "DEBUG" -> log.debug(message);
             case "INFO" -> log.info(message);

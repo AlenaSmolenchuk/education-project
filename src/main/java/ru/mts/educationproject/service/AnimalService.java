@@ -34,9 +34,4 @@ public class AnimalService {
     public void delete(int id) {
         animalRepository.deleteByIdAnimal(id);
     }
-
-    @Transactional
-    public void delete(Animal animal) {
-        animalRepository.delete(animal);
-    }
 }
