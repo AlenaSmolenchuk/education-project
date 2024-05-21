@@ -14,8 +14,6 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
-import static ru.mts.educationproject.util.Helper.findOldest;
-
 /**
  * Реализация интерфейса AnimalsRepository для хранения и обработки информации о животных.
  */
@@ -27,7 +25,6 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
 
     /**
      * Конструктор класса, принимающий на вход сервис для создания животных.
-     *
      */
     public AnimalsRepositoryImpl(ObjectMapper objectMapper, AnimalRepository animalRepository) {
         this.objectMapper = objectMapper;
@@ -84,7 +81,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
 
         if (olderAnimals.isEmpty()) {
             log.info("No older animals found. The oldest animal is: ");
-            Animal oldestAnimal = findOldest(animalRepository.findAll());
+            Animal oldestAnimal = findOldest();
             int oldestAnimalAge = oldestAnimal.getAge();
             olderAnimals.put(oldestAnimal, oldestAnimalAge);
         }
@@ -154,5 +151,15 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
                 .mapToDouble(Animal::getAge)
                 .average()
                 .orElse(0);
+    }
+
+    // Вспомогательный метод для нахождения самого взрослого животного
+    @Logging(value = "Find oldest",
+            enter = true,
+            exit = true)
+    private Animal findOldest() {
+        return animalRepository.findAll().stream()
+                .max(Comparator.comparingInt(Animal::getAge))
+                .orElse(null);
     }
 }

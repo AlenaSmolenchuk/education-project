@@ -18,7 +18,7 @@ public class LoggingAspect {
     private static final String ENTRY_SYMBOL = ">>";
     private static final String EXIT_SYMBOL = "<<";
 
-    @Around("@annotation(logging)")
+    @Around("execution(* *(..)) && @annotation(logging)")
     public Object logMethod(ProceedingJoinPoint joinPoint, Logging logging) throws Throwable {
         return log(joinPoint, logging);
     }

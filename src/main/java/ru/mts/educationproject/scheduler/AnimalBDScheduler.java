@@ -19,9 +19,9 @@ public class AnimalBDScheduler {
     @Scheduled(fixedRate = 70000)
     public void fetchAnimalsFromDatabase() {
 
-//        animalsRepository.findLeapYearNames();
-//        animalsRepository.findOlderAnimals((short) 8);
-//        animalsRepository.printDuplicate();
-//        animalsRepository.findAverageAge();
+        animalsRepository.findLeapYearNames();
+        animalsRepository.findOlderAnimals((short) 38);
+        animalsRepository.printDuplicate();
+        animalsRepository.findAverageAge();
     }
 }
