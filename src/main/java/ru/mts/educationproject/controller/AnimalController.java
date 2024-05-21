@@ -6,7 +6,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.mts.educationproject.annotations.Logging;
 import ru.mts.educationproject.entity.Animal;
-import ru.mts.educationproject.exception.AnimalNotFoundException;
 import ru.mts.educationproject.service.AnimalService;
 
 @Controller

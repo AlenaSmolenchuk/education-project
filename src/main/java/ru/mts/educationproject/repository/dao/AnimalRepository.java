@@ -13,5 +13,4 @@ public interface AnimalRepository extends JpaRepository<Animal, Integer> {
 
     void deleteByIdAnimal(int id);
 
-    Animal findByIdAnimal(int id);
 }
