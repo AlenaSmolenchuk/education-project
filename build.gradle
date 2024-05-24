@@ -3,6 +3,7 @@ plugins {
     id 'org.springframework.boot' version '2.7.4'
     id 'io.spring.dependency-management' version '1.1.4'
     id 'org.flywaydb.flyway' version '8.5.13'
+    id 'io.freefair.aspectj.post-compile-weaving' version '8.6'
 }
 
 group = 'ru.mts'
@@ -16,6 +17,18 @@ repositories {
     mavenCentral()
 }
 
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+compileTestJava.ajc.options.aspectpath.from = sourceSets.main.output
+[compileJava, compileTestJava].each {
+    it.ajc.options.compilerArgs += ['-xmlConfigured', "${projectDir}/src/main/resources/aop.xml"]
+}
+
+
 dependencies {
     implementation group: 'org.flywaydb', name: 'flyway-core', version: '8.5.13'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter', version: '2.7.4'
@@ -27,6 +40,11 @@ dependencies {
 
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.7.4'
 
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop', version: '2.7.4'
+    implementation group: 'ch.qos.logback', name: 'logback-core', version: '1.2.3'
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
+
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.16.0'
 
     annotationProcessor("org.projectlombok:lombok:1.18.20")
     compileOnly("org.projectlombok:lombok:1.18.20")
@@ -34,7 +52,9 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test:2.5.0'
     testImplementation 'org.testcontainers:junit-jupiter:1.15.3'
     testImplementation group: 'org.junit.vintage', name: 'junit-vintage-engine', version: '5.10.2'
-
+    testImplementation group: 'org.testcontainers', name: 'postgresql', version: '1.15.3'
+    testImplementation group: 'org.testcontainers', name: 'testcontainers', version: '1.15.3'
+    testImplementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
 
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.16.0'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.16.0'

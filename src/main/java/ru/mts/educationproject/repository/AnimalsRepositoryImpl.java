@@ -1,40 +1,30 @@
 package ru.mts.educationproject.repository;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ResourceUtils;
 
+import ru.mts.educationproject.annotations.Logging;
 import ru.mts.educationproject.entity.Animal;
-import ru.mts.educationproject.exception.FileException;
 import ru.mts.educationproject.exception.UnknownAgeFormatException;
 import ru.mts.educationproject.repository.dao.AnimalRepository;
-import ru.mts.educationproject.util.Constants;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
-import static ru.mts.educationproject.util.Helper.findOldest;
-
 /**
  * Реализация интерфейса AnimalsRepository для хранения и обработки информации о животных.
  */
+@Log4j2
 @Component
 public class AnimalsRepositoryImpl implements AnimalsRepository {
-    private static final Logger log = LoggerFactory.getLogger(AnimalsRepositoryImpl.class);
     private final ObjectMapper objectMapper;
     private final AnimalRepository animalRepository;
 
     /**
      * Конструктор класса, принимающий на вход сервис для создания животных.
-     *
      */
     public AnimalsRepositoryImpl(ObjectMapper objectMapper, AnimalRepository animalRepository) {
         this.objectMapper = objectMapper;
@@ -46,19 +36,20 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
      *
      * @return Map, где ключ - тип животного + имя, значение - дата рождения
      */
+    @Logging(value = "Find leap year names",
+            enter = true,
+            exit = true,
+            logResult = true)
     @Override
-    public Map<String, LocalDate> findLeapYearNames() {
-
-        Map<String, LocalDate> leapYearNames = animalRepository.findAll().stream()
+    public Map<String, Integer> findLeapYearNames() {
+        Map<String, Integer> leapYearNames = animalRepository.findAll().stream()
                 .filter(animal -> LocalDate.now().minusYears(animal.getAge()).isLeapYear())
                 .collect(Collectors.toConcurrentMap(
                         Animal::getName,
-                        animal -> LocalDate.now().minusYears(animal.getAge()),
-                        (existing, replacement) -> existing.isAfter(replacement) ? existing : replacement,
+                        animal -> (int) animal.getAge(),
+                        (existing, replacement) -> existing > replacement ? existing : replacement,
                         ConcurrentHashMap::new
                 ));
-
-
         return leapYearNames;
     }
 
@@ -68,10 +59,15 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
      * @param age заданный возраст для поиска
      * @return Map животных, старше заданного возраста или самое взрослое животное
      */
+    @Logging(value = "Find older animals",
+            enter = true,
+            exit = true,
+            logParams = true,
+            logResult = true)
     @Override
     public Map<Animal, Integer> findOlderAnimals(short age) {
         if (age < 0 || age > 100) {
-            throw new UnknownAgeFormatException("Unknown age format: " + age);
+            log.error(new UnknownAgeFormatException("Unknown age format: " + age));
         }
 
         Map<Animal, Integer> olderAnimals = animalRepository.findByAgeGreaterThanEqual(age)
@@ -85,7 +81,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
 
         if (olderAnimals.isEmpty()) {
             log.info("No older animals found. The oldest animal is: ");
-            Animal oldestAnimal = findOldest(animalRepository.findAll());
+            Animal oldestAnimal = findOldest();
             int oldestAnimalAge = oldestAnimal.getAge();
             olderAnimals.put(oldestAnimal, oldestAnimalAge);
         }
@@ -98,6 +94,9 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
      *
      * @return множество дубликатов животных
      */
+    @Logging(value = "Finding duplicate animals",
+            enter = true,
+            exit = true)
     @Override
     public Map<String, List<Animal>> findDuplicate() {
         Map<String, List<Animal>> duplicates =
@@ -122,11 +121,13 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
      * Метод вывода дубликатов животных в консоль.
      * Если дубликаты отсутствуют, выводит соответствующее сообщение.
      */
+    @Logging(value = "Duplicate animals found",
+            enter = true,
+            exit = true)
     @Override
     public void printDuplicate() {
         Map<String, List<Animal>> duplicateAnimals = findDuplicate();
         if (!duplicateAnimals.isEmpty()) {
-            log.info("Duplicate animals found:");
             duplicateAnimals.forEach((animalType, duplicates) -> {
                 List<String> type = List.of(animalType.split(" "));
                 System.out.println(type.get(0) + ": ");
@@ -140,14 +141,25 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
     /**
      * Метод нахождения среднего возраста животных.
      */
+    @Logging(value = "Finding average age",
+            enter = true,
+            exit = true,
+            logResult = true)
     @Override
     public double findAverageAge() {
-        log.info("Finding animals' average age: ");
-        double averageAge = animalRepository.findAll().stream()
+        return animalRepository.findAll().stream()
                 .mapToDouble(Animal::getAge)
                 .average()
                 .orElse(0);
+    }
 
-        return averageAge;
+    // Вспомогательный метод для нахождения самого взрослого животного
+    @Logging(value = "Find oldest",
+            enter = true,
+            exit = true)
+    private Animal findOldest() {
+        return animalRepository.findAll().stream()
+                .max(Comparator.comparingInt(Animal::getAge))
+                .orElse(null);
     }
 }

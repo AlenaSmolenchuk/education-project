@@ -7,6 +7,7 @@ import ru.mts.educationproject.entity.Breed;
 import ru.mts.educationproject.repository.dao.AnimalRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -35,8 +36,7 @@ public class AnimalService {
         animalRepository.deleteByIdAnimal(id);
     }
 
-    @Transactional
-    public void delete(Animal animal) {
-        animalRepository.delete(animal);
+    public Animal findById(int id) {
+        return animalRepository.findByIdAnimal(id);
     }
 }

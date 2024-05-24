@@ -1,15 +1,8 @@
 package ru.mts.educationproject.repository;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-
 import ru.mts.educationproject.entity.Animal;
-import ru.mts.educationproject.exception.AnimalsArrayException;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.*;
-import java.time.LocalDate;
 
 /**
  * Объявление интерфейса, представляющий репозиторий для работы с животными.
@@ -21,7 +14,7 @@ public interface AnimalsRepository {
      *
      * @return Map с ключами в виде типа животного + имя и значениями в виде даты рождения.
      */
-    Map<String, LocalDate> findLeapYearNames();
+    Map<String, Integer> findLeapYearNames();
 
     /**
      * Возвращает Map, где ключ - животное, а значение - возраст животного.
