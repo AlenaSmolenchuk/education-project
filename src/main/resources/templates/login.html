@@ -21,6 +21,9 @@
     <div>
         <button type="submit">Submit</button>
     </div>
+    <div th:if="${param.error}">
+        <p style="color:red;">Invalid username or password.</p>
+    </div>
 </form>
 </body>
 </html>
