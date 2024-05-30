@@ -36,7 +36,4 @@ public class AnimalService {
         animalRepository.deleteByIdAnimal(id);
     }
 
-    public Animal findById(int id) {
-        return animalRepository.findByIdAnimal(id);
-    }
 }

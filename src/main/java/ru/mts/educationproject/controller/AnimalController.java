@@ -8,6 +8,8 @@ import ru.mts.educationproject.annotations.Logging;
 import ru.mts.educationproject.entity.Animal;
 import ru.mts.educationproject.service.AnimalService;
 
+import javax.validation.Valid;
+
 @Controller
 @Log4j2
 public class AnimalController {
@@ -74,5 +76,29 @@ public class AnimalController {
     public String delete(@PathVariable("id") int id) {
         animalService.delete(id);
         return "redirect:/index";
+    }
+
+    @Logging(value = "Login page",
+            enter = true,
+            exit = true)
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
+
+    @Logging(value = "Logout page",
+            enter = true,
+            exit = true)
+    @GetMapping("/logout")
+    public String logout() {
+        return "logout";
+    }
+
+    @Logging(value = "Access denied page",
+            enter = true,
+            exit = true)
+    @GetMapping("/no-access")
+    public String noAccess() {
+        return "no-access";
     }
 }
