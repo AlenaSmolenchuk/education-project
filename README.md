@@ -1,3 +1,3 @@
 # education-project
-Homeworks MTS Fintech Academy
+Смоленчук Елена
  
